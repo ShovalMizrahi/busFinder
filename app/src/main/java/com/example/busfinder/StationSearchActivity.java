@@ -25,7 +25,6 @@ public class StationSearchActivity extends AppCompatActivity {
     private LinearLayout llContainer;
     private EditText etSearch;
     private ListView ivStations;
-
     private ArrayList<Station> mStationArrayList = new ArrayList<Station>();
     private MyAdapter2 adapter1;
 
