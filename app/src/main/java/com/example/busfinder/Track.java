@@ -1,7 +1,7 @@
 package com.example.busfinder;
 
 public class Track {
-    private String line;
-    private Station station;
+    private String lineID;
+    private String stationID;
     private int order;
 }
