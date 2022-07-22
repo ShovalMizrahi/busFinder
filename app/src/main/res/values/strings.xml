@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">bus finder</string>
+    <string name="title_activity_menu">MenuActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="line_search">Search a Line</string>
+    <string name="station_search">Search a Station</string>
+    <string name="favorite">Favorite lines</string>
+    <string name="navigate">Navigate</string>
+</resources>

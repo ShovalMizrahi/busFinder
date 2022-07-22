@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:srcCompat="@drawable/busfinder" />
+
+    <Button
+        android:id="@+id/btLoginMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="login"
+        android:text="logIn" />
+
+    <Button
+        android:id="@+id/btRegisterMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="register"
+        android:text="register" />
+
+
+    <Button
+        android:id="@+id/btLogoutMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="logout"
+        android:text="logout" />
+
+    <Button
+        android:id="@+id/btMapMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="map"
+        android:text="map" />
+
+</LinearLayout>

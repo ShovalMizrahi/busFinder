@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "748571546155",
+    "project_id": "neat-shell-354006",
+    "storage_bucket": "neat-shell-354006.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:748571546155:android:3d81f1419c607ac5e7106e",
+        "android_client_info": {
+          "package_name": "com.example.busfinder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "748571546155-m4918n42dmtook2dn8fn12gv043508sg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkifoRskb75xIXEsENGXMBq5DnUf05fHA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "748571546155-m4918n42dmtook2dn8fn12gv043508sg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
