@@ -190,6 +190,30 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         }
 
 
+        success = false;
+
+        while (!success) {
+
+            try {
+                restApi.doInBackground("function=showTracks");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            if (RestApi.stations.size() > 0)
+                success = true;
+
+            else {
+
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+
     }
 
     public void map(View view) {

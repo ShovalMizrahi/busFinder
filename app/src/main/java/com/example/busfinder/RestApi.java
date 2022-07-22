@@ -31,7 +31,7 @@ public class RestApi extends AsyncTask<String, String, String> {
     public static ArrayList<Station> stations = new ArrayList<Station>();
     public static ArrayList<Line> lines = new ArrayList<Line>();
     public static ArrayListBus buses = new ArrayListBus();
-
+    public static ArrayListTrack tracks = new ArrayListTrack();
 
 
     public RestApi() {
@@ -94,15 +94,17 @@ public class RestApi extends AsyncTask<String, String, String> {
 
                 String adjusted = content.toString().replaceAll("(?m)^[ \t]*\r?\n", "");
 
-                if(params[0].equals("function=showStations"))
-                stations = Json.convertJsonToObject(ArrayListStation.class, adjusted);
+                if (params[0].equals("function=showStations"))
+                    stations = Json.convertJsonToObject(ArrayListStation.class, adjusted);
 
-                  if(params[0].equals("function=showLines"))
-                      lines = Json.convertJsonToObject(ArrayListLine.class, adjusted);
+                if (params[0].equals("function=showLines"))
+                    lines = Json.convertJsonToObject(ArrayListLine.class, adjusted);
 
-                if(params[0].equals("function=showBuses"))
+                if (params[0].equals("function=showBuses"))
                     buses = Json.convertJsonToObject(ArrayListBus.class, adjusted);
 
+                if (params[0].equals("function=showTracks"))
+                    tracks = Json.convertJsonToObject(ArrayListTrack.class, adjusted);
 
                 System.out.println(adjusted);
 
