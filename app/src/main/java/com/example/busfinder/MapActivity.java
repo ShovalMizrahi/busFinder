@@ -37,6 +37,7 @@ import java.util.ArrayList;
 public class MapActivity extends AppCompatActivity implements Runnable {
 
 
+    int x=4;
     int f=0;
     private final int TIMEREFRESHINGBUSES = 1500;
 
