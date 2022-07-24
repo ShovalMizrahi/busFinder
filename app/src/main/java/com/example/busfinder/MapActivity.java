@@ -276,7 +276,6 @@ int sadsdasd=343434;
 
                           //  startMarker.setIcon(drawable);
                             startMarker.setTextIcon("hhhh");
-                            startMarker.showInfoWindow();
 
 
 
@@ -299,6 +298,7 @@ int sadsdasd=343434;
 
 
                         startMarker.setInfoWindow(infoWindow);
+                        startMarker.showInfoWindow();
 
 
                         //     map.getOverlays().clear(); //for clearing
@@ -463,7 +463,7 @@ int sadsdasd=343434;
                 }
 
                 public void onFinish() {
-                    InfoWindow.closeAllInfoWindowsOn(map);
+                    StationInfo.closeAllInfoWindowsOn(map);
 
                 }
             }.start();
