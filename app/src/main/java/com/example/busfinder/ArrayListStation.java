@@ -8,6 +8,7 @@ public class ArrayListStation extends ArrayList<Station> {
     {
         for(int i=0;i<  size();i++)
         {
+            get(i).setLines(new ArrayListLine());
             for(int j=0; j<RestApi.tracks.size();j++)
             {
 

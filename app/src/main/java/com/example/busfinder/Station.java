@@ -7,7 +7,7 @@ public class Station {
     private String longt;
     private String lat;
 
-    private ArrayListLine lines = new ArrayListLine(); //the lines that going into the staions
+    private ArrayListLine lines ; //the lines that going into the staions
 
     public Station(String name, String city, String longt, String lat, ArrayListLine lines) {
         this.name = name;
@@ -72,6 +72,10 @@ public class Station {
     public ArrayListLine getLines() {
 
         return lines;
+    }
+
+    public void setLines(ArrayListLine lines) {
+        this.lines = lines;
     }
 
     public void addLine(Line line) {

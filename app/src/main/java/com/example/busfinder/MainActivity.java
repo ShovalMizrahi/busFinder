@@ -213,12 +213,15 @@ public class MainActivity extends AppCompatActivity implements Runnable {
             }
         }
 
-        RestApi.stations.bindLinesToStations();
+
 
 
     }
 
     public void map(View view) {
+
+        RestApi.stations.bindLinesToStations();
+
         if(RestApi.stations.size()>0) {
             Intent intent = new Intent(this, MapActivity.class);
             startActivity(intent);
