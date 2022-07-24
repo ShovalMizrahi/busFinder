@@ -8,13 +8,13 @@ public class ArrayListStation extends ArrayList<Station> {
     {
         for(int i=0;i<  size();i++)
         {
-            for(int j=0; j<RestApi.lines.size();j++)
+            for(int j=0; j<RestApi.tracks.size();j++)
             {
 
-                if(RestApi.lines.get(j).getId().equals(get(i).getId()))
+                if(RestApi.tracks.get(j).getStationID().equals(get(i).getId()))
                 {
 
-                    get(i).addLine(RestApi.lines.get(j));
+                    get(i).addLine(RestApi.lines.get(0));
                 }
 
             }

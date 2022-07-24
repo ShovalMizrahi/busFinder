@@ -123,10 +123,10 @@ int sadsdasd=343434;
 
 
 
-            InfoWindow infoWindow = new MyInfoWindow(R.layout.custom_info_window, map,"pp");
+            StationInfo stationInfo = new StationInfo(R.layout.custom_info_window, map,RestApi.stations.get(i));
 
 
-            startMarker.setInfoWindow(infoWindow);
+            startMarker.setInfoWindow(stationInfo);
 
 
             //     map.getOverlays().clear(); //for clearing
@@ -414,6 +414,56 @@ int sadsdasd=343434;
             */
         }
     }
+
+
+
+    private class StationInfo extends InfoWindow {
+        private Station station;
+        public StationInfo(int layoutResId, MapView mapView,Station station) {
+            super(layoutResId, mapView);
+            this.station = station;
+        }
+
+        public void onClose() {
+        }
+
+        public void onOpen(Object arg0) {
+            // LinearLayout layout = (LinearLayout) findViewById(R);
+            TextView btnMoreInfo = mView.findViewById(R.id.wInfoText);
+            btnMoreInfo.setText(station.getLines().size()+" check");
+
+
+            new CountDownTimer(3000, 1000) {
+
+                public void onTick(long millisUntilFinished) {
+
+                }
+
+                public void onFinish() {
+                    InfoWindow.closeAllInfoWindowsOn(map);
+
+                }
+            }.start();
+
+
+            w++;
+
+
+/*
+            layout.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    // Override Marker's onClick behaviour here
+
+                    Toast.makeText(MapActivity.this, "check", Toast.LENGTH_SHORT).show();
+                    btnMoreInfo.setText(Html.fromHtml("<table><tr><td>30</td><td>5 minutes</td></tr></table>"));
+
+                }
+            });
+
+            */
+        }
+    }
+
 
 
 

@@ -29,7 +29,7 @@ public class RestApi extends AsyncTask<String, String, String> {
 
     private static HttpURLConnection con;
     public static ArrayListStation stations= new ArrayListStation();
-    public static ArrayList<Line> lines = new ArrayList<Line>();
+    public static ArrayListLine lines = new ArrayListLine();
     public static ArrayListBus buses = new ArrayListBus();
     public static ArrayListTrack tracks = new ArrayListTrack();
 
