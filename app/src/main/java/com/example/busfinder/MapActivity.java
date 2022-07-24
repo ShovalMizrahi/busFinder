@@ -113,6 +113,8 @@ int sadsdasd=343434;
 
             startMarker.setIcon(drawable);
 
+           // startMarker.setTitle("asd");
+
 
             //  startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
            // startMarker.setAnchor(0.05f, 0.5f);
@@ -270,7 +272,15 @@ int sadsdasd=343434;
 
                       //  if(i==1) {
                             //startMarker.setIcon(drawable);
-                            startMarker.setIcon(drawable);
+
+
+                          //  startMarker.setIcon(drawable);
+                            startMarker.setTextIcon("hhhh");
+                            startMarker.showInfoWindow();
+
+
+
+
                           //  startMarker.setIcon(startMarker.getIcon());
 
                       //  }
