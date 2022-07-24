@@ -28,7 +28,7 @@ public class RestApi extends AsyncTask<String, String, String> {
     private static final String URL = "https://transportation-server.almogshaby.repl.co/";
 
     private static HttpURLConnection con;
-    public static ArrayList<Station> stations = new ArrayList<Station>();
+    public static ArrayListStation stations= new ArrayListStation();
     public static ArrayList<Line> lines = new ArrayList<Line>();
     public static ArrayListBus buses = new ArrayListBus();
     public static ArrayListTrack tracks = new ArrayListTrack();

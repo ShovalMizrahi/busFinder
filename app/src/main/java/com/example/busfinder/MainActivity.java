@@ -213,6 +213,8 @@ public class MainActivity extends AppCompatActivity implements Runnable {
             }
         }
 
+        RestApi.stations.bindLinesToStations();
+
 
     }
 
