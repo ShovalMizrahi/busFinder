@@ -422,6 +422,7 @@ int sadsdasd=343434;
         public StationInfo(int layoutResId, MapView mapView,Station station) {
             super(layoutResId, mapView);
             this.station = station;
+            int x=4;
         }
 
         public void onClose() {
@@ -430,7 +431,19 @@ int sadsdasd=343434;
         public void onOpen(Object arg0) {
             // LinearLayout layout = (LinearLayout) findViewById(R);
             TextView btnMoreInfo = mView.findViewById(R.id.wInfoText);
-            btnMoreInfo.setText(station.getLines().size()+" check");
+
+            String info="";
+
+            for(int i=0;i<station.getLines().size();i++)
+            {
+                if(i+1==station.getLines().size())
+                info+=station.getLines().get(i).getNumber();
+                else
+                    info+=station.getLines().get(i).getNumber()+", ";
+
+            }
+
+            btnMoreInfo.setText(info);
 
 
             new CountDownTimer(3000, 1000) {
