@@ -152,7 +152,28 @@ int sadsdasd=343434;
 
 
 
+startThreads();
+
     }
+
+    private void startThreads() {
+        new Thread(new Th1()).start();
+
+    }
+
+
+
+
+
+
+    class Th1 implements Runnable {
+        @Override
+        public void run() {
+            fucn1();
+        }
+    }
+
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
