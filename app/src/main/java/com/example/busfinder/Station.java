@@ -1,5 +1,7 @@
 package com.example.busfinder;
 
+import com.example.busfinder.MenuActivity;
+
 public class Station {
     private String id;
     private String name;
@@ -8,6 +10,8 @@ public class Station {
     private String lat;
 
     private ArrayListLine lines ; //the lines that going into the staions
+    private double distance;
+    private final int earth_radius = 6371000;
 
     public Station(String name, String city, String longt, String lat, ArrayListLine lines) {
         this.name = name;
@@ -81,4 +85,26 @@ public class Station {
     public void addLine(Line line) {
         lines.add(line);
     }
+
+
+    public Double getDistance() {
+        // distance between latitudes and longitudes
+        double dLat = Math.toRadians(MenuActivity.getLatitude() - Double.parseDouble(getLat()));
+        double dLon = Math.toRadians(MenuActivity.getLongtitude() - Double.parseDouble(getLongt()));
+
+        // convert to radians
+        double user_lat = Math.toRadians(MenuActivity.getLatitude());
+        double station_lat = Math.toRadians(Double.parseDouble(getLat()));
+
+        // apply formulae
+        double a = Math.pow(Math.sin(dLat / 2), 2) +
+                Math.pow(Math.sin(dLon / 2), 2) *
+                        Math.cos(user_lat) *
+                        Math.cos(station_lat);
+        double rad = 6371;
+        double c = 2 * Math.asin(Math.sqrt(a));
+        return rad * c;
+    }
+
+
 }
