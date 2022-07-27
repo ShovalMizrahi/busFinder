@@ -26,7 +26,7 @@ public class CalculateTime extends AsyncTask<String, String, String> {
     private static final String URL = "https://transportation-server.almogshaby.repl.co/";
 
     private static HttpURLConnection con;
-    public static ArrayListStation stations= new ArrayListStation();
+    public static ArrayListStation stations = new ArrayListStation();
     public static ArrayListLine lines = new ArrayListLine();
     public static ArrayListBus buses = new ArrayListBus();
     public static ArrayListTrack tracks = new ArrayListTrack();
@@ -46,81 +46,21 @@ public class CalculateTime extends AsyncTask<String, String, String> {
     protected String doInBackground(String... params) {
 
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-                .permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+        String a = "";
 
-
-        String url = URL;
-
-        String urlParameters = params[0];
-
-        byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
 
         try {
+            a = SocketConnection.getURLSource("https://www.google.com/maps/dir/%D7%94%D7%92%D7%99%D7%9C%D7%94+15,+%D7%A0%D7%AA%D7%A0%D7%99%D7%94%E2%80%AD/%D7%A9%D7%9C%D7%95%D7%9D+%D7%A6%D7%9C%D7%97+41,+%D7%A4%D7%AA%D7%97+%D7%AA%D7%A7%D7%95%D7%95%D7%94%E2%80%AD/@32.1909608,34.7393712,11z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x151d416b00544c55:0x13b492b5758ef7a5!2m2!1d34.8473822!2d32.3143144!1m5!1m1!1s0x151d36813d4bee8b:0x6ee6e52dfb428779!2m2!1d34.9101594!2d32.0743736!3e0?hl=en");
+            System.out.println(a.length());
 
-            URL myurl = new URL(url);
-            con = (HttpURLConnection) myurl.openConnection();
+        } catch (Exception e) {
+            System.out.println(e);
 
+            //	System.out.println("Hello World");
 
-            con.setDoOutput(true);
-            con.setRequestMethod("POST");
-            con.setRequestProperty("User-Agent", "Java client");
-            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-
-            try (DataOutputStream wr = new DataOutputStream(con.getOutputStream())) {
-                //System.out.println(wr.getClass());
-
-                wr.write(postData);
-            }
-
-
-            StringBuilder content;
-
-            try (BufferedReader br = new BufferedReader(
-                    new InputStreamReader(con.getInputStream()))) {
-
-
-                String line;
-                content = new StringBuilder();
-
-                while ((line = br.readLine()) != null) {
-                    content.append(line);
-                    content.append(System.lineSeparator());
-                }
-
-
-                String adjusted = content.toString().replaceAll("(?m)^[ \t]*\r?\n", "");
-
-                if (params[0].equals("function=showStations"))
-                    stations = Json.convertJsonToObject(ArrayListStation.class, adjusted);
-
-                if (params[0].equals("function=showLines"))
-                    lines = Json.convertJsonToObject(ArrayListLine.class, adjusted);
-
-                if (params[0].equals("function=showBuses"))
-                    buses = Json.convertJsonToObject(ArrayListBus.class, adjusted);
-
-                if (params[0].equals("function=showTracks"))
-                    tracks = Json.convertJsonToObject(ArrayListTrack.class, adjusted);
-
-                System.out.println(adjusted);
-
-            }
-
-
-        } catch (ProtocolException e) {
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-
-            con.disconnect();
         }
 
-        return "Hhhh";
+        return "works";
 
 
     }

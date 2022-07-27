@@ -169,7 +169,9 @@ startThreads();
     class Th1 implements Runnable {
         @Override
         public void run() {
-            fucn1();
+            CalculateTime calculateTime = new CalculateTime();
+
+          System.out.println(  calculateTime.doInBackground());
         }
     }
 
