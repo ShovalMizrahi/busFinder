@@ -10,6 +10,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -32,7 +34,10 @@ import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.infowindow.InfoWindow;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class MapActivity extends AppCompatActivity implements Runnable {
 
@@ -113,19 +118,16 @@ int sadsdasd=343434;
 
             startMarker.setIcon(drawable);
 
-           // startMarker.setTitle("asd");
+            // startMarker.setTitle("asd");
 
 
             //  startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
-           // startMarker.setAnchor(0.05f, 0.5f);
+            // startMarker.setAnchor(0.05f, 0.5f);
 
             startMarker.setAnchor(Marker.ANCHOR_BOTTOM, Marker.ANCHOR_BOTTOM);
 
 
-
-
-
-            StationInfo stationInfo = new StationInfo(R.layout.custom_info_window, map,RestApi.stations.get(i));
+            StationInfo stationInfo = new StationInfo(R.layout.custom_info_window, map, RestApi.stations.get(i));
 
 
             startMarker.setInfoWindow(stationInfo);
@@ -145,8 +147,12 @@ int sadsdasd=343434;
         t.start();
 
 
-    }
+         String add =    c(32.31805699856178, 34.85507235003996);
+        Toast.makeText(ctx, add+"this is", Toast.LENGTH_SHORT).show();
 
+
+
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -255,7 +261,7 @@ int sadsdasd=343434;
                     for (int i = 0; i < RestApi.buses.size(); i++) {
                         String infomartion = RestApi.buses.get(i).getLine()+"aa";
 
-                        Toast.makeText(MapActivity.this, RestApi.buses.get(i).getLine()+"cccc", Toast.LENGTH_SHORT).show();
+                   //     Toast.makeText(MapActivity.this, RestApi.buses.get(i).getLine()+"cccc", Toast.LENGTH_SHORT).show();
 
                         map.invalidate();
 
@@ -501,5 +507,31 @@ int sadsdasd=343434;
         }
 
     }
+
+
+
+public String c(double latitude, double longitude )  {
+    Geocoder geocoder;
+    List<Address> addresses;
+    geocoder = new Geocoder(this, Locale.getDefault());
+
+    String result = null;
+            try {
+                addresses = geocoder.getFromLocation(latitude, longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+
+                String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                result = address;
+                String city = addresses.get(0).getLocality();
+                String state = addresses.get(0).getAdminArea();
+                String country = addresses.get(0).getCountryName();
+                String postalCode = addresses.get(0).getPostalCode();
+                String knownName = addresses.get(0).getFeatureName(); // Only if available else return NULL
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+return result;
+
+}
 
 }
