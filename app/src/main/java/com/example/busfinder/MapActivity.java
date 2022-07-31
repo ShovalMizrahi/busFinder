@@ -35,8 +35,8 @@ import java.util.Locale;
 public class MapActivity extends AppCompatActivity implements Runnable {
 
     int a = 10;
-int sadsdasd=343434;
-    int f=0;
+    int sadsdasd = 343434;
+    int f = 0;
     private final int TIMEREFRESHINGBUSES = 1500;
 
     double d = 32.31791352999457;
@@ -140,12 +140,11 @@ int sadsdasd=343434;
         t.start();
 
 
-         String add =    c(32.31805699856178, 34.85507235003996);
-        Toast.makeText(ctx, add+"this is", Toast.LENGTH_SHORT).show();
+        String add = c(32.31805699856178, 34.85507235003996);
+        Toast.makeText(ctx, add + "this is", Toast.LENGTH_SHORT).show();
 
 
-
-startThreads();
+        startThreads();
 
     }
 
@@ -155,19 +154,14 @@ startThreads();
     }
 
 
-
-
-
-
     class Th1 implements Runnable {
         @Override
         public void run() {
             CalculateTime calculateTime = new CalculateTime();
 
-          System.out.println(  calculateTime.doInBackground());
+            System.out.println(calculateTime.doInBackground());
         }
     }
-
 
 
     @Override
@@ -275,9 +269,9 @@ startThreads();
                     removeBuses(map);
 
                     for (int i = 0; i < RestApi.buses.size(); i++) {
-                        String infomartion = RestApi.buses.get(i).getLine()+"aa";
+                        String infomartion = RestApi.buses.get(i).getLine() + "aa";
 
-                   //     Toast.makeText(MapActivity.this, RestApi.buses.get(i).getLine()+"cccc", Toast.LENGTH_SHORT).show();
+                        //     Toast.makeText(MapActivity.this, RestApi.buses.get(i).getLine()+"cccc", Toast.LENGTH_SHORT).show();
 
                         map.invalidate();
 
@@ -291,32 +285,11 @@ startThreads();
 
                         Drawable drawable = getResources().getDrawable(R.mipmap.bus);
                         drawable = resize(drawable);
+                        startMarker.setIcon(drawable);
 
-                      //  if(i==1) {
-                            //startMarker.setIcon(drawable);
-
-
-                          //  startMarker.setIcon(drawable);
-                        //    startMarker.setTextIcon("hhhh");
-
-
-
-
-                          //  startMarker.setIcon(startMarker.getIcon());
-
-                      //  }
-
-
-                   //     Toast.makeText(MapActivity.this, RestApi.buses.get(i).getLine() + " u" , Toast.LENGTH_SHORT).show();
-
-
-
-
-                     //   startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
                         startMarker.setAnchor(Marker.ANCHOR_BOTTOM, Marker.ANCHOR_BOTTOM);
-                        //  startMarker.setAnchor(0.05f, 0.5f);
 
-                        InfoWindow infoWindow = new MyInfoWindow(R.layout.custom_info_window, map,infomartion);
+                        BusInfo infoWindow = new BusInfo(R.layout.custom_info_window, map, infomartion);
 
 
                         startMarker.setInfoWindow(infoWindow);
@@ -398,11 +371,11 @@ startThreads();
         return new BitmapDrawable(getResources(), bitmapResized);
     }
 
-    int w = 0;
 
-    private class MyInfoWindow extends InfoWindow {
+    private class BusInfo extends InfoWindow {
         private String line;
-        public MyInfoWindow(int layoutResId, MapView mapView,String line) {
+
+        public BusInfo(int layoutResId, MapView mapView, String line) {
             super(layoutResId, mapView);
             this.line = line;
         }
@@ -413,23 +386,9 @@ startThreads();
         public void onOpen(Object arg0) {
             // LinearLayout layout = (LinearLayout) findViewById(R);
             TextView btnMoreInfo = mView.findViewById(R.id.wInfoText);
-            btnMoreInfo.setText("how "+line);
+            btnMoreInfo.setText("how " + line);
 
 
-            new CountDownTimer(3000, 1000) {
-
-                public void onTick(long millisUntilFinished) {
-
-                }
-
-                public void onFinish() {
-                    InfoWindow.closeAllInfoWindowsOn(map);
-
-                }
-            }.start();
-
-
-            w++;
 
 
 /*
@@ -448,13 +407,13 @@ startThreads();
     }
 
 
-
     private class StationInfo extends InfoWindow {
         private Station station;
-        public StationInfo(int layoutResId, MapView mapView,Station station) {
+
+        public StationInfo(int layoutResId, MapView mapView, Station station) {
             super(layoutResId, mapView);
             this.station = station;
-            int x=4;
+            int x = 4;
         }
 
         public void onClose() {
@@ -464,14 +423,13 @@ startThreads();
             // LinearLayout layout = (LinearLayout) findViewById(R);
             TextView btnMoreInfo = mView.findViewById(R.id.wInfoText);
 
-            String info="";
+            String info = "";
 
-            for(int i=0;i<station.getLines().size();i++)
-            {
-                if(i+1==station.getLines().size())
-                info+=station.getLines().get(i).getNumber();
+            for (int i = 0; i < station.getLines().size(); i++) {
+                if (i + 1 == station.getLines().size())
+                    info += station.getLines().get(i).getNumber();
                 else
-                    info+=station.getLines().get(i).getNumber()+", ";
+                    info += station.getLines().get(i).getNumber() + ", ";
 
             }
 
@@ -491,7 +449,6 @@ startThreads();
             }.start();
 
 
-            w++;
 
 
 
@@ -512,42 +469,37 @@ startThreads();
     }
 
 
-
-
-    public void removeBuses(MapView map)
-    {
-        while(RestApi.stations.size() != map.getOverlays().size())
-        {
-            map.getOverlays().remove(map.getOverlays().size()-1);
+    public void removeBuses(MapView map) {
+        while (RestApi.stations.size() != map.getOverlays().size()) {
+            map.getOverlays().remove(map.getOverlays().size() - 1);
 
         }
 
     }
 
 
+    public String c(double latitude, double longitude) {
+        Geocoder geocoder;
+        List<Address> addresses;
+        geocoder = new Geocoder(this, Locale.getDefault());
 
-public String c(double latitude, double longitude )  {
-    Geocoder geocoder;
-    List<Address> addresses;
-    geocoder = new Geocoder(this, Locale.getDefault());
+        String result = null;
+        try {
+            addresses = geocoder.getFromLocation(latitude, longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
-    String result = null;
-            try {
-                addresses = geocoder.getFromLocation(latitude, longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+            String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+            result = address;
+            String city = addresses.get(0).getLocality();
+            String state = addresses.get(0).getAdminArea();
+            String country = addresses.get(0).getCountryName();
+            String postalCode = addresses.get(0).getPostalCode();
+            String knownName = addresses.get(0).getFeatureName(); // Only if available else return NULL
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-                String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-                result = address;
-                String city = addresses.get(0).getLocality();
-                String state = addresses.get(0).getAdminArea();
-                String country = addresses.get(0).getCountryName();
-                String postalCode = addresses.get(0).getPostalCode();
-                String knownName = addresses.get(0).getFeatureName(); // Only if available else return NULL
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        return result;
 
-return result;
-
-}
+    }
 
 }
