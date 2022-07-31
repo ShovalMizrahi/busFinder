@@ -12,15 +12,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
-import android.text.Html;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +23,6 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.infowindow.InfoWindow;
@@ -113,7 +106,7 @@ int sadsdasd=343434;
             startMarker.setPosition(point);
 
 
-            Drawable drawable = getResources().getDrawable(R.mipmap.bustop);
+            Drawable drawable = getResources().getDrawable(R.mipmap.busstop);
             drawable = resize(drawable);
 
             startMarker.setIcon(drawable);
@@ -296,7 +289,7 @@ startThreads();
                         startMarker.setPosition(point);
 
 
-                        Drawable drawable = getResources().getDrawable(R.mipmap.bussymbol);
+                        Drawable drawable = getResources().getDrawable(R.mipmap.bus);
                         drawable = resize(drawable);
 
                       //  if(i==1) {
@@ -304,7 +297,7 @@ startThreads();
 
 
                           //  startMarker.setIcon(drawable);
-                            startMarker.setTextIcon("hhhh");
+                        //    startMarker.setTextIcon("hhhh");
 
 
 

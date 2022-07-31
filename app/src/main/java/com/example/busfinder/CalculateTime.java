@@ -46,21 +46,47 @@ public class CalculateTime extends AsyncTask<String, String, String> {
     protected String doInBackground(String... params) {
 
 
-        String a = "";
+        String textResult = "";
+        String result="";
 
+        String latS = "32.314441322524736";
+        String longS = "34.84737147435249";
+
+        String latD = "32.07314315835091";
+        String longD = "34.91012304088507";
 
         try {
-            a = SocketConnection.getURLSource("https://www.google.com/maps/dir/%D7%94%D7%92%D7%99%D7%9C%D7%94+15,+%D7%A0%D7%AA%D7%A0%D7%99%D7%94%E2%80%AD/%D7%A9%D7%9C%D7%95%D7%9D+%D7%A6%D7%9C%D7%97+41,+%D7%A4%D7%AA%D7%97+%D7%AA%D7%A7%D7%95%D7%95%D7%94%E2%80%AD/@32.1909608,34.7393712,11z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x151d416b00544c55:0x13b492b5758ef7a5!2m2!1d34.8473822!2d32.3143144!1m5!1m1!1s0x151d36813d4bee8b:0x6ee6e52dfb428779!2m2!1d34.9101594!2d32.0743736!3e0?hl=en");
-            System.out.println(a.length());
+            textResult = SocketConnection
+                    .getURLSource("https://www.google.com/maps/dir/" + latS + ",+" + longS + "/" + latD + ",+" + longD + "/");
 
-        } catch (Exception e) {
-            System.out.println(e);
+            for (int j = 0; j < 2; j++) {
+                // String temp = a;
 
-            //	System.out.println("Hello World");
+                char slesh = (char) 92;
+                char quotes = '"';
+                String bb = "min" + slesh + quotes;
+
+                int end = textResult.indexOf(bb) + bb.length();
+                int i = end - 2;
+                while (textResult.charAt(i) != quotes) {
+                    i--;
+                }
+                int start = i;
+
+                result= textResult.substring(start + 1, end - 2);
+
+                textResult = textResult.substring(end, textResult.length());
+
+            }
 
         }
 
-        return "works";
+        catch (Exception e) {
+            System.out.println(e);
+
+
+        }
+        return result;
 
 
     }
