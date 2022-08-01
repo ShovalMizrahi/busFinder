@@ -5,6 +5,7 @@ public class Line {
     private String number;
     private String companyID;
 
+
     public Line(String id, String number, String companyID) {
         this.id = id;
         this.number = number;

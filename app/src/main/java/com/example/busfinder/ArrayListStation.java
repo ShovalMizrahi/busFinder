@@ -22,4 +22,20 @@ public class ArrayListStation extends ArrayList<Station> {
     }
 
 
+
+    public Station findStationById(String id)
+    {
+
+        for(int i=0; i<RestApi.stations.size();i++)
+        {
+
+            if(id.equals(RestApi.stations.get(i).getId()))
+            {
+
+                return RestApi.stations.get(i);
+            }
+        }
+        return null;
+    }
+
 }

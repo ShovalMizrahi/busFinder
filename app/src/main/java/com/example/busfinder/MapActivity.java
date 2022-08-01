@@ -146,6 +146,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
         startThreads();
 
+
     }
 
     private void startThreads() {
@@ -224,6 +225,8 @@ public class MapActivity extends AppCompatActivity implements Runnable {
     @Override
     public void run() {
 
+
+
         Boolean success = false;
 
 
@@ -249,68 +252,81 @@ public class MapActivity extends AppCompatActivity implements Runnable {
                 if (RestApi.buses.size() > 0) {
                     success = true;
 
-                } else {
+                        /*
+        add the station route for each bus
 
-                    try {
-                        Thread.sleep(TIMEREFRESHINGBUSES);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+         */
+
+                    Bus.addStationsToBus();
+
+
                 }
+
+
+             else{
+
+                try {
+                    Thread.sleep(TIMEREFRESHINGBUSES);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+        success = false;
+
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                StationInfo.closeAllInfoWindowsOn(map);
+                removeBuses(map);
+
+                for (int i = 0; i < RestApi.buses.size(); i++) {
+                    ArrayListLine arrayListLine = new ArrayListLine();
+                    Line line = arrayListLine.findLineById(RestApi.buses.get(i).getLine());
+
+                    //     Toast.makeText(MapActivity.this, RestApi.buses.get(i).getLine()+"cccc", Toast.LENGTH_SHORT).show();
+
+                    map.invalidate();
+
+                    //   Toast.makeText(MapActivity.this, RestApi.buses.get(0).getLatitude() + "", Toast.LENGTH_SHORT).show();
+
+                    GeoPoint point = new GeoPoint(Double.parseDouble(RestApi.buses.get(i).getLatitude()), Double.parseDouble(RestApi.buses.get(i).getLongtitude()));
+
+                    Marker startMarker = new Marker(map);
+                    startMarker.setPosition(point);
+
+
+                    Drawable drawable = getResources().getDrawable(R.mipmap.bus);
+                    drawable = resize(drawable);
+                    startMarker.setIcon(drawable);
+
+                    startMarker.setAnchor(Marker.ANCHOR_BOTTOM, Marker.ANCHOR_BOTTOM);
+
+                    BusInfo infoWindow = new BusInfo(R.layout.custom_info_window, map, line, RestApi.buses.get(i));
+
+
+                    startMarker.setInfoWindow(infoWindow);
+                    startMarker.showInfoWindow();
+
+
+                    //     map.getOverlays().clear(); //for clearing
+                    map.getOverlays().add(startMarker);
+
+
+                    //     map.getController().setCenter(point);
+
+
+                }
+
 
             }
-            success = false;
-
-
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-
-                    removeBuses(map);
-
-                    for (int i = 0; i < RestApi.buses.size(); i++) {
-                        String infomartion = RestApi.buses.get(i).getLine() + "aa";
-
-                        //     Toast.makeText(MapActivity.this, RestApi.buses.get(i).getLine()+"cccc", Toast.LENGTH_SHORT).show();
-
-                        map.invalidate();
-
-                        //   Toast.makeText(MapActivity.this, RestApi.buses.get(0).getLatitude() + "", Toast.LENGTH_SHORT).show();
-
-                        GeoPoint point = new GeoPoint(Double.parseDouble(RestApi.buses.get(i).getLatitude()), Double.parseDouble(RestApi.buses.get(i).getLongtitude()));
-
-                        Marker startMarker = new Marker(map);
-                        startMarker.setPosition(point);
-
-
-                        Drawable drawable = getResources().getDrawable(R.mipmap.bus);
-                        drawable = resize(drawable);
-                        startMarker.setIcon(drawable);
-
-                        startMarker.setAnchor(Marker.ANCHOR_BOTTOM, Marker.ANCHOR_BOTTOM);
-
-                        BusInfo infoWindow = new BusInfo(R.layout.custom_info_window, map, infomartion);
-
-
-                        startMarker.setInfoWindow(infoWindow);
-                        startMarker.showInfoWindow();
-
-
-                        //     map.getOverlays().clear(); //for clearing
-                        map.getOverlays().add(startMarker);
-
-
-                        //     map.getController().setCenter(point);
-
-
-                    }
-
-
-                }
-            });
-        }
-
+        });
     }
+
+}
 /*
     @Override
     public void run() {
@@ -372,22 +388,25 @@ public class MapActivity extends AppCompatActivity implements Runnable {
     }
 
 
-    private class BusInfo extends InfoWindow {
-        private String line;
+private class BusInfo extends InfoWindow {
+    private Line line;
+    private Bus bus;
 
-        public BusInfo(int layoutResId, MapView mapView, String line) {
-            super(layoutResId, mapView);
-            this.line = line;
-        }
+    public BusInfo(int layoutResId, MapView mapView, Line line, Bus bus) {
+        super(layoutResId, mapView);
+        this.line = line;
+        this.bus = bus;
+    }
 
-        public void onClose() {
-        }
+    public void onClose() {
+    }
 
-        public void onOpen(Object arg0) {
-            // LinearLayout layout = (LinearLayout) findViewById(R);
-            TextView btnMoreInfo = mView.findViewById(R.id.wInfoText);
-            btnMoreInfo.setText("how " + line);
-
+    public void onOpen(Object arg0) {
+        // LinearLayout layout = (LinearLayout) findViewById(R);
+        TextView btnMoreInfo = mView.findViewById(R.id.wInfoText);
+        if (bus.getStations() != null)
+            btnMoreInfo.setText(line.getNumber() + " " +this.bus.getStations().get(0).getDistanceFromBus() +" " +this.bus.getStations().get(1).getDistanceFromBus()  );
+        //bus.getStations().get(1).getDistanceFromBus()
 
 
 
@@ -403,50 +422,52 @@ public class MapActivity extends AppCompatActivity implements Runnable {
             });
 
             */
-        }
     }
 
 
-    private class StationInfo extends InfoWindow {
-        private Station station;
+}
 
-        public StationInfo(int layoutResId, MapView mapView, Station station) {
-            super(layoutResId, mapView);
-            this.station = station;
-            int x = 4;
+
+private class StationInfo extends InfoWindow {
+    private Station station;
+
+    public StationInfo(int layoutResId, MapView mapView, Station station) {
+        super(layoutResId, mapView);
+        this.station = station;
+        int x = 4;
+    }
+
+    public void onClose() {
+    }
+
+    public void onOpen(Object arg0) {
+        // LinearLayout layout = (LinearLayout) findViewById(R);
+        TextView btnMoreInfo = mView.findViewById(R.id.wInfoText);
+
+        String info = "";
+
+        for (int i = 0; i < station.getLines().size(); i++) {
+            if (i + 1 == station.getLines().size())
+                info += station.getLines().get(i).getNumber();
+            else
+                info += station.getLines().get(i).getNumber() + ", ";
+
         }
 
-        public void onClose() {
-        }
+        btnMoreInfo.setText(info);
 
-        public void onOpen(Object arg0) {
-            // LinearLayout layout = (LinearLayout) findViewById(R);
-            TextView btnMoreInfo = mView.findViewById(R.id.wInfoText);
 
-            String info = "";
+        new CountDownTimer(3000, 1000) {
 
-            for (int i = 0; i < station.getLines().size(); i++) {
-                if (i + 1 == station.getLines().size())
-                    info += station.getLines().get(i).getNumber();
-                else
-                    info += station.getLines().get(i).getNumber() + ", ";
+            public void onTick(long millisUntilFinished) {
 
             }
 
-            btnMoreInfo.setText(info);
+            public void onFinish() {
+                StationInfo.closeAllInfoWindowsOn(map);
 
-
-            new CountDownTimer(3000, 1000) {
-
-                public void onTick(long millisUntilFinished) {
-
-                }
-
-                public void onFinish() {
-                    StationInfo.closeAllInfoWindowsOn(map);
-
-                }
-            }.start();
+            }
+        }.start();
 
 
 
@@ -465,8 +486,9 @@ public class MapActivity extends AppCompatActivity implements Runnable {
             });
 
             */
-        }
     }
+
+}
 
 
     public void removeBuses(MapView map) {
