@@ -15,6 +15,7 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -233,6 +234,10 @@ public class MapActivity extends AppCompatActivity implements Runnable {
         RestApi restApi = new RestApi();
         while (true) {
 
+            //making the copy before the info is chaning!
+            RestApi.lastBuses = new ArrayListBus(RestApi.buses );
+
+
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
@@ -305,7 +310,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
                     startMarker.setAnchor(Marker.ANCHOR_BOTTOM, Marker.ANCHOR_BOTTOM);
 
-                    BusInfo infoWindow = new BusInfo(R.layout.custom_info_window, map, line, RestApi.buses.get(i));
+                    BusInfo infoWindow = new BusInfo(R.layout.custom_info_window, map, line,RestApi.buses.get(i));
 
 
                     startMarker.setInfoWindow(infoWindow);
@@ -404,10 +409,13 @@ private class BusInfo extends InfoWindow {
     public void onOpen(Object arg0) {
         // LinearLayout layout = (LinearLayout) findViewById(R);
         TextView btnMoreInfo = mView.findViewById(R.id.wInfoText);
-        if (bus.getStations() != null)
-            btnMoreInfo.setText(line.getNumber() + " " +this.bus.getStations().get(0).getDistanceFromBus() +" " +this.bus.getStations().get(1).getDistanceFromBus()  );
-        //bus.getStations().get(1).getDistanceFromBus()
+       // if (bus.getStations() != null)
+       //     btnMoreInfo.setText(line.getNumber() + " " +this.bus.getStations().get(0).getDistanceFromBus() +" " +this.bus.getStations().get(1).getDistanceFromBus()  );
+       //    btnMoreInfo.setText(this.bus.getStations().get(0).getDistanceFromBus() +" " +this.bus.getStations().get(1).getDistanceFromBus()  );
+        double distance= bus.getStations().get(0).getDistanceFromBus();
+          btnMoreInfo.setText(line.getNumber()+" "+distance);
 
+        //bus.getStations().get(1).getDistanceFromBus()
 
 
 /*

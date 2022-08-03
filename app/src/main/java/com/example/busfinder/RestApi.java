@@ -31,6 +31,8 @@ public class RestApi extends AsyncTask<String, String, String> {
     public static ArrayListStation stations= new ArrayListStation();
     public static ArrayListLine lines = new ArrayListLine();
     public static ArrayListBus buses = new ArrayListBus();
+    public static ArrayListBus lastBuses = new ArrayListBus();
+
     public static ArrayListTrack tracks = new ArrayListTrack();
 
 

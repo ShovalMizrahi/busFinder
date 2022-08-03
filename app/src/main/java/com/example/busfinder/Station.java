@@ -18,6 +18,18 @@ public class Station {
     private double distance;
     private final int earth_radius = 6371000;
 
+    public Station(Station station)
+    {
+
+        this.name = station.name;
+        this.city = station.city;
+        this.longt = station.longt;
+        this.lat = station.lat;
+        this.lines = station.lines;
+        this.distanceFromBus = station.distanceFromBus;
+
+    }
+
     public Station(String name, String city, String longt, String lat, ArrayListLine lines) {
         this.name = name;
         this.city = city;
@@ -114,10 +126,10 @@ public class Station {
                 dist = dist * 1.609344;
 
 
-            System.out.println("\n\n\n"+dist +"\n\n\n");
+          //  System.out.println("\n\n\n"+dist +"\n\n\n");
 
-            return Math.random();
-            //return (dist);
+           // return Math.random();
+            return (dist);
         }
     }
 

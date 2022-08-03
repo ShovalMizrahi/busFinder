@@ -10,6 +10,23 @@ public class Bus {
 
     private ArrayListStation stations;
 
+    public Bus(Bus bus) {
+
+        this.id = bus.id;
+        this.lineID = bus.lineID;
+        this.longt = bus.longt;
+        this.lat = bus.lat;
+
+        stations = new ArrayListStation();
+
+        for (int i = 0; i < bus.getStations().size(); i++) {
+
+            stations.add( new Station(bus.getStations().get(i))) ;
+
+        }
+
+    }
+
     public Bus(String id, String line, String longtitude, String latitude) {
         this.id = id;
         this.lineID = line;
@@ -51,22 +68,37 @@ public class Bus {
 
     public static void addStationsToBus() {
 
-        for (int i = 0; i < RestApi.buses.size(); i++) {
 
+        for (int i = 0; i < RestApi.buses.size(); i++) {
 
             RestApi.buses.get(i).stations = new ArrayListStation();
 
-        for (int j = 0; j < RestApi.tracks.size(); j++) {
 
-            if (RestApi.tracks.get(j).getLineID().equals(RestApi.buses.get(i).lineID)) {
-                ArrayListStation arrayListStation = new ArrayListStation();
-                Station station = arrayListStation.findStationById(RestApi.tracks.get(j).getStationID());
-                RestApi.buses.get(i).stations.add(station);
-                RestApi.buses.get(i).stations.get(RestApi.buses.get(i).stations.size() - 1).setDistanceFromBus(Station.getDistance(Double.parseDouble(RestApi.buses.get(i).getLatitude()), Double.parseDouble(RestApi.buses.get(i).getLongtitude()), Double.parseDouble(station.getLat()), Double.parseDouble(station.getLongt())));
+            for (int j = 0; j < RestApi.tracks.size(); j++) {
+
+                if (RestApi.tracks.get(j).getLineID().equals(RestApi.buses.get(i).lineID)) {
+                    ArrayListStation arrayListStation = new ArrayListStation();
+                    Station station = new Station(arrayListStation.findStationById(RestApi.tracks.get(j).getStationID()));
+
+                    RestApi.buses.get(i).stations.add(station);
+                    double distance = Station.getDistance(Double.parseDouble(RestApi.buses.get(i).getLatitude()), Double.parseDouble(RestApi.buses.get(i).getLongtitude()), Double.parseDouble(station.getLat()), Double.parseDouble(station.getLongt()));
+                    RestApi.buses.get(i).stations.get(RestApi.buses.get(i).stations.size() - 1).setDistanceFromBus(distance);
+
+
+                    //    System.out.println("\n\nthis is not it"+  RestApi.buses.get(i).stations.get(RestApi.buses.get(i).stations.size() - 1).getDistanceFromBus() +"\n\n" );
+                    //  System.out.println("\n\nthis is it"+  RestApi.buses);
+
+
+        /*
+                if(RestApi.buses.get(0).stations.size()>=1  )
+                    System.out.println("\n\nthis is it"+RestApi.buses.get(0).stations.get(0).getDistanceFromBus() );
+
+                    if(RestApi.buses.get(0).stations.size()>=2 && RestApi.buses.get(1).stations.size()>=2 )
+                System.out.println("\n\nthis is it"+RestApi.buses.get(0).stations.get(0).getDistanceFromBus()+" "+   RestApi.buses.get(0).stations.get(1).getDistanceFromBus()+    " "+ " "+RestApi.buses.get(1).stations.get(0).getDistanceFromBus() + RestApi.buses.get(1).stations.get(1).getDistanceFromBus()+"\n\n" );
+*/
+                }
 
             }
-
-        }
 
         }
 
