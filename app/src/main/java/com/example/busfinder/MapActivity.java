@@ -281,6 +281,28 @@ public class MapActivity extends AppCompatActivity implements Runnable {
         success = false;
 
 
+            /*
+
+            finding changing in the bus location
+             */
+
+
+            for(int i=0; i<RestApi.buses.size();i++)
+            {
+                for(int j=0; j<RestApi.lastBuses.size();j++)
+                {
+                    if(RestApi.buses.get(i).getId().equals(RestApi.lastBuses.get(j).getId())
+                    &&( !RestApi.buses.get(i).getLatitude().equals(RestApi.lastBuses.get(j).getLatitude())
+                        || !RestApi.buses.get(i).getLongtitude() .equals( RestApi.lastBuses.get(j).getLongtitude())))
+                    {
+
+                        RestApi.buses.get(i).setNextStation( ArrayListBus.findNextStation(i,j));
+                    }
+
+                }
+
+            }
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -310,7 +332,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
                     startMarker.setAnchor(Marker.ANCHOR_BOTTOM, Marker.ANCHOR_BOTTOM);
 
-                    BusInfo infoWindow = new BusInfo(R.layout.custom_info_window, map, line,RestApi.buses.get(i));
+                    BusInfo infoWindow = new BusInfo(R.layout.custom_bus_info_window, map, line,RestApi.buses.get(i));
 
 
                     startMarker.setInfoWindow(infoWindow);
@@ -408,12 +430,15 @@ private class BusInfo extends InfoWindow {
 
     public void onOpen(Object arg0) {
         // LinearLayout layout = (LinearLayout) findViewById(R);
-        TextView btnMoreInfo = mView.findViewById(R.id.wInfoText);
+        TextView btnMoreInfo = mView.findViewById(R.id.busInfoLine);
+        TextView busInfoNextStop = mView.findViewById(R.id.busInfoNextStop);
        // if (bus.getStations() != null)
        //     btnMoreInfo.setText(line.getNumber() + " " +this.bus.getStations().get(0).getDistanceFromBus() +" " +this.bus.getStations().get(1).getDistanceFromBus()  );
        //    btnMoreInfo.setText(this.bus.getStations().get(0).getDistanceFromBus() +" " +this.bus.getStations().get(1).getDistanceFromBus()  );
         double distance= bus.getStations().get(0).getDistanceFromBus();
           btnMoreInfo.setText(line.getNumber()+" "+distance);
+          if(bus.getNextStation()!=null)
+        busInfoNextStop.setText(bus.getNextStation().getName());
 
         //bus.getStations().get(1).getDistanceFromBus()
 

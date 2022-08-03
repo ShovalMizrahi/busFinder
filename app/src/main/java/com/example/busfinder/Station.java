@@ -20,6 +20,7 @@ public class Station {
 
     public Station(Station station)
     {
+        this.id = station.id;
 
         this.name = station.name;
         this.city = station.city;

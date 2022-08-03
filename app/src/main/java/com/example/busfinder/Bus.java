@@ -10,6 +10,8 @@ public class Bus {
 
     private ArrayListStation stations;
 
+    private Station nextStation;
+
     public Bus(Bus bus) {
 
         this.id = bus.id;
@@ -21,7 +23,7 @@ public class Bus {
 
         for (int i = 0; i < bus.getStations().size(); i++) {
 
-            stations.add( new Station(bus.getStations().get(i))) ;
+            stations.add(new Station(bus.getStations().get(i)));
 
         }
 
@@ -85,17 +87,6 @@ public class Bus {
                     RestApi.buses.get(i).stations.get(RestApi.buses.get(i).stations.size() - 1).setDistanceFromBus(distance);
 
 
-                    //    System.out.println("\n\nthis is not it"+  RestApi.buses.get(i).stations.get(RestApi.buses.get(i).stations.size() - 1).getDistanceFromBus() +"\n\n" );
-                    //  System.out.println("\n\nthis is it"+  RestApi.buses);
-
-
-        /*
-                if(RestApi.buses.get(0).stations.size()>=1  )
-                    System.out.println("\n\nthis is it"+RestApi.buses.get(0).stations.get(0).getDistanceFromBus() );
-
-                    if(RestApi.buses.get(0).stations.size()>=2 && RestApi.buses.get(1).stations.size()>=2 )
-                System.out.println("\n\nthis is it"+RestApi.buses.get(0).stations.get(0).getDistanceFromBus()+" "+   RestApi.buses.get(0).stations.get(1).getDistanceFromBus()+    " "+ " "+RestApi.buses.get(1).stations.get(0).getDistanceFromBus() + RestApi.buses.get(1).stations.get(1).getDistanceFromBus()+"\n\n" );
-*/
                 }
 
             }
@@ -111,5 +102,14 @@ public class Bus {
 
     public void setStations(ArrayListStation stations) {
         this.stations = stations;
+    }
+
+
+    public Station getNextStation() {
+        return nextStation;
+    }
+
+    public void setNextStation(Station nextStation) {
+        this.nextStation = nextStation;
     }
 }
