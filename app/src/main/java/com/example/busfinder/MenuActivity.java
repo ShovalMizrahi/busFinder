@@ -7,6 +7,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -30,7 +31,11 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Looper;
 import android.provider.Settings;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +48,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -51,7 +57,7 @@ public class MenuActivity extends AppCompatActivity {
     FusedLocationProviderClient mFusedLocationClient;
     private static double latitude, longtitude;
     ArrayList<Double> dis_stations = new ArrayList<Double>();
-    TextView t1,t2;
+    private static ArrayListStation sortedStations = new ArrayListStation();
     private final int PERMISSION_ID = 44;
 
 
@@ -72,14 +78,14 @@ public class MenuActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        t1 = findViewById(R.id.textView2);
-        t2 = findViewById(R.id.textView3);
-
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         // method to get the location
         getLastLocation();
+
         getStationDistances();
+
+
 
     }
 
@@ -123,8 +129,6 @@ public class MenuActivity extends AppCompatActivity {
                         if (location == null) {
                             requestNewLocationData();
                         } else {
-                            t1.setText(location.getLatitude() + "");
-                            t2.setText(location.getLongitude() + "");
                             latitude = location.getLatitude();
                             longtitude = location.getLongitude();
                         }
@@ -164,8 +168,6 @@ public class MenuActivity extends AppCompatActivity {
         @Override
         public void onLocationResult(LocationResult locationResult) {
             Location mLastLocation = locationResult.getLastLocation();
-            t1.setText("Latitude: " + mLastLocation.getLatitude() + "");
-            t2.setText("Longitude: " + mLastLocation.getLongitude() + "");
             latitude = mLastLocation.getLatitude();
             longtitude = mLastLocation.getLongitude();
         }
@@ -214,6 +216,7 @@ public class MenuActivity extends AppCompatActivity {
         if (checkPermissions()) {
             getLastLocation();
         }
+
     }
 
     public static double getLatitude() {
@@ -225,10 +228,25 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     public void getStationDistances() {
+        ArrayList<Double> sortedDis= new ArrayList<Double>();
         for (int i = 0; i< RestApi.stations.size(); i++){
             dis_stations.add(RestApi.stations.get(i).getDistance());
+            sortedDis.add(RestApi.stations.get(i).getDistance());
+
+        }
+        Collections.sort(sortedDis);
+        for (int i = 0; i< sortedDis.size(); i++){
+            for (int j=0; j< dis_stations.size();j++){
+                if(sortedDis.get(i).equals(dis_stations.get(j)))
+                    sortedStations.add(RestApi.stations.get(j));
+            }
         }
 
+
         Log.d("arraytag", String.valueOf(dis_stations));
+    }
+
+    public static ArrayListStation getSortedStations(){
+        return sortedStations;
     }
 }

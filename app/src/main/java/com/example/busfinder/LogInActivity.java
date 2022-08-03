@@ -34,8 +34,15 @@ public class LogInActivity extends AppCompatActivity {
             return ;
         }
 
-        Intent intent = new Intent (this, MenuActivity.class);
-        startActivity(intent);
+        if(RestApi.stations.size()>0) {
+            Intent intent = new Intent(this, MenuActivity.class);
+            startActivity(intent);
+        }
+        else
+        {
+            Toast.makeText(this, "waiting for stations to load", Toast.LENGTH_SHORT).show();
+        }
+
 
 /*
         if (FireBase.isCorrentLogIn(username,password))
