@@ -4,6 +4,24 @@ import java.util.ArrayList;
 
 public class ArrayListStation extends ArrayList<Station> {
 
+    public ArrayListStation( )
+    {
+
+    }
+
+
+    public ArrayListStation( ArrayListStation arrayListBus)
+    {
+        for( int i=0; i<arrayListBus.size();i++)
+        {
+
+            this.add(new Station(arrayListBus.get(i)));
+
+        }
+
+    }
+
+
     public void bindLinesToStations() {
         for (int i = 0; i < RestApi.stations.size(); i++) {
             RestApi.stations.get(i).setLines(new ArrayListLine());

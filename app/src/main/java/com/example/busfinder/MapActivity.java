@@ -142,10 +142,19 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
 
         String add = c(32.31805699856178, 34.85507235003996);
-        Toast.makeText(ctx, add + "this is", Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(ctx, add + "this is", Toast.LENGTH_SHORT).show();
+        RestApi.routes.get("0").get(0).setDistanceFromBus(5);
+        RestApi.routes.get("1").get(0).setDistanceFromBus(70);
+
+
+        Toast.makeText(ctx,RestApi.routes.get("0").get(0).getDistanceFromBus()+" ", Toast.LENGTH_SHORT).show();
 
 
         startThreads();
+
+
+
+
 
 
     }
@@ -254,6 +263,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
                     e.printStackTrace();
                 }
 
+
                 if (RestApi.buses.size() > 0) {
                     success = true;
 
@@ -295,8 +305,9 @@ public class MapActivity extends AppCompatActivity implements Runnable {
                     &&( !RestApi.buses.get(i).getLatitude().equals(RestApi.lastBuses.get(j).getLatitude())
                         || !RestApi.buses.get(i).getLongtitude() .equals( RestApi.lastBuses.get(j).getLongtitude())))
                     {
-
-                        RestApi.buses.get(i).setNextStation( ArrayListBus.findNextStation(i,j));
+                        Station nextStation = ArrayListBus.findNextStation(i,j) ;
+                        if(nextStation!=null)
+                        RestApi.nextStation.put(RestApi.buses.get(i).getId(), new Station (ArrayListBus.findNextStation(i,j) ));
                     }
 
                 }
@@ -437,8 +448,10 @@ private class BusInfo extends InfoWindow {
        //    btnMoreInfo.setText(this.bus.getStations().get(0).getDistanceFromBus() +" " +this.bus.getStations().get(1).getDistanceFromBus()  );
         double distance= bus.getStations().get(0).getDistanceFromBus();
           btnMoreInfo.setText(line.getNumber()+" "+distance);
-          if(bus.getNextStation()!=null)
-        busInfoNextStop.setText(bus.getNextStation().getName());
+
+          Station nextStation = RestApi.nextStation.get(bus.getId());
+          if(nextStation!=null)
+        busInfoNextStop.setText(nextStation.getName());
 
         //bus.getStations().get(1).getDistanceFromBus()
 

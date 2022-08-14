@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -21,6 +24,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 
 public class RestApi extends AsyncTask<String, String, String> {
@@ -34,6 +40,16 @@ public class RestApi extends AsyncTask<String, String, String> {
     public static ArrayListBus lastBuses = new ArrayListBus();
 
     public static ArrayListTrack tracks = new ArrayListTrack();
+    public  static Route routes = new Route();
+
+    public static HashMap<String, Station> nextStation = new HashMap<String, Station>();
+
+
+
+    public static HashMap<String, ArrayListStation> trackForEachBus = new HashMap<String, ArrayListStation>();
+
+
+
 
 
     public RestApi() {
@@ -107,6 +123,11 @@ public class RestApi extends AsyncTask<String, String, String> {
 
                 if (params[0].equals("function=showTracks"))
                     tracks = Json.convertJsonToObject(ArrayListTrack.class, adjusted);
+
+
+                if (params[0].equals("function=showRoutes"))
+                    routes = Json.convertJsonToObject(Route.class, adjusted);
+
 
                 System.out.println(adjusted);
 

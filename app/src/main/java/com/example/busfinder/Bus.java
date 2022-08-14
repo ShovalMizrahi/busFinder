@@ -10,7 +10,6 @@ public class Bus {
 
     private ArrayListStation stations;
 
-    private Station nextStation;
 
     public Bus(Bus bus) {
 
@@ -73,8 +72,22 @@ public class Bus {
 
         for (int i = 0; i < RestApi.buses.size(); i++) {
 
-            RestApi.buses.get(i).stations = new ArrayListStation();
+          //  RestApi.buses.get(i).stations = new ArrayListStation();
 
+            RestApi.buses.get(i).stations  = new ArrayListStation(RestApi.routes.get(RestApi.buses.get(i).getLine()));
+
+
+            for(int j=0; j< RestApi.buses.get(i).stations.size(); j++  )
+            {
+                Bus bus = RestApi.buses.get(i);
+                Station station = bus.stations.get(j);
+                double distance = Station.getDistance(Double.parseDouble(bus.getLatitude()), Double.parseDouble(bus.getLongtitude()), Double.parseDouble(station.getLat()), Double.parseDouble(station.getLongt()));
+                bus.stations.get(j).setDistanceFromBus(distance);
+
+
+            }
+
+            /*
 
             for (int j = 0; j < RestApi.tracks.size(); j++) {
 
@@ -90,7 +103,7 @@ public class Bus {
                 }
 
             }
-
+*/
         }
 
 
@@ -105,11 +118,4 @@ public class Bus {
     }
 
 
-    public Station getNextStation() {
-        return nextStation;
-    }
-
-    public void setNextStation(Station nextStation) {
-        this.nextStation = nextStation;
-    }
 }

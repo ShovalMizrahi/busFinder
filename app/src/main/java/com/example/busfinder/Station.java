@@ -47,6 +47,16 @@ public class Station {
         this.lat = lat;
     }
 
+
+    public Station(String id, String name, String longt, String lat) {
+        this.id = id;
+        this.name = name;
+        this.city = city;
+        this.longt = longt;
+        this.lat = lat;
+    }
+
+
     public String getId() {
         return id;
     }
