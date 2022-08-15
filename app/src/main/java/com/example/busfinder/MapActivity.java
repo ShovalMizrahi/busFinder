@@ -147,7 +147,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
         RestApi.routes.get("1").get(0).setDistanceFromBus(70);
 
 
-        Toast.makeText(ctx,RestApi.routes.get("0").get(0).getDistanceFromBus()+" ", Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(ctx,RestApi.buses.get(0).getMinStationIndex()+" ", Toast.LENGTH_SHORT).show();
 
 
         startThreads();
@@ -296,14 +296,16 @@ public class MapActivity extends AppCompatActivity implements Runnable {
             finding changing in the bus location
              */
 
-
             for(int i=0; i<RestApi.buses.size();i++)
             {
+                Bus bus = RestApi.buses.get(i);
                 for(int j=0; j<RestApi.lastBuses.size();j++)
                 {
-                    if(RestApi.buses.get(i).getId().equals(RestApi.lastBuses.get(j).getId())
-                    &&( !RestApi.buses.get(i).getLatitude().equals(RestApi.lastBuses.get(j).getLatitude())
-                        || !RestApi.buses.get(i).getLongtitude() .equals( RestApi.lastBuses.get(j).getLongtitude())))
+                    Bus lastBus = RestApi.lastBuses.get(j);
+
+                    if(bus.getId().equals(lastBus.getId())
+                    &&( !bus.getLatitude().equals(lastBus.getLatitude())
+                        || !bus.getLongtitude() .equals( lastBus.getLongtitude())))
                     {
                         Station nextStation = ArrayListBus.findNextStation(i,j) ;
                         if(nextStation!=null)

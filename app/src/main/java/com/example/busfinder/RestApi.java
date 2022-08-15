@@ -43,10 +43,9 @@ public class RestApi extends AsyncTask<String, String, String> {
     public  static Route routes = new Route();
 
     public static HashMap<String, Station> nextStation = new HashMap<String, Station>();
+    public static HashMap<String, Integer> minStation = new HashMap<String, Integer>(); //the index of
 
 
-
-    public static HashMap<String, ArrayListStation> trackForEachBus = new HashMap<String, ArrayListStation>();
 
 
 

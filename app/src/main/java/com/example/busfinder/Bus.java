@@ -10,6 +10,9 @@ public class Bus {
 
     private ArrayListStation stations;
 
+    //the next station can be mnore the minStationIndex
+    private int minStationIndex;
+
 
     public Bus(Bus bus) {
 
@@ -25,6 +28,7 @@ public class Bus {
             stations.add(new Station(bus.getStations().get(i)));
 
         }
+
 
     }
 
@@ -117,5 +121,11 @@ public class Bus {
         this.stations = stations;
     }
 
+    public int getMinStationIndex() {
+        return minStationIndex;
+    }
 
+    public void setMinStationIndex(int minStationIndex) {
+        this.minStationIndex = minStationIndex;
+    }
 }
