@@ -143,8 +143,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
         String add = c(32.31805699856178, 34.85507235003996);
       //  Toast.makeText(ctx, add + "this is", Toast.LENGTH_SHORT).show();
-        RestApi.routes.get("0").get(0).setDistanceFromBus(5);
-        RestApi.routes.get("1").get(0).setDistanceFromBus(70);
+
 
 
       //  Toast.makeText(ctx,RestApi.buses.get(0).getMinStationIndex()+" ", Toast.LENGTH_SHORT).show();
@@ -309,7 +308,8 @@ public class MapActivity extends AppCompatActivity implements Runnable {
                     {
                         Station nextStation = ArrayListBus.findNextStation(i,j) ;
                         if(nextStation!=null)
-                        RestApi.nextStation.put(RestApi.buses.get(i).getId(), new Station (ArrayListBus.findNextStation(i,j) ));
+                        RestApi.nextStation.put(RestApi.buses.get(i).getId(), nextStation);
+                        //RestApi.nextStation.put(RestApi.buses.get(i).getId(), new Station (ArrayListBus.findNextStation(i,j) ));
                     }
 
                 }

@@ -32,6 +32,7 @@ public class ArrayListBus extends ArrayList<Bus> {
                 if (RestApi.minStation.get(bus.getId()) == null || (RestApi.minStation.get(bus.getId()) != null && RestApi.minStation.get(bus.getId()) < i)) {
 
                     RestApi.minStation.put(bus.getId(), i);
+                    if(i+1<RestApi.buses.get(c).getStations().size())
                     return RestApi.buses.get(c).getStations().get(++i);
 
                 }
