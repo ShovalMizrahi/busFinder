@@ -6,6 +6,17 @@ public class Line {
     private String companyID;
     public static ArrayListStation line_stations;
 
+    private int order; //the order in the line list of stations
+
+    private String arrivalTime;
+
+
+    public Line(Line line) {
+        this.id = line.id;
+        this.number = line.number;
+        this.companyID = line.companyID;
+
+    }
 
     public Line(String id, String number, String companyID) {
         this.id = id;
@@ -37,7 +48,7 @@ public class Line {
         this.companyID = companyID;
     }
 
-    public static void addStationsOfLine(){
+    public static void addStationsOfLine() {
         for (int i = 0; i < RestApi.lines.size(); i++) {
 
             RestApi.lines.get(i).line_stations = new ArrayListStation();
@@ -56,5 +67,29 @@ public class Line {
             }
 
         }
+    }
+
+    public static ArrayListStation getLine_stations() {
+        return line_stations;
+    }
+
+    public static void setLine_stations(ArrayListStation line_stations) {
+        Line.line_stations = line_stations;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
+    public String getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public void setArrivalTime(String arrivalTime) {
+        this.arrivalTime = arrivalTime;
     }
 }

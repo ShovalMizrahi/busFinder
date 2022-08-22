@@ -17,6 +17,7 @@ import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +47,10 @@ public class MapActivity extends AppCompatActivity implements Runnable {
     private MapView map = null;
 
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
+
+
+    CalculateTime calculateTime = new CalculateTime();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +127,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
             startMarker.setAnchor(Marker.ANCHOR_BOTTOM, Marker.ANCHOR_BOTTOM);
 
 
-            StationInfo stationInfo = new StationInfo(R.layout.custom_info_window, map, RestApi.stations.get(i));
+            StationInfo stationInfo = new StationInfo(R.layout.custom_info_window, map, RestApi.stations.get(i), this);
 
             startMarker.setInfoWindow(stationInfo);
 
@@ -142,17 +147,13 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
 
         String add = c(32.31805699856178, 34.85507235003996);
-      //  Toast.makeText(ctx, add + "this is", Toast.LENGTH_SHORT).show();
+        //  Toast.makeText(ctx, add + "this is", Toast.LENGTH_SHORT).show();
 
 
-
-      //  Toast.makeText(ctx,RestApi.buses.get(0).getMinStationIndex()+" ", Toast.LENGTH_SHORT).show();
+        //  Toast.makeText(ctx,RestApi.buses.get(0).getMinStationIndex()+" ", Toast.LENGTH_SHORT).show();
 
 
         startThreads();
-
-
-
 
 
     }
@@ -166,9 +167,46 @@ public class MapActivity extends AppCompatActivity implements Runnable {
     class Th1 implements Runnable {
         @Override
         public void run() {
-            CalculateTime calculateTime = new CalculateTime();
 
-            System.out.println(calculateTime.doInBackground());
+            while (true) {
+
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                CalculateTime calculateTime = new CalculateTime();
+
+             //   System.out.println("checking this " + calculateTime.doInBackground());
+
+
+                for (int x = 0; x < RestApi.stations.size(); x++) {
+
+                    Station station = RestApi.stations.get(x);
+
+                    for (int i = 0; i < station.getLines().size(); i++) {
+
+                        Line line = station.getLines().get(i);
+                        for (int j = 0; j < RestApi.buses.size(); j++) {
+                            Bus bus = RestApi.buses.get(j);
+
+                            if (bus.getLine().equals(line.getId())) {
+
+                                if (RestApi.minStation.get(bus.getId()) != null && RestApi.minStation.get(bus.getId()) < line.getOrder()) {
+
+                                    String arrivalTime = calculateTime.doInBackground(bus.getLatitude(), bus.getLongtitude(), station.getLat(), station.getLongt());
+                                    System.out.print("today " + arrivalTime);
+
+                                    line.setArrivalTime(arrivalTime);
+                                }
+                            }
+
+                        }
+                    }
+
+                }
+            }
         }
     }
 
@@ -234,7 +272,6 @@ public class MapActivity extends AppCompatActivity implements Runnable {
     public void run() {
 
 
-
         Boolean success = false;
 
 
@@ -242,7 +279,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
         while (true) {
 
             //making the copy before the info is chaning!
-            RestApi.lastBuses = new ArrayListBus(RestApi.buses );
+            RestApi.lastBuses = new ArrayListBus(RestApi.buses);
 
 
             try {
@@ -273,20 +310,17 @@ public class MapActivity extends AppCompatActivity implements Runnable {
                     Bus.addStationsToBus();
 
 
+                } else {
+
+                    try {
+                        Thread.sleep(TIMEREFRESHINGBUSES);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
 
-
-             else{
-
-                try {
-                    Thread.sleep(TIMEREFRESHINGBUSES);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
             }
-
-        }
-        success = false;
+            success = false;
 
 
             /*
@@ -294,20 +328,17 @@ public class MapActivity extends AppCompatActivity implements Runnable {
             finding changing in the bus location
              */
 
-            for(int i=0; i<RestApi.buses.size();i++)
-            {
+            for (int i = 0; i < RestApi.buses.size(); i++) {
                 Bus bus = RestApi.buses.get(i);
-                for(int j=0; j<RestApi.lastBuses.size();j++)
-                {
+                for (int j = 0; j < RestApi.lastBuses.size(); j++) {
                     Bus lastBus = RestApi.lastBuses.get(j);
 
-                    if(bus.getId().equals(lastBus.getId())
-                    &&( !bus.getLatitude().equals(lastBus.getLatitude())
-                        || !bus.getLongtitude() .equals( lastBus.getLongtitude())))
-                    {
-                        Station nextStation = ArrayListBus.findNextStation(i,j) ;
-                        if(nextStation!=null)
-                        RestApi.nextStation.put(RestApi.buses.get(i).getId(), nextStation);
+                    if (bus.getId().equals(lastBus.getId())
+                            && (!bus.getLatitude().equals(lastBus.getLatitude())
+                            || !bus.getLongtitude().equals(lastBus.getLongtitude()))) {
+                        Station nextStation = ArrayListBus.findNextStation(i, j);
+                        if (nextStation != null)
+                            RestApi.nextStation.put(RestApi.buses.get(i).getId(), nextStation);
                         //RestApi.nextStation.put(RestApi.buses.get(i).getId(), new Station (ArrayListBus.findNextStation(i,j) ));
                     }
 
@@ -316,64 +347,60 @@ public class MapActivity extends AppCompatActivity implements Runnable {
             }
 
 
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                    //  StationInfo.closeAllInfoWindowsOn(map);
 
 
+                    BusInfo.closeAllInfoWindowsOn(map);
+                    removeBuses(map);
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
+                    for (int i = 0; i < RestApi.buses.size(); i++) {
+                        ArrayListLine arrayListLine = new ArrayListLine();
+                        Line line = arrayListLine.findLineById(RestApi.buses.get(i).getLine());
 
-              //  StationInfo.closeAllInfoWindowsOn(map);
+                        //     Toast.makeText(MapActivity.this, RestApi.buses.get(i).getLine()+"cccc", Toast.LENGTH_SHORT).show();
 
+                        map.invalidate();
 
+                        //   Toast.makeText(MapActivity.this, RestApi.buses.get(0).getLatitude() + "", Toast.LENGTH_SHORT).show();
 
-                BusInfo.closeAllInfoWindowsOn(map);
-                removeBuses(map);
+                        GeoPoint point = new GeoPoint(Double.parseDouble(RestApi.buses.get(i).getLatitude()), Double.parseDouble(RestApi.buses.get(i).getLongtitude()));
 
-                for (int i = 0; i < RestApi.buses.size(); i++) {
-                    ArrayListLine arrayListLine = new ArrayListLine();
-                    Line line = arrayListLine.findLineById(RestApi.buses.get(i).getLine());
-
-                    //     Toast.makeText(MapActivity.this, RestApi.buses.get(i).getLine()+"cccc", Toast.LENGTH_SHORT).show();
-
-                    map.invalidate();
-
-                    //   Toast.makeText(MapActivity.this, RestApi.buses.get(0).getLatitude() + "", Toast.LENGTH_SHORT).show();
-
-                    GeoPoint point = new GeoPoint(Double.parseDouble(RestApi.buses.get(i).getLatitude()), Double.parseDouble(RestApi.buses.get(i).getLongtitude()));
-
-                    Marker startMarker = new Marker(map);
-                    startMarker.setPosition(point);
+                        Marker startMarker = new Marker(map);
+                        startMarker.setPosition(point);
 
 
-                    Drawable drawable = getResources().getDrawable(R.mipmap.bus);
-                    drawable = resize(drawable);
-                    startMarker.setIcon(drawable);
+                        Drawable drawable = getResources().getDrawable(R.mipmap.bus);
+                        drawable = resize(drawable);
+                        startMarker.setIcon(drawable);
 
-                    startMarker.setAnchor(Marker.ANCHOR_BOTTOM, Marker.ANCHOR_BOTTOM);
+                        startMarker.setAnchor(Marker.ANCHOR_BOTTOM, Marker.ANCHOR_BOTTOM);
 
-                    BusInfo infoWindow = new BusInfo(R.layout.custom_bus_info_window, map, line,RestApi.buses.get(i));
-
-
-                    startMarker.setInfoWindow(infoWindow);
-                    startMarker.showInfoWindow();
+                        BusInfo infoWindow = new BusInfo(R.layout.custom_bus_info_window, map, line, RestApi.buses.get(i));
 
 
-                    //     map.getOverlays().clear(); //for clearing
-                    map.getOverlays().add(startMarker);
+                        startMarker.setInfoWindow(infoWindow);
+                        startMarker.showInfoWindow();
 
 
-                    //     map.getController().setCenter(point);
+                        //     map.getOverlays().clear(); //for clearing
+                        map.getOverlays().add(startMarker);
+
+
+                        //     map.getController().setCenter(point);
+
+
+                    }
 
 
                 }
+            });
+        }
 
-
-            }
-        });
     }
-
-}
 /*
     @Override
     public void run() {
@@ -435,34 +462,34 @@ public class MapActivity extends AppCompatActivity implements Runnable {
     }
 
 
-private class BusInfo extends InfoWindow {
-    private Line line;
-    private Bus bus;
+    private class BusInfo extends InfoWindow {
+        private Line line;
+        private Bus bus;
 
-    public BusInfo(int layoutResId, MapView mapView, Line line, Bus bus) {
-        super(layoutResId, mapView);
-        this.line = line;
-        this.bus = bus;
-    }
+        public BusInfo(int layoutResId, MapView mapView, Line line, Bus bus) {
+            super(layoutResId, mapView);
+            this.line = line;
+            this.bus = bus;
+        }
 
-    public void onClose() {
-    }
+        public void onClose() {
+        }
 
-    public void onOpen(Object arg0) {
-        // LinearLayout layout = (LinearLayout) findViewById(R);
-        TextView btnMoreInfo = mView.findViewById(R.id.busInfoLine);
-        TextView busInfoNextStop = mView.findViewById(R.id.busInfoNextStop);
-       // if (bus.getStations() != null)
-       //     btnMoreInfo.setText(line.getNumber() + " " +this.bus.getStations().get(0).getDistanceFromBus() +" " +this.bus.getStations().get(1).getDistanceFromBus()  );
-       //    btnMoreInfo.setText(this.bus.getStations().get(0).getDistanceFromBus() +" " +this.bus.getStations().get(1).getDistanceFromBus()  );
-        double distance= bus.getStations().get(0).getDistanceFromBus();
-          btnMoreInfo.setText(line.getNumber()+" "+distance);
+        public void onOpen(Object arg0) {
+            // LinearLayout layout = (LinearLayout) findViewById(R);
+            TextView btnMoreInfo = mView.findViewById(R.id.busInfoLine);
+            TextView busInfoNextStop = mView.findViewById(R.id.busInfoNextStop);
+            // if (bus.getStations() != null)
+            //     btnMoreInfo.setText(line.getNumber() + " " +this.bus.getStations().get(0).getDistanceFromBus() +" " +this.bus.getStations().get(1).getDistanceFromBus()  );
+            //    btnMoreInfo.setText(this.bus.getStations().get(0).getDistanceFromBus() +" " +this.bus.getStations().get(1).getDistanceFromBus()  );
+            double distance = bus.getStations().get(0).getDistanceFromBus();
+            btnMoreInfo.setText(line.getNumber() + " " + distance);
 
-          Station nextStation = RestApi.nextStation.get(bus.getId());
-          if(nextStation!=null)
-        busInfoNextStop.setText(nextStation.getName());
+            Station nextStation = RestApi.nextStation.get(bus.getId());
+            if (nextStation != null)
+                busInfoNextStop.setText(nextStation.getName());
 
-        //bus.getStations().get(1).getDistanceFromBus()
+            //bus.getStations().get(1).getDistanceFromBus()
 
 
 /*
@@ -477,60 +504,89 @@ private class BusInfo extends InfoWindow {
             });
 
             */
-    }
-
-
-}
-
-
-private class StationInfo extends InfoWindow {
-    private Station station;
-
-    public StationInfo(int layoutResId, MapView mapView, Station station) {
-        super(layoutResId, mapView);
-        this.station = station;
-        int x = 4;
-    }
-
-    public void onClose() {
+        }
 
 
     }
 
-    public void onOpen(Object arg0) {
-        // LinearLayout layout = (LinearLayout) findViewById(R);
-        TextView btnMoreInfo = mView.findViewById(R.id.wInfoText);
 
+    private class StationInfo extends InfoWindow {
+        private Station station;
+        private Context context;
 
-        TextView tVNumberStaion = mView.findViewById(R.id.tVNumberStaion);
-        TextView tVNameStaion = mView.findViewById(R.id.tVNameStaion);
+        public StationInfo(int layoutResId, MapView mapView, Station station, Context context) {
+            super(layoutResId, mapView);
+            this.station = station;
+            this.context = context;
+        }
 
-        TextView tVNumberStationMap = findViewById(R.id.tVNumberStationMap);
-        TextView tVNameStationMap = findViewById(R.id.tVNameStationMap);
-        TextView tVHeaderlistLineMap = findViewById(R.id.tVHeaderlistLineMap);
-        TextView tvListLinesMap = findViewById(R.id.tvListLinesMap);
+        public void onClose() {
 
-        String info = "";
-
-        for (int i = 0; i < station.getLines().size(); i++) {
-            if (i + 1 == station.getLines().size())
-                info += station.getLines().get(i).getNumber();
-            else
-                info += station.getLines().get(i).getNumber() + ", ";
 
         }
 
-        tVNumberStaion.setText("code station:"+station.getId());
-        tVNameStaion.setText("name station:"+station.getName());
-        tVHeaderlistLineMap.setText("line list:");
-        tvListLinesMap.setText(info);
+        public void onOpen(Object arg0) {
+            // LinearLayout layout = (LinearLayout) findViewById(R);
+            TextView btnMoreInfo = mView.findViewById(R.id.wInfoText);
 
 
-        tVNumberStationMap.setText(station.getId());
-        tVNameStationMap.setText(station.getName());
+            TextView tVNumberStaion = mView.findViewById(R.id.tVNumberStaion);
+            TextView tVNameStaion = mView.findViewById(R.id.tVNameStaion);
+
+            TextView tVNumberStationMap = findViewById(R.id.tVNumberStationMap);
+            TextView tVNameStationMap = findViewById(R.id.tVNameStationMap);
+            TextView tVHeaderlistLineMap = findViewById(R.id.tVHeaderlistLineMap);
+            TextView tvListLinesMap = findViewById(R.id.tvListLinesMap);
+
+            TextView tVComingBuses = findViewById(R.id.tVComingBuses);
+
+            String info = "";
+
+            for (int i = 0; i < station.getLines().size(); i++) {
+                if (i + 1 == station.getLines().size())
+                    info += station.getLines().get(i).getNumber();
+                else
+                    info += station.getLines().get(i).getNumber() + ", ";
+
+            }
+
+            tVNumberStaion.setText("code station:" + station.getId());
+            tVNameStaion.setText("name station:" + station.getName());
+            tVHeaderlistLineMap.setText("line list:");
 
 
-        btnMoreInfo.setText(info);
+            tVNumberStationMap.setText(station.getId());
+            tVNameStationMap.setText(station.getName());
+
+
+            tVComingBuses.setText("");
+
+            for (int i = 0; i < station.getLines().size(); i++) {
+
+                Line line = station.getLines().get(i);
+                for (int j = 0; j < RestApi.buses.size(); j++) {
+                    Bus bus = RestApi.buses.get(j);
+
+                    if (bus.getLine().equals(line.getId())) {
+
+                        if (RestApi.minStation.get(bus.getId()) != null && RestApi.minStation.get(bus.getId()) < line.getOrder()) {
+
+                            System.out.println("hey you: " + line.getOrder());
+                            info += " I found!!";
+
+
+                            tVComingBuses.setText(tVComingBuses.getText() + "\n" + "line " + line.getNumber() + " coming in " + line.getArrivalTime());
+
+                        }
+                    }
+
+                }
+            }
+
+            tvListLinesMap.setText(info);
+
+            btnMoreInfo.setText(info);
+
 
 /*
         new CountDownTimer(4000, 1000) {
@@ -562,9 +618,9 @@ private class StationInfo extends InfoWindow {
             });
 
             */
-    }
+        }
 
-}
+    }
 
 
     public void removeBuses(MapView map) {

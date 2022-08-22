@@ -4,16 +4,13 @@ import java.util.ArrayList;
 
 public class ArrayListStation extends ArrayList<Station> {
 
-    public ArrayListStation( )
-    {
+    public ArrayListStation() {
 
     }
 
 
-    public ArrayListStation( ArrayListStation arrayListBus)
-    {
-        for( int i=0; i<arrayListBus.size();i++)
-        {
+    public ArrayListStation(ArrayListStation arrayListBus) {
+        for (int i = 0; i < arrayListBus.size(); i++) {
 
             this.add(new Station(arrayListBus.get(i)));
 
@@ -30,9 +27,13 @@ public class ArrayListStation extends ArrayList<Station> {
                 if (RestApi.tracks.get(j).getStationID().equals(RestApi.stations.get(i).getId())) {
 
 
-                    Line l = RestApi.lines.findLineById(RestApi.tracks.get(j).getLineID());
-                    if(l!=null)
-                    RestApi.stations.get(i).addLine(l);
+                    Line l = new Line(RestApi.lines.findLineById(RestApi.tracks.get(j).getLineID()));
+                    if (l != null) {
+                        l.setOrder(RestApi.tracks.get(j).getStationOrder());
+                        RestApi.stations.get(i).addLine(l);
+
+
+                    }
                 }
 
             }
@@ -40,15 +41,11 @@ public class ArrayListStation extends ArrayList<Station> {
     }
 
 
+    public Station findStationById(String id) {
 
-    public Station findStationById(String id)
-    {
+        for (int i = 0; i < RestApi.stations.size(); i++) {
 
-        for(int i=0; i<RestApi.stations.size();i++)
-        {
-
-            if(id.equals(RestApi.stations.get(i).getId()))
-            {
+            if (id.equals(RestApi.stations.get(i).getId())) {
 
                 return RestApi.stations.get(i);
             }

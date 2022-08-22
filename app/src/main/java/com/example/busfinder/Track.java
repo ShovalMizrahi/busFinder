@@ -3,12 +3,12 @@ package com.example.busfinder;
 public class Track {
     private String lineID;
     private String stationID;
-    private int order;
+    private int stationOrder;
 
     public Track(String lineID, String stationID, int order) {
         this.lineID = lineID;
         this.stationID = stationID;
-        this.order = order;
+        this.stationOrder = order;
     }
 
 
@@ -28,11 +28,11 @@ public class Track {
         this.stationID = stationID;
     }
 
-    public int getOrder() {
-        return order;
+    public int getStationOrder() {
+        return stationOrder;
     }
 
-    public void setOrder(int order) {
-        this.order = order;
+    public void setStationOrder(int stationOrder) {
+        this.stationOrder = stationOrder;
     }
 }
