@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -123,7 +124,6 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
             StationInfo stationInfo = new StationInfo(R.layout.custom_info_window, map, RestApi.stations.get(i));
 
-
             startMarker.setInfoWindow(stationInfo);
 
 
@@ -150,7 +150,6 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
 
         startThreads();
-
 
 
 
@@ -316,11 +315,19 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
             }
 
+
+
+
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
 
-                StationInfo.closeAllInfoWindowsOn(map);
+              //  StationInfo.closeAllInfoWindowsOn(map);
+
+
+
+                BusInfo.closeAllInfoWindowsOn(map);
                 removeBuses(map);
 
                 for (int i = 0; i < RestApi.buses.size(); i++) {
@@ -486,11 +493,22 @@ private class StationInfo extends InfoWindow {
     }
 
     public void onClose() {
+
+
     }
 
     public void onOpen(Object arg0) {
         // LinearLayout layout = (LinearLayout) findViewById(R);
         TextView btnMoreInfo = mView.findViewById(R.id.wInfoText);
+
+
+        TextView tVNumberStaion = mView.findViewById(R.id.tVNumberStaion);
+        TextView tVNameStaion = mView.findViewById(R.id.tVNameStaion);
+
+        TextView tVNumberStationMap = findViewById(R.id.tVNumberStationMap);
+        TextView tVNameStationMap = findViewById(R.id.tVNameStationMap);
+        TextView tVHeaderlistLineMap = findViewById(R.id.tVHeaderlistLineMap);
+        TextView tvListLinesMap = findViewById(R.id.tvListLinesMap);
 
         String info = "";
 
@@ -502,10 +520,20 @@ private class StationInfo extends InfoWindow {
 
         }
 
+        tVNumberStaion.setText("code station:"+station.getId());
+        tVNameStaion.setText("name station:"+station.getName());
+        tVHeaderlistLineMap.setText("line list:");
+        tvListLinesMap.setText(info);
+
+
+        tVNumberStationMap.setText(station.getId());
+        tVNameStationMap.setText(station.getName());
+
+
         btnMoreInfo.setText(info);
 
-
-        new CountDownTimer(3000, 1000) {
+/*
+        new CountDownTimer(4000, 1000) {
 
             public void onTick(long millisUntilFinished) {
 
@@ -516,7 +544,7 @@ private class StationInfo extends InfoWindow {
 
             }
         }.start();
-
+*/
 
 
 
