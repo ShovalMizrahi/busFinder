@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         setContentView(R.layout.activity_main);
 
 
+
         btLogoutMain = findViewById(R.id.btLogoutMain);
         btLoginMain = findViewById(R.id.btLoginMain);
         btRegisterMain = findViewById(R.id.btRegisterMain);
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         MainActivity mainActivity = new MainActivity();
         Thread t = new Thread(mainActivity);
         t.start();
+
 
 
     }
@@ -239,7 +242,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
             }
         }
 
-
+        //RestApi.stations.bindLinesToStations();
     }
 
     public void map(View view) {
@@ -261,6 +264,8 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
     public void menu(View view) {
 
+     //   if(MenuActivity.getLatitude()!=0)
+          //  Toast.makeText(this, "the p is "+MenuActivity.getLatitude(), Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
 

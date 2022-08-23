@@ -20,5 +20,6 @@
     <ListView
         android:id="@+id/nearbyStationsList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:textDirection="rtl" />
 </LinearLayout>

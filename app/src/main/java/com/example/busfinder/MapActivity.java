@@ -37,6 +37,10 @@ import java.util.Locale;
 
 public class MapActivity extends AppCompatActivity implements Runnable {
 
+
+    Thread t;
+    boolean exit = false;
+
     int a = 10;
     int sadsdasd = 343434;
     int f = 0;
@@ -52,10 +56,25 @@ public class MapActivity extends AppCompatActivity implements Runnable {
     CalculateTime calculateTime = new CalculateTime();
 
 
+    TextView tVNumberStationMap;
+    TextView tVNameStationMap;
+    TextView tVHeaderlistLineMap;
+    TextView tvListLinesMap;
+    TextView tVComingBuses;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+
+
+        tVNumberStationMap = findViewById(R.id.tVNumberStationMap);
+        tVNameStationMap = findViewById(R.id.tVNameStationMap);
+        tVHeaderlistLineMap = findViewById(R.id.tVHeaderlistLineMap);
+        tvListLinesMap = findViewById(R.id.tvListLinesMap);
+        tVComingBuses = findViewById(R.id.tVComingBuses);
+
 
 /*
         if (Build.VERSION.SDK_INT >= 23) {
@@ -130,7 +149,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
             StationInfo stationInfo = new StationInfo(R.layout.custom_info_window, map, RestApi.stations.get(i), this);
 
             startMarker.setInfoWindow(stationInfo);
-
+            startMarker.showInfoWindow();
 
             //     map.getOverlays().clear(); //for clearing
             map.getOverlays().add(startMarker);
@@ -142,7 +161,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
         }
 
 
-        Thread t = new Thread(this);
+        t = new Thread(this);
         t.start();
 
 
@@ -178,7 +197,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
                 CalculateTime calculateTime = new CalculateTime();
 
-             //   System.out.println("checking this " + calculateTime.doInBackground());
+                //   System.out.println("checking this " + calculateTime.doInBackground());
 
 
                 for (int x = 0; x < RestApi.stations.size(); x++) {
@@ -276,7 +295,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
 
         RestApi restApi = new RestApi();
-        while (true) {
+        while (true && exit == false) {
 
             //making the copy before the info is chaning!
             RestApi.lastBuses = new ArrayListBus(RestApi.buses);
@@ -357,6 +376,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
                     BusInfo.closeAllInfoWindowsOn(map);
                     removeBuses(map);
 
+
                     for (int i = 0; i < RestApi.buses.size(); i++) {
                         ArrayListLine arrayListLine = new ArrayListLine();
                         Line line = arrayListLine.findLineById(RestApi.buses.get(i).getLine());
@@ -368,6 +388,12 @@ public class MapActivity extends AppCompatActivity implements Runnable {
                         //   Toast.makeText(MapActivity.this, RestApi.buses.get(0).getLatitude() + "", Toast.LENGTH_SHORT).show();
 
                         GeoPoint point = new GeoPoint(Double.parseDouble(RestApi.buses.get(i).getLatitude()), Double.parseDouble(RestApi.buses.get(i).getLongtitude()));
+
+                        if (map == null)
+                            System.out.println("the size is " + map.getOverlays().size());
+
+                        if (exit == true)
+                            continue;
 
                         Marker startMarker = new Marker(map);
                         startMarker.setPosition(point);
@@ -526,19 +552,11 @@ public class MapActivity extends AppCompatActivity implements Runnable {
         }
 
         public void onOpen(Object arg0) {
-            // LinearLayout layout = (LinearLayout) findViewById(R);
-            TextView btnMoreInfo = mView.findViewById(R.id.wInfoText);
-
+            TextView tVLineInfo = mView.findViewById(R.id.wInfoText);
 
             TextView tVNumberStaion = mView.findViewById(R.id.tVNumberStaion);
             TextView tVNameStaion = mView.findViewById(R.id.tVNameStaion);
 
-            TextView tVNumberStationMap = findViewById(R.id.tVNumberStationMap);
-            TextView tVNameStationMap = findViewById(R.id.tVNameStationMap);
-            TextView tVHeaderlistLineMap = findViewById(R.id.tVHeaderlistLineMap);
-            TextView tvListLinesMap = findViewById(R.id.tvListLinesMap);
-
-            TextView tVComingBuses = findViewById(R.id.tVComingBuses);
 
             String info = "";
 
@@ -571,10 +589,6 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
                         if (RestApi.minStation.get(bus.getId()) != null && RestApi.minStation.get(bus.getId()) < line.getOrder()) {
 
-                            System.out.println("hey you: " + line.getOrder());
-                            info += " I found!!";
-
-
                             tVComingBuses.setText(tVComingBuses.getText() + "\n" + "line " + line.getNumber() + " coming in " + line.getArrivalTime());
 
                         }
@@ -585,46 +599,19 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
             tvListLinesMap.setText(info);
 
-            btnMoreInfo.setText(info);
+            tVLineInfo.setText(info);
 
 
-/*
-        new CountDownTimer(4000, 1000) {
-
-            public void onTick(long millisUntilFinished) {
-
-            }
-
-            public void onFinish() {
-                StationInfo.closeAllInfoWindowsOn(map);
-
-            }
-        }.start();
-*/
-
-
-
-
-
-/*
-            layout.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    // Override Marker's onClick behaviour here
-
-                    Toast.makeText(MapActivity.this, "check", Toast.LENGTH_SHORT).show();
-                    btnMoreInfo.setText(Html.fromHtml("<table><tr><td>30</td><td>5 minutes</td></tr></table>"));
-
-                }
-            });
-
-            */
         }
 
     }
 
 
     public void removeBuses(MapView map) {
-        while (RestApi.stations.size() != map.getOverlays().size()) {
+        //    if(map.getOverlays().size()>0)
+
+        //   while (RestApi.stations.size() != map.getOverlays().size()) {
+        while (RestApi.stations.size() < map.getOverlays().size()) {
             map.getOverlays().remove(map.getOverlays().size() - 1);
 
         }
@@ -655,5 +642,13 @@ public class MapActivity extends AppCompatActivity implements Runnable {
         return result;
 
     }
+
+
+    @Override
+    public void onBackPressed() {
+        exit = true;
+        finish();
+    }
+
 
 }

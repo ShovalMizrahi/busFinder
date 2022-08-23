@@ -22,7 +22,10 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="password"
-        android:inputType="textPersonName" />
+        android:inputType="textPassword"
+        android:textDirection="ltr" />
+
+
 
     <Button
         android:id="@+id/button4"
