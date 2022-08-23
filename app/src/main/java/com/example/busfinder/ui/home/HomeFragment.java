@@ -36,8 +36,13 @@ public class HomeFragment extends Fragment {
         View root = binding.getRoot();
         nearbyStations = root.findViewById(R.id.nearbyStationsList);
 
+
+
         CustomAdapter adapter = new CustomAdapter(getActivity(),MenuActivity.getSortedStations());
         nearbyStations.setAdapter(adapter);
+
+        System.out.println("the answer is "+ MenuActivity.getSortedStations().size());
+
 
 
         return root;

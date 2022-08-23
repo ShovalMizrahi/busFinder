@@ -70,10 +70,10 @@ public class FireBase {
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
 
+
                                 String stationId = (String) document.getData().get("stationId");
 
                                 Station station = null;
-                                System.out.println("the id is " + stationId);
                                 if (stationId != null) {
                                     station = favoriteStations.findStationById(stationId);
 

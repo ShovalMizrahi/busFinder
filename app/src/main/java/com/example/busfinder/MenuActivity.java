@@ -228,6 +228,9 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     public void getStationDistances() {
+
+        sortedStations.clear();
+
         ArrayList<Double> sortedDis= new ArrayList<Double>();
         for (int i = 0; i< RestApi.stations.size(); i++){
             dis_stations.add(RestApi.stations.get(i).getDistance());

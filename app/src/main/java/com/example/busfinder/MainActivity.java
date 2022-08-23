@@ -261,7 +261,6 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
     public void menu(View view) {
 
-        Toast.makeText(this, " " + FireBase.favoriteStations.size(), Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
 
