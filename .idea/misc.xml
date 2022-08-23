@@ -4,11 +4,18 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/maral/AndroidStudioProjects/busFinder/app/src/main/res/layout/activity_list_view.xml" value="0.10989583333333333" />
-        <entry key="..\:/Users/maral/AndroidStudioProjects/busFinder/app/src/main/res/layout/activity_main.xml" value="0.536" />
-        <entry key="..\:/Users/maral/AndroidStudioProjects/busFinder/app/src/main/res/layout/activity_map.xml" value="0.4" />
-        <entry key="..\:/Users/maral/AndroidStudioProjects/busFinder/app/src/main/res/layout/custom_bus_info_window.xml" value="0.264" />
-        <entry key="..\:/Users/maral/AndroidStudioProjects/busFinder/app/src/main/res/layout/custom_info_window.xml" value="0.4" />
+        <entry key="..\:/Users/acer/AndroidStudioProjects/busfinder/app/src/main/res/layout/activity_menu.xml" value="0.17708333333333334" />
+        <entry key="..\:/Users/acer/AndroidStudioProjects/busfinder/app/src/main/res/layout/activity_station_list_view.xml" value="0.17708333333333334" />
+        <entry key="..\:/Users/acer/AndroidStudioProjects/busfinder/app/src/main/res/layout/activity_track_list_view.xml" value="0.24547101449275363" />
+        <entry key="..\:/Users/acer/AndroidStudioProjects/busfinder/app/src/main/res/layout/fragment_home.xml" value="0.264" />
+        <entry key="..\:/Users/acer/AndroidStudioProjects/busfinder/app/src/main/res/layout/fragment_notifications.xml" value="0.192481884057971" />
+        <entry key="..\:/Users/acer/AndroidStudioProjects/busfinder/app/src/main/res/menu/bottom_nav_menu.xml" value="0.2296875" />
+        <entry key="..\:/Users/shova/AndroidStudioProjects/busfinder/app/src/main/res/layout/activity_list_view.xml" value="0.19479166666666667" />
         <entry key="..\:/Users/shova/AndroidStudioProjects/busfinder/app/src/main/res/layout/activity_menu.xml" value="0.19479166666666667" />
+        <entry key="..\:/Users/shova/AndroidStudioProjects/busfinder/app/src/main/res/layout/activity_station_list_view.xml" value="0.19479166666666667" />
+        <entry key="..\:/Users/shova/AndroidStudioProjects/busfinder/app/src/main/res/layout/activity_station_search.xml" value="0.19479166666666667" />
+        <entry key="..\:/Users/shova/AndroidStudioProjects/busfinder/app/src/main/res/layout/activity_station_search2.xml" value="0.19479166666666667" />
+        <entry key="..\:/Users/shova/AndroidStudioProjects/busfinder/app/src/main/res/layout/fragment_dashboard.xml" value="0.19479166666666667" />
         <entry key="..\:/Users/shova/AndroidStudioProjects/busfinder/app/src/main/res/layout/fragment_home.xml" value="0.25" />
       </map>
     </option>

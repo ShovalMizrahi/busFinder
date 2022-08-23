@@ -4,7 +4,7 @@ public class Line {
     private String id;
     private String number;
     private String companyID;
-    public static ArrayListStation line_stations;
+    private ArrayListStation line_stations;
 
     private int order; //the order in the line list of stations
 
@@ -23,6 +23,7 @@ public class Line {
         this.number = number;
         this.companyID = companyID;
     }
+
 
     public String getId() {
         return id;
@@ -68,7 +69,7 @@ public class Line {
 
         }
     }
-
+    /*
     public static ArrayListStation getLine_stations() {
         return line_stations;
     }
@@ -76,6 +77,8 @@ public class Line {
     public static void setLine_stations(ArrayListStation line_stations) {
         Line.line_stations = line_stations;
     }
+
+     */
 
     public int getOrder() {
         return order;
@@ -91,5 +94,9 @@ public class Line {
 
     public void setArrivalTime(String arrivalTime) {
         this.arrivalTime = arrivalTime;
+    }
+
+    public ArrayListStation getLineStations(){
+        return line_stations;
     }
 }

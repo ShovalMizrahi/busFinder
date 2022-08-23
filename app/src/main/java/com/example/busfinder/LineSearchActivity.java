@@ -1,6 +1,7 @@
 package com.example.busfinder;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -131,8 +132,11 @@ public class LineSearchActivity extends AppCompatActivity {
             holder.llContainer.setOnClickListener(new View.OnClickListener() {
 
                 public void onClick(View v) {
-
-                    Toast.makeText(LineSearchActivity.this, mDisplayedValues.get(position).getNumber(), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(LineSearchActivity.this, TrackListViewActivity.class);
+                    Bundle b = new Bundle();
+                    b.putString("line",mDisplayedValues.get(position).getNumber());
+                    intent.putExtras(b);
+                    startActivity(intent);
                 }
             });
 
