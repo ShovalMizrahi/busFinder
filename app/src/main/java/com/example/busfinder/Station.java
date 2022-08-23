@@ -13,13 +13,11 @@ public class Station {
     private double distanceFromBus;
 
 
-
-    private ArrayListLine lines ; //the lines that going into the staions
+    private ArrayListLine lines; //the lines that going into the staions
     private double distance;
     private final int earth_radius = 6371000;
 
-    public Station(Station station)
-    {
+    public Station(Station station) {
         this.id = station.id;
 
         this.name = station.name;
@@ -127,19 +125,18 @@ public class Station {
     public static double getDistance(double latS, double longS, double latD, double longD) {
         if ((longS == latD) && (longS == longD)) {
             return 0.0;
-        }
-        else {
+        } else {
             double theta = longS - longD;
             double dist = Math.sin(Math.toRadians(latS)) * Math.sin(Math.toRadians(latD)) + Math.cos(Math.toRadians(latS)) * Math.cos(Math.toRadians(latD)) * Math.cos(Math.toRadians(theta));
             dist = Math.acos(dist);
             dist = Math.toDegrees(dist);
             dist = dist * 60 * 1.1515;
-                dist = dist * 1.609344;
+            dist = dist * 1.609344;
 
 
-          //  System.out.println("\n\n\n"+dist +"\n\n\n");
+            //  System.out.println("\n\n\n"+dist +"\n\n\n");
 
-           // return Math.random();
+            // return Math.random();
             return (dist);
         }
     }

@@ -15,6 +15,13 @@
         tools:srcCompat="@drawable/busfinder" />
 
     <Button
+        android:id="@+id/btMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="menu"
+        android:text="menu" />
+
+    <Button
         android:id="@+id/btLoginMain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -22,9 +22,22 @@ import java.util.Map;
 public class FireBase {
 
     private static ArrayList<User> users = new ArrayList<User>();
+    // private static  ArrayListStation favoriteSta
+    public static ArrayListStation favoriteStations = new ArrayListStation();
 
-    public static  void registerUser(String username, String password, String mail, Date date, String phone)
-    {
+    public static void addFavorite(String username, String stationId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        // Create a new user with a first and last name
+        Map<String, Object> station = new HashMap<>();
+        station.put("stationId", stationId);
+
+        db.collection("users").document(username).collection("favorites").document(stationId).set(station);
+
+
+    }
+
+
+    public static void registerUser(String username, String password, String mail, Date date, String phone) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         // Create a new user with a first and last name
         Map<String, Object> user = new HashMap<>();
@@ -33,50 +46,69 @@ public class FireBase {
         user.put("mail", mail);
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        user.put("birthDate",formatter.format(date));
-        user.put("phone",phone);
-
-// Add a new document with a generated ID
-        db.collection("users")
-                .add(user)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                    }
-                });
+        user.put("birthDate", formatter.format(date));
+        user.put("phone", phone);
 
 
+        db.collection("users").document(username).set(user);
 
     }
 
 
-
-
-
-
-
-    public static void retrieveUsers()
-    {
+    public static void retrieveFavoriteStations(String username) {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        Boolean result [] ={true};
+        Boolean result[] = {true};
+
+        db.collection("users").document(username).collection("favorites")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+
+                                String stationId = (String) document.getData().get("stationId");
+
+                                Station station = null;
+                                System.out.println("the id is " + stationId);
+                                if (stationId != null) {
+                                    station = favoriteStations.findStationById(stationId);
+
+                                    if (station != null) {
+                                        favoriteStations.add(new Station(favoriteStations.findStationById(stationId)));
+
+
+                                    }
+
+                                }
+                            }
+                        } else {
+                            Log.w("print it", "Error getting documents.", task.getException());
+                            notifyAll();
+                        }
+                    }
+                });
+    }
+
+    public static void retrieveUsers() {
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        Boolean result[] = {true};
 
         db.collection("users")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public   void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
-                                User user = new User((String)document.getData().get("username"), (String)document.getData().get("password"));
-                                users.add( user );
+                                User user = new User((String) document.getData().get("username"), (String) document.getData().get("password"));
+                                users.add(user);
 
                             }
                         } else {
@@ -87,10 +119,9 @@ public class FireBase {
                 });
     }
 
-     public static boolean isUsernameFree(String username) {
-        for(int i=0; i<users.size() ;i++)
-        {
-            if(users.get(i).getUsername().equals(username))
+    public static boolean isUsernameFree(String username) {
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getUsername().equals(username))
                 return false;
         }
 
@@ -99,17 +130,15 @@ public class FireBase {
     }
 
 
-    public static boolean isCorrentLogIn(String username,String password) {
-        for(int i=0; i<users.size() ;i++)
-        {
-            if(users.get(i).getUsername().equals(username) && users.get(i).getPassword().equals(password) )
+    public static boolean isCorrentLogIn(String username, String password) {
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getUsername().equals(username) && users.get(i).getPassword().equals(password))
                 return true;
         }
 
         return false;
 
     }
-
 
 
 }

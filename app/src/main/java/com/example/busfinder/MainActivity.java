@@ -27,7 +27,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements Runnable {
 
-    Button btLogoutMain, btLoginMain, btRegisterMain;
+    Button btLogoutMain, btLoginMain, btRegisterMain, btMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +38,16 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         btLogoutMain = findViewById(R.id.btLogoutMain);
         btLoginMain = findViewById(R.id.btLoginMain);
         btRegisterMain = findViewById(R.id.btRegisterMain);
+        btMenu = findViewById(R.id.btMenu);
 
 
         if (checkIfLoggedin()) {
             logInButtons();
+
+            SharedPreferences sp1 = this.getSharedPreferences("Login", MODE_PRIVATE);
+            String username = sp1.getString("username", null);
+            FireBase.retrieveFavoriteStations(username);
+
 
         } else {
 
@@ -53,17 +59,10 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         Thread t = new Thread(mainActivity);
         t.start();
 
+
     }
 
     public void register(View view) {
-
-        /*
-        if(RestApi.stations.size()>0)
-        Toast.makeText(this, RestApi.stations.get(0).getName() + "", Toast.LENGTH_SHORT).show();
-*/
-
-        if (RestApi.lines.size() > 0)
-            Toast.makeText(this, RestApi.stations.get(0).getName() + "", Toast.LENGTH_SHORT).show();
 
 
         Intent intent = new Intent(this, RegisterActivity.class);
@@ -86,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         if (checkIfLoggedin()) {
             logInButtons();
             Toast.makeText(this, "you are logged in!", Toast.LENGTH_SHORT).show();
+
 
         }
 
@@ -126,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         btLoginMain.setVisibility(View.GONE);
         btRegisterMain.setVisibility(View.GONE);
         btLogoutMain.setVisibility(View.VISIBLE);
+        btMenu.setVisibility(View.VISIBLE);
 
 
     }
@@ -135,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         btLoginMain.setVisibility(View.VISIBLE);
         btRegisterMain.setVisibility(View.VISIBLE);
         btLogoutMain.setVisibility(View.GONE);
+        btMenu.setVisibility(View.GONE);
 
     }
 
@@ -255,5 +257,13 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
     public void back(View view) {
         finish();
+    }
+
+    public void menu(View view) {
+
+        Toast.makeText(this, " " + FireBase.favoriteStations.size(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, MenuActivity.class);
+        startActivity(intent);
+
     }
 }
