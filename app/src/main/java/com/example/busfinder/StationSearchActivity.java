@@ -172,7 +172,8 @@ public class StationSearchActivity extends AppCompatActivity {
                         constraint = constraint.toString().toLowerCase();
                         for (int i = 0; i < mOriginalValues.size(); i++) {
                             String data = mOriginalValues.get(i).getName();
-                            if (data.toLowerCase().startsWith(constraint.toString())) {
+                         //   if (data.toLowerCase().startsWith(constraint.toString())) {
+                            if (data.toLowerCase().contains(constraint.toString())) {
                                 FilteredArrList.add(new Station(mOriginalValues.get(i).getId(),mOriginalValues.get(i).getName(),mOriginalValues.get(i).getCity(),mOriginalValues.get(i).getLongt(),mOriginalValues.get(i).getLat()));
                             }
                         }
