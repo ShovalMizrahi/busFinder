@@ -23,18 +23,21 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements Runnable {
+    Thread t;
+
 
     Button btLogoutMain, btLoginMain, btRegisterMain, btMenu;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
 
         btLogoutMain = findViewById(R.id.btLogoutMain);
@@ -58,9 +61,8 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
 
         MainActivity mainActivity = new MainActivity();
-        Thread t = new Thread(mainActivity);
+        t = new Thread(mainActivity);
         t.start();
-
 
 
     }
@@ -269,19 +271,20 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
         RestApi.stations.bindLinesToStations();
         ArrayListLine.bindLineToCompany();
+
+
     }
 
     public void map(View view) {
 
 
-        if (RestApi.stations.size() > 0) {
+        if ( !t.isAlive()) {
             Intent intent = new Intent(this, MapActivity.class);
             startActivity(intent);
         } else {
             Toast.makeText(this, "waiting for stations to load", Toast.LENGTH_SHORT).show();
         }
 
-        Toast.makeText(this, " "+RestApi.lineToCompany.size(), Toast.LENGTH_SHORT).show();
 
     }
 
@@ -291,8 +294,8 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
     public void menu(View view) {
 
-     //   if(MenuActivity.getLatitude()!=0)
-          //  Toast.makeText(this, "the p is "+MenuActivity.getLatitude(), Toast.LENGTH_SHORT).show();
+        //   if(MenuActivity.getLatitude()!=0)
+        //  Toast.makeText(this, "the p is "+MenuActivity.getLatitude(), Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
 

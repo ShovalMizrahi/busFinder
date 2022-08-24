@@ -37,6 +37,55 @@
                 android:layout_height="100dp"
                 tools:srcCompat="@tools:sample/avatars" />
 
+
+            <TextView
+                android:id="@+id/tVCompany"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text=""
+                android:textSize="24sp" />
+
+
+            <TextView
+                android:id="@+id/tVNumberLine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text=""
+                android:textSize="24sp" />
+
+
+            <TextView
+                android:id="@+id/tVBusId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text=""
+                android:textSize="24sp" />
+
+
+
+            <TextView
+                android:id="@+id/tVSource"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text=""
+                android:textSize="24sp" />
+
+
+
+            <TextView
+                android:id="@+id/tVDest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text=""
+                android:textSize="24sp" />
+
+
+
             <TextView
                 android:id="@+id/tVNumberStationMap"
                 android:layout_width="match_parent"

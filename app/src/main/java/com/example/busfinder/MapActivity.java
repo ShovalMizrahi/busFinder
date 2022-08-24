@@ -15,7 +15,9 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -44,15 +46,12 @@ public class MapActivity extends AppCompatActivity implements Runnable {
     Thread t;
     boolean exit = false;
 
-    int a = 10;
-    int sadsdasd = 343434;
-    int f = 0;
     private final int TIMEREFRESHINGBUSES = 1500;
 
     double d = 32.31791352999457;
 
     private MapView map = null;
-
+    private int heightMap;
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
 
     Context context;
@@ -69,6 +68,11 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
     ImageView imageCompany;
 
+    TextView tVCompany;
+    TextView tVNumberLine;
+    TextView tVBusId;
+    TextView tVSource;
+    TextView tVDest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +87,18 @@ public class MapActivity extends AppCompatActivity implements Runnable {
         tVComingBuses = findViewById(R.id.tVComingBuses);
 
         imageCompany = findViewById(R.id.imageCompany);
+        imageCompany.setVisibility(View.GONE);
+
+        tVCompany = findViewById(R.id.tVCompany);
+        tVNumberLine = findViewById(R.id.tVNumberLine);
+        tVBusId = findViewById(R.id.tVBusId);
+        tVSource = findViewById(R.id.tVSource);
+        tVDest = findViewById(R.id.tVDest);
+
+
+
+
+
 /*
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
@@ -100,6 +116,9 @@ public class MapActivity extends AppCompatActivity implements Runnable {
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
 
         map = findViewById(R.id.mapview);
+        map.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+
+
         map.setTileSource(TileSourceFactory.MAPNIK);
         map.getController().setZoom(18.0);
 
@@ -156,7 +175,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
             StationInfo stationInfo = new StationInfo(R.layout.custom_info_window, map, RestApi.stations.get(i), this);
 
             startMarker.setInfoWindow(stationInfo);
-            startMarker.showInfoWindow();
+            //  startMarker.showInfoWindow();
 
             //     map.getOverlays().clear(); //for clearing
             map.getOverlays().add(startMarker);
@@ -177,6 +196,14 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
 
         //  Toast.makeText(ctx,RestApi.buses.get(0).getMinStationIndex()+" ", Toast.LENGTH_SHORT).show();
+
+
+
+
+        /*getting the height of the screen */
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        heightMap = displayMetrics.heightPixels;
 
 
         startThreads();
@@ -385,6 +412,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
 
                     for (int i = 0; i < RestApi.buses.size(); i++) {
+                        Bus bus = RestApi.buses.get(i);
                         ArrayListLine arrayListLine = new ArrayListLine();
                         Line line = arrayListLine.findLineById(RestApi.buses.get(i).getLine());
 
@@ -396,8 +424,6 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
                         GeoPoint point = new GeoPoint(Double.parseDouble(RestApi.buses.get(i).getLatitude()), Double.parseDouble(RestApi.buses.get(i).getLongtitude()));
 
-                        if (map == null)
-                            System.out.println("the size is " + map.getOverlays().size());
 
                         if (exit == true)
                             continue;
@@ -406,13 +432,45 @@ public class MapActivity extends AppCompatActivity implements Runnable {
                         startMarker.setPosition(point);
 
 
+                        startMarker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
+                            @Override
+                            public boolean onMarkerClick(Marker marker, MapView mapView) {
+
+                                exposeBusInfo();
+                                Company company = RestApi.lineToCompany.get(line.getId());
+
+
+                                if (company != null) {
+                                    tVCompany.setText(company.getName());
+
+
+                                    String url = RestApi.lineToCompany.get(line.getId()).getLink();
+                                    showPictureByLink(context, url);
+
+                                } else {
+                                    tVCompany.setVisibility(View.GONE);
+                                    imageCompany.setVisibility(View.GONE);
+                                }
+
+                                tVNumberLine.setText("line number:" + line.getNumber());
+                                tVBusId.setText("bus number:" + bus.getId());
+                                tVSource.setText("starting stop:" + bus.getStations().get(0).getName());
+
+                                int lastIndex = bus.getStations().size() - 1;
+                                tVDest.setText("final stop:" + bus.getStations().get(lastIndex).getName());
+
+
+                                return false;
+                            }
+                        });
+
                         Drawable drawable = getResources().getDrawable(R.mipmap.bus);
                         drawable = resize(drawable);
                         startMarker.setIcon(drawable);
 
                         startMarker.setAnchor(Marker.ANCHOR_BOTTOM, Marker.ANCHOR_BOTTOM);
 
-                        BusInfo infoWindow = new BusInfo(R.layout.custom_bus_info_window, map, line, RestApi.buses.get(i),context);
+                        BusInfo infoWindow = new BusInfo(R.layout.custom_bus_info_window, map, line, RestApi.buses.get(i), context);
 
 
                         startMarker.setInfoWindow(infoWindow);
@@ -525,11 +583,6 @@ public class MapActivity extends AppCompatActivity implements Runnable {
                 busInfoNextStop.setText(nextStation.getName());
 
 
-            showPictureByLink( context, "https://ichef.bbci.co.uk/news/976/cpsprodpb/17638/production/_124800859_gettyimages-817514614.jpg");
-
-
-
-
             //bus.getStations().get(1).getDistanceFromBus()
 
 
@@ -567,8 +620,10 @@ public class MapActivity extends AppCompatActivity implements Runnable {
         }
 
         public void onOpen(Object arg0) {
-            TextView tVLineInfo = mView.findViewById(R.id.wInfoText);
 
+            exposeStationInfo();
+
+            TextView tVLineInfo = mView.findViewById(R.id.wInfoText);
             TextView tVNumberStaion = mView.findViewById(R.id.tVNumberStaion);
             TextView tVNameStaion = mView.findViewById(R.id.tVNameStaion);
 
@@ -582,14 +637,6 @@ public class MapActivity extends AppCompatActivity implements Runnable {
                     info += station.getLines().get(i).getNumber() + ", ";
 
             }
-
-            tVNumberStaion.setText("code station:" + station.getId());
-            tVNameStaion.setText("name station:" + station.getName());
-            tVHeaderlistLineMap.setText("line list:");
-
-
-            tVNumberStationMap.setText(station.getId());
-            tVNameStationMap.setText(station.getName());
 
 
             tVComingBuses.setText("");
@@ -612,20 +659,61 @@ public class MapActivity extends AppCompatActivity implements Runnable {
                 }
             }
 
+            tVNumberStaion.setText("code station:" + station.getId());
+            tVNameStaion.setText("name station:" + station.getName());
+            tVHeaderlistLineMap.setText("line list:");
+            tVNumberStationMap.setText(station.getId());
+            tVNameStationMap.setText(station.getName());
             tvListLinesMap.setText(info);
-
             tVLineInfo.setText(info);
 
-
-            showPictureByLink( context, "https://transportation-server.almogshaby.repl.co/companies/1.png");
 
         }
 
     }
 
+    /*
+    expose bus info and hide station info
+     */
+    public void exposeBusInfo() {
+        map.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) (0.6 * heightMap)));
 
-    public void showPictureByLink(Context context, String url)
-    {
+        tVHeaderlistLineMap.setVisibility(View.GONE);
+        tVNumberStationMap.setVisibility(View.GONE);
+        tVNameStationMap.setVisibility(View.GONE);
+        tvListLinesMap.setVisibility(View.GONE);
+
+
+        imageCompany.setVisibility(View.VISIBLE);
+
+        tVCompany.setVisibility(View.VISIBLE);
+        tVNumberLine.setVisibility(View.VISIBLE);
+        tVBusId.setVisibility(View.VISIBLE);
+        tVSource.setVisibility(View.VISIBLE);
+        tVDest.setVisibility(View.VISIBLE);
+    }
+
+
+    public void exposeStationInfo() {
+        map.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) (0.6 * heightMap)));
+
+
+        tVHeaderlistLineMap.setVisibility(View.VISIBLE);
+        tVNumberStationMap.setVisibility(View.VISIBLE);
+        tVNameStationMap.setVisibility(View.VISIBLE);
+        tvListLinesMap.setVisibility(View.VISIBLE);
+
+
+        imageCompany.setVisibility(View.GONE);
+
+        tVCompany.setVisibility(View.GONE);
+        tVNumberLine.setVisibility(View.GONE);
+        tVBusId.setVisibility(View.GONE);
+        tVSource.setVisibility(View.GONE);
+        tVDest.setVisibility(View.GONE);
+    }
+
+    public void showPictureByLink(Context context, String url) {
 
         Glide.with(context).load(url).into(imageCompany);
         imageCompany.setMaxHeight(200);
