@@ -50,4 +50,13 @@
         android:onClick="map"
         android:text="map" />
 
+    <TextView
+        android:id="@+id/tVProgress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text=""
+        android:maxLines="2"
+        android:textSize="24sp" />
+
 </LinearLayout>

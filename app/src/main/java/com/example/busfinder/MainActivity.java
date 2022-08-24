@@ -1,34 +1,21 @@
 package com.example.busfinder;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements Runnable {
     Thread t;
+
+    static int amountProgresses = 7;
+    static int countProgress =  0;
 
 
     Button btLogoutMain, btLoginMain, btRegisterMain, btMenu;
@@ -38,6 +25,9 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        new Thread(new ProgressingThread()).start();
 
 
         btLogoutMain = findViewById(R.id.btLogoutMain);
@@ -173,6 +163,8 @@ public class MainActivity extends AppCompatActivity implements Runnable {
             }
         }
 
+        countProgress++;
+
         success = false;
 
         while (!success) {
@@ -197,6 +189,8 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         }
 
 
+        countProgress++;
+
         success = false;
 
         while (!success) {
@@ -220,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
             }
         }
 
-
+        countProgress++;
         success = false;
 
         while (!success) {
@@ -245,6 +239,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         }
 
 
+        countProgress++;
         success = false;
 
         while (!success) {
@@ -268,17 +263,18 @@ public class MainActivity extends AppCompatActivity implements Runnable {
             }
         }
 
-
+        countProgress++;
         RestApi.stations.bindLinesToStations();
+        countProgress++;
         ArrayListLine.bindLineToCompany();
-
+        countProgress++;
 
     }
 
     public void map(View view) {
 
 
-        if ( !t.isAlive()) {
+        if (!t.isAlive()) {
             Intent intent = new Intent(this, MapActivity.class);
             startActivity(intent);
         } else {
@@ -300,4 +296,35 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         startActivity(intent);
 
     }
+
+
+    class ProgressingThread implements Runnable {
+        @Override
+        public void run() {
+
+
+            TextView tVProgress = findViewById(R.id.tVProgress);
+            while (countProgress != 7) {
+
+
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        tVProgress.setText("download data from server: \n" + (int) (100 * ( (double) countProgress / (double) amountProgresses)) + "%");
+
+
+                    }
+                });
+            }
+        }
+    }
+
 }
