@@ -41,10 +41,13 @@ public class RestApi extends AsyncTask<String, String, String> {
 
     public static ArrayListTrack tracks = new ArrayListTrack();
     public  static Route routes = new Route();
+    public  static ArrayListCompany companies = new ArrayListCompany();
 
     public static HashMap<String, Station> nextStation = new HashMap<String, Station>();
-    public static HashMap<String, Integer> minStation = new HashMap<String, Integer>(); //the index of
+    public static HashMap<String, Integer> minStation = new HashMap<String, Integer>(); //the order number of the last station
 
+
+    public static HashMap<String, Company> lineToCompany = new HashMap<String, Company>(); //Each line id has company
 
 
 
@@ -127,6 +130,8 @@ public class RestApi extends AsyncTask<String, String, String> {
                 if (params[0].equals("function=showRoutes"))
                     routes = Json.convertJsonToObject(Route.class, adjusted);
 
+                if (params[0].equals("function=showCompanies"))
+                    companies = Json.convertJsonToObject(ArrayListCompany.class, adjusted);
 
                 System.out.println(adjusted);
 

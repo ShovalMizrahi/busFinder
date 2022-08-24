@@ -242,12 +242,37 @@ public class MainActivity extends AppCompatActivity implements Runnable {
             }
         }
 
-        //RestApi.stations.bindLinesToStations();
+
+        success = false;
+
+        while (!success) {
+
+            try {
+                restApi.doInBackground("function=showCompanies");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            if (RestApi.stations.size() > 0)
+                success = true;
+
+            else {
+
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+
+        RestApi.stations.bindLinesToStations();
+        ArrayListLine.bindLineToCompany();
     }
 
     public void map(View view) {
 
-        RestApi.stations.bindLinesToStations();
 
         if (RestApi.stations.size() > 0) {
             Intent intent = new Intent(this, MapActivity.class);
@@ -255,6 +280,8 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         } else {
             Toast.makeText(this, "waiting for stations to load", Toast.LENGTH_SHORT).show();
         }
+
+        Toast.makeText(this, " "+RestApi.lineToCompany.size(), Toast.LENGTH_SHORT).show();
 
     }
 

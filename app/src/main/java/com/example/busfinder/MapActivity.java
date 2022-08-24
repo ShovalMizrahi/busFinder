@@ -17,9 +17,12 @@ import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -52,6 +55,8 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
 
+    Context context;
+
 
     CalculateTime calculateTime = new CalculateTime();
 
@@ -62,20 +67,22 @@ public class MapActivity extends AppCompatActivity implements Runnable {
     TextView tvListLinesMap;
     TextView tVComingBuses;
 
+    ImageView imageCompany;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
-
+        context = this;
         tVNumberStationMap = findViewById(R.id.tVNumberStationMap);
         tVNameStationMap = findViewById(R.id.tVNameStationMap);
         tVHeaderlistLineMap = findViewById(R.id.tVHeaderlistLineMap);
         tvListLinesMap = findViewById(R.id.tvListLinesMap);
         tVComingBuses = findViewById(R.id.tVComingBuses);
 
-
+        imageCompany = findViewById(R.id.imageCompany);
 /*
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
@@ -405,7 +412,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
                         startMarker.setAnchor(Marker.ANCHOR_BOTTOM, Marker.ANCHOR_BOTTOM);
 
-                        BusInfo infoWindow = new BusInfo(R.layout.custom_bus_info_window, map, line, RestApi.buses.get(i));
+                        BusInfo infoWindow = new BusInfo(R.layout.custom_bus_info_window, map, line, RestApi.buses.get(i),context);
 
 
                         startMarker.setInfoWindow(infoWindow);
@@ -491,11 +498,13 @@ public class MapActivity extends AppCompatActivity implements Runnable {
     private class BusInfo extends InfoWindow {
         private Line line;
         private Bus bus;
+        private Context context;
 
-        public BusInfo(int layoutResId, MapView mapView, Line line, Bus bus) {
+        public BusInfo(int layoutResId, MapView mapView, Line line, Bus bus, Context context) {
             super(layoutResId, mapView);
             this.line = line;
             this.bus = bus;
+            this.context = context;
         }
 
         public void onClose() {
@@ -514,6 +523,12 @@ public class MapActivity extends AppCompatActivity implements Runnable {
             Station nextStation = RestApi.nextStation.get(bus.getId());
             if (nextStation != null)
                 busInfoNextStop.setText(nextStation.getName());
+
+
+            showPictureByLink( context, "https://ichef.bbci.co.uk/news/976/cpsprodpb/17638/production/_124800859_gettyimages-817514614.jpg");
+
+
+
 
             //bus.getStations().get(1).getDistanceFromBus()
 
@@ -602,10 +617,20 @@ public class MapActivity extends AppCompatActivity implements Runnable {
             tVLineInfo.setText(info);
 
 
+            showPictureByLink( context, "https://transportation-server.almogshaby.repl.co/companies/1.png");
+
         }
 
     }
 
+
+    public void showPictureByLink(Context context, String url)
+    {
+
+        Glide.with(context).load(url).into(imageCompany);
+        imageCompany.setMaxHeight(200);
+        imageCompany.setMaxWidth(200);
+    }
 
     public void removeBuses(MapView map) {
         //    if(map.getOverlays().size()>0)
