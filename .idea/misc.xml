@@ -3,6 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/acer/AndroidStudioProjects/busfinder/app/src/main/res/layout/activity_favorite.xml" value="0.1" />
+        <entry key="..\:/Users/acer/AndroidStudioProjects/busfinder/app/src/main/res/layout/activity_line_search.xml" value="0.192481884057971" />
+        <entry key="..\:/Users/acer/AndroidStudioProjects/busfinder/app/src/main/res/layout/activity_list_view.xml" value="0.192481884057971" />
+        <entry key="..\:/Users/acer/AndroidStudioProjects/busfinder/app/src/main/res/layout/activity_main.xml" value="0.192481884057971" />
+        <entry key="..\:/Users/acer/AndroidStudioProjects/busfinder/app/src/main/res/layout/activity_station_lines_list_view.xml" value="0.192481884057971" />
+        <entry key="..\:/Users/acer/AndroidStudioProjects/busfinder/app/src/main/res/layout/activity_station_list_view.xml" value="0.192481884057971" />
+        <entry key="..\:/Users/acer/AndroidStudioProjects/busfinder/app/src/main/res/layout/activity_track_list_view.xml" value="0.192481884057971" />
         <entry key="..\:/Users/maral/AndroidStudioProjects/busFinder/app/src/main/res/layout/activity_list_view.xml" value="0.10989583333333333" />
         <entry key="..\:/Users/maral/AndroidStudioProjects/busFinder/app/src/main/res/layout/activity_log_in.xml" value="0.1933876811594203" />
         <entry key="..\:/Users/maral/AndroidStudioProjects/busFinder/app/src/main/res/layout/activity_main.xml" value="0.1" />

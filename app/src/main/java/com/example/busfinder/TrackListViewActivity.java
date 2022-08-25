@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,11 +20,16 @@ public class TrackListViewActivity extends AppCompatActivity implements MyRecycl
     MyRecyclerViewAdapter adapter;
     private Line line;
     private ArrayListStation line_stations;
+    SharedPreferences sp1;
+    String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_track_list_view);
+
+        sp1 = this.getSharedPreferences("Login", MODE_PRIVATE);
+        username = sp1.getString("username",null);
 
         Bundle b = getIntent().getExtras();
         String line_number = b.getString("line");
@@ -43,6 +49,8 @@ public class TrackListViewActivity extends AppCompatActivity implements MyRecycl
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
     }
+
+
 
 
 

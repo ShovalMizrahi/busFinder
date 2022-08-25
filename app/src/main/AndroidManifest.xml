@@ -17,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BusFinder">
         <activity
+            android:name=".StationLinesListViewActivity"
+            android:exported="false" />
+        <activity
             android:name=".TrackListViewActivity"
             android:exported="false" />
         <activity

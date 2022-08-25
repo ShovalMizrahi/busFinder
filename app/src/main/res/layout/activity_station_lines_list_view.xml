@@ -7,19 +7,17 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/favoriteLine"
+        android:id="@+id/favoriteStation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="AddToFavorite"
+        android:text="favorite"
         tools:text="favorite" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/lineStationsList"
+        android:id="@+id/stationLinesList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical" />
 
 </LinearLayout>
-
-
-
