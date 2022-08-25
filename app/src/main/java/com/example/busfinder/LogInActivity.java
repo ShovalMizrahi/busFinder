@@ -41,7 +41,9 @@ public class LogInActivity extends AppCompatActivity {
 
             SharedPreferences sp1 = this.getSharedPreferences("Login", MODE_PRIVATE);
             String user = sp1.getString("username", null);
+
             FireBase.retrieveFavoriteStations(user);
+            FireBase.retrieveFavoriteLines(username);
 
 
             Intent intent = new Intent(this, MenuActivity.class);

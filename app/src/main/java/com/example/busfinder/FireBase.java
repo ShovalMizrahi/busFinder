@@ -24,17 +24,8 @@ public class FireBase {
     private static ArrayList<User> users = new ArrayList<User>();
     // private static  ArrayListStation favoriteSta
     public static ArrayListStation favoriteStations = new ArrayListStation();
+    public static ArrayListLine favoriteLines = new ArrayListLine();
 
-    public static void addFavorite(String username, String stationId) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        // Create a new user with a first and last name
-        Map<String, Object> station = new HashMap<>();
-        station.put("stationId", stationId);
-
-        db.collection("users").document(username).collection("favorites").document(stationId).set(station);
-
-
-    }
 
 
     public static void registerUser(String username, String password, String mail, Date date, String phone) {
@@ -55,13 +46,84 @@ public class FireBase {
     }
 
 
-    public static void retrieveFavoriteStations(String username) {
+
+
+
+    public static void addFavoriteLines(String username, String stationId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        // Create a new user with a first and last name
+        Map<String, Object> station = new HashMap<>();
+        station.put("lineId", stationId);
+
+        db.collection("users").document(username).collection("favoriteLines").document(stationId).set(station);
+
+
+    }
+
+
+
+    public static void retrieveFavoriteLines(String username) {
+
+        favoriteLines.clear();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         Boolean result[] = {true};
 
-        db.collection("users").document(username).collection("favorites")
+        db.collection("users").document(username).collection("favoriteLines")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                String lineId = (String) document.getData().get("lineId");
+
+                                Line line = null;
+                                if (lineId != null) {
+                                    line = favoriteLines.findLineById(lineId);
+
+                                    if (line != null) {
+                                        favoriteLines.add(new Line(line));
+
+                                    }
+
+                                }
+                            }
+                        } else {
+                            Log.w("print it", "Error getting documents.", task.getException());
+                            notifyAll();
+                        }
+                    }
+                });
+    }
+
+
+
+
+
+    public static void addFavoriteStation(String username, String stationId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        // Create a new user with a first and last name
+        Map<String, Object> station = new HashMap<>();
+        station.put("stationId", stationId);
+
+        db.collection("users").document(username).collection("favoriteStations").document(stationId).set(station);
+
+
+    }
+
+
+
+    public static void retrieveFavoriteStations(String username) {
+
+       // favoriteStations.clear();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        Boolean result[] = {true};
+
+        db.collection("users").document(username).collection("favoriteStations")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -78,7 +140,7 @@ public class FireBase {
                                     station = favoriteStations.findStationById(stationId);
 
                                     if (station != null) {
-                                        favoriteStations.add(new Station(favoriteStations.findStationById(stationId)));
+                                        favoriteStations.add(new Station(station));
 
 
                                     }
@@ -96,6 +158,7 @@ public class FireBase {
     public static void retrieveUsers() {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+
 
         Boolean result[] = {true};
 

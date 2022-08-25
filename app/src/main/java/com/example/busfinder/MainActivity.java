@@ -41,8 +41,6 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
             SharedPreferences sp1 = this.getSharedPreferences("Login", MODE_PRIVATE);
             String username = sp1.getString("username", null);
-            FireBase.retrieveFavoriteStations(username);
-
 
         } else {
 
@@ -267,6 +265,8 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         RestApi.stations.bindLinesToStations();
         countProgress++;
         ArrayListLine.bindLineToCompany();
+
+
         countProgress++;
 
     }
@@ -289,6 +289,18 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     }
 
     public void menu(View view) {
+
+
+
+        SharedPreferences sp1 = this.getSharedPreferences("Login", MODE_PRIVATE);
+        String username = sp1.getString("username", null);
+        if(FireBase.favoriteStations.size()==0)
+        FireBase.retrieveFavoriteStations(username);
+        if(FireBase.favoriteLines.size()==0)
+            FireBase.retrieveFavoriteLines(username);
+
+
+
 
         //   if(MenuActivity.getLatitude()!=0)
         //  Toast.makeText(this, "the p is "+MenuActivity.getLatitude(), Toast.LENGTH_SHORT).show();
