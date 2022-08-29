@@ -28,8 +28,7 @@ public class TrackListViewActivity extends AppCompatActivity implements MyRecycl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_track_list_view);
 
-        sp1 = this.getSharedPreferences("Login", MODE_PRIVATE);
-        username = sp1.getString("username",null);
+        username = User.getCurrentUsername();
 
         Bundle b = getIntent().getExtras();
         String line_number = b.getString("line");

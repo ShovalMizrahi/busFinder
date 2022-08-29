@@ -37,18 +37,18 @@
 
 
     <Button
-        android:id="@+id/btLogoutMain"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="logout"
-        android:text="logout" />
-
-    <Button
         android:id="@+id/btMapMain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="map"
         android:text="map" />
+
+    <Button
+        android:id="@+id/btLogoutMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="logout"
+        android:text="logout" />
 
     <TextView
         android:id="@+id/tVProgress"

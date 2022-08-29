@@ -15,10 +15,10 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     Thread t;
 
     static int amountProgresses = 7;
-    static int countProgress =  0;
+    static int countProgress = 0;
 
 
-    Button btLogoutMain, btLoginMain, btRegisterMain, btMenu;
+    Button btLogoutMain, btLoginMain, btRegisterMain, btMenu, btMapMain;
 
 
     @Override
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        countProgress = 0;
         new Thread(new ProgressingThread()).start();
 
 
@@ -34,13 +34,11 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         btLoginMain = findViewById(R.id.btLoginMain);
         btRegisterMain = findViewById(R.id.btRegisterMain);
         btMenu = findViewById(R.id.btMenu);
+        btMapMain = findViewById(R.id.btMapMain);
 
-
-        if (checkIfLoggedin()) {
+        if (User.checkIfLoggedin(this)) {
             logInButtons();
 
-            SharedPreferences sp1 = this.getSharedPreferences("Login", MODE_PRIVATE);
-            String username = sp1.getString("username", null);
 
         } else {
 
@@ -75,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         super.onActivityResult(requestCode, resultCode, data);
 
 
-        if (checkIfLoggedin()) {
+        if (User.checkIfLoggedin(this)) {
             logInButtons();
             Toast.makeText(this, "you are logged in!", Toast.LENGTH_SHORT).show();
 
@@ -87,30 +85,10 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
     public void logout(View view) {
 
-        SharedPreferences sp = getSharedPreferences("Login", MODE_PRIVATE);
-        SharedPreferences.Editor Ed = sp.edit();
-        Ed.putString("username", null);
-        Ed.putString("password", null);
-        Ed.commit();
-
+        User.logout(this);
 
         finish();
         startActivity(getIntent());
-
-    }
-
-
-    public boolean checkIfLoggedin() {
-        SharedPreferences sp1 = this.getSharedPreferences("Login", MODE_PRIVATE);
-
-        String username = sp1.getString("username", null);
-        String password = sp1.getString("password", null);
-
-        if (username != null) {
-            return true;
-
-        }
-        return false;
 
     }
 
@@ -120,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         btRegisterMain.setVisibility(View.GONE);
         btLogoutMain.setVisibility(View.VISIBLE);
         btMenu.setVisibility(View.VISIBLE);
+        btMapMain.setVisibility(View.VISIBLE);
 
 
     }
@@ -130,6 +109,8 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         btRegisterMain.setVisibility(View.VISIBLE);
         btLogoutMain.setVisibility(View.GONE);
         btMenu.setVisibility(View.GONE);
+        btMapMain.setVisibility(View.GONE);
+
 
     }
 
@@ -291,19 +272,18 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     public void menu(View view) {
 
 
+        String username = User.getCurrentUsername();
 
-        SharedPreferences sp1 = this.getSharedPreferences("Login", MODE_PRIVATE);
-        String username = sp1.getString("username", null);
-        if(FireBase.favoriteStations.size()==0)
-        FireBase.retrieveFavoriteStations(username);
-        if(FireBase.favoriteLines.size()==0)
+
+        if (FireBase.favoriteStations.size() == 0)
+            FireBase.retrieveFavoriteStations(username);
+        if (FireBase.favoriteLines.size() == 0)
             FireBase.retrieveFavoriteLines(username);
 
 
+           if(FireBase.favoriteLines.size()!=0)
+         Toast.makeText(this, "the p is "+FireBase.favoriteStations.size(), Toast.LENGTH_SHORT).show();
 
-
-        //   if(MenuActivity.getLatitude()!=0)
-        //  Toast.makeText(this, "the p is "+MenuActivity.getLatitude(), Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
 
@@ -330,7 +310,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
                     @Override
                     public void run() {
 
-                        tVProgress.setText("download data from server: \n" + (int) (100 * ( (double) countProgress / (double) amountProgresses)) + "%");
+                        tVProgress.setText("download data from server: \n" + (int) (100 * ((double) countProgress / (double) amountProgresses)) + "%");
 
 
                     }

@@ -22,8 +22,7 @@ public class StationLinesListViewActivity extends AppCompatActivity implements R
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_station_lines_list_view);
 
-        sp1 = this.getSharedPreferences("Login", MODE_PRIVATE);
-        username = sp1.getString("username",null);
+        username = User.getCurrentUsername();
 
         Bundle b = getIntent().getExtras();
         String station_id = b.getString("station");

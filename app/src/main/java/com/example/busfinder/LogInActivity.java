@@ -37,13 +37,13 @@ public class LogInActivity extends AppCompatActivity {
       
         if (FireBase.isCorrentLogIn(username, password)) {
             Toast.makeText(this, "logged in successfully!", Toast.LENGTH_SHORT).show();
-            saveUsername(username, password);
 
-            SharedPreferences sp1 = this.getSharedPreferences("Login", MODE_PRIVATE);
-            String user = sp1.getString("username", null);
+            User.login(this, username);
 
-            FireBase.retrieveFavoriteStations(user);
-            FireBase.retrieveFavoriteLines(username);
+
+
+            FireBase.retrieveFavoriteStations(User.getCurrentUsername());
+            FireBase.retrieveFavoriteLines(User.getCurrentUsername());
 
 
             Intent intent = new Intent(this, MenuActivity.class);
@@ -59,12 +59,5 @@ public class LogInActivity extends AppCompatActivity {
     }
 
 
-    public void saveUsername(String username, String password) {
 
-        SharedPreferences sp = getSharedPreferences("Login", MODE_PRIVATE);
-        SharedPreferences.Editor Ed = sp.edit();
-        Ed.putString("username", username);
-        Ed.putString("password", password);
-        Ed.commit();
-    }
 }

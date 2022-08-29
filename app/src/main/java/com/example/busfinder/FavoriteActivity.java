@@ -22,8 +22,7 @@ public class FavoriteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite);
 
-        sp1 = this.getSharedPreferences("Login", MODE_PRIVATE);
-        username = sp1.getString("username",null);
+        username = User.getCurrentUsername();
 
         ListView listView = findViewById(R.id.favoriteList);
         adapter = new StationAdapter(FavoriteActivity.this, FireBase.favoriteStations);
