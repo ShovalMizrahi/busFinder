@@ -270,15 +270,8 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     }
 
     public void menu(View view) {
-
-
         String username = User.getCurrentUsername();
-
-
-        if (FireBase.favoriteStations.size() == 0)
-            FireBase.retrieveFavoriteStations(username);
-        if (FireBase.favoriteLines.size() == 0)
-            FireBase.retrieveFavoriteLines(username);
+        FireBase.deleteFavoriteStation(username,"30136");
 
 
            if(FireBase.favoriteLines.size()!=0)

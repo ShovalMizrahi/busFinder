@@ -57,7 +57,7 @@ public class FireBase {
 
         db.collection("users").document(username).collection("favoriteLines").document(stationId).set(station);
 
-
+        User.retreiveInfo();
     }
 
 
@@ -112,13 +112,14 @@ public class FireBase {
         db.collection("users").document(username).collection("favoriteStations").document(stationId).set(station);
 
 
+        User.retreiveInfo();
     }
 
 
 
     public static void retrieveFavoriteStations(String username) {
 
-       // favoriteStations.clear();
+       favoriteStations.clear();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         Boolean result[] = {true};
@@ -203,5 +204,27 @@ public class FireBase {
 
     }
 
+
+
+    public static void deleteFavoriteStation(String username, String stationId)
+    {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("users").document(username).collection("favoriteStations").document(stationId)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        User.retreiveInfo();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+
+
+    }
 
 }

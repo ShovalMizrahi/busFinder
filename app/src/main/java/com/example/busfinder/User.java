@@ -84,9 +84,7 @@ public class User {
             }
 
             public void onFinish() {
-                if (FireBase.favoriteStations.size() == 0)
                     FireBase.retrieveFavoriteStations(currentUsername);
-                if (FireBase.favoriteLines.size() == 0)
                     FireBase.retrieveFavoriteLines(currentUsername);            }
         }.start();
 
