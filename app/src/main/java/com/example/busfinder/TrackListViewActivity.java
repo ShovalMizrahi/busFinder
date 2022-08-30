@@ -54,10 +54,7 @@ public class TrackListViewActivity extends AppCompatActivity implements MyRecycl
         boolean flag = false;
         for (int i=0; i<FireBase.favoriteLines.size(); i++) {
             if (FireBase.favoriteStations.get(i).getId().equals(line.getId())) {
-                /*
                 FireBase.deleteFavoriteLine(username, line.getId());
-
-                 */
                 flag = true;
                 break;
             }
