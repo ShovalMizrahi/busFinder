@@ -2,16 +2,12 @@ package com.example.busfinder;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-public class FavoriteActivity extends AppCompatActivity {
+public class FavoriteStationsActivity extends AppCompatActivity {
 
     SharedPreferences sp1;
     String username;
@@ -25,7 +21,7 @@ public class FavoriteActivity extends AppCompatActivity {
         username = User.getCurrentUsername();
 
         ListView listView = findViewById(R.id.favoriteList);
-        adapter = new StationAdapter(FavoriteActivity.this, FireBase.favoriteStations);
+        adapter = new StationAdapter(FavoriteStationsActivity.this, FireBase.favoriteStations);
         listView.setAdapter(adapter);
 
     }

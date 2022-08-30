@@ -50,6 +50,21 @@ public class TrackListViewActivity extends AppCompatActivity implements MyRecycl
     }
 
 
+    public void addToFavorite(View view){
+        boolean flag = false;
+        for (int i=0; i<FireBase.favoriteLines.size(); i++) {
+            if (FireBase.favoriteStations.get(i).getId().equals(line.getId())) {
+                /*
+                FireBase.deleteFavoriteLine(username, line.getId());
+
+                 */
+                flag = true;
+                break;
+            }
+        }
+        if (!flag)
+            FireBase.addFavoriteStation(username, line.getId());
+    }
 
 
 

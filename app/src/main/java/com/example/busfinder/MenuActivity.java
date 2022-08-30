@@ -100,8 +100,13 @@ public class MenuActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void favorite(View view){
-        Intent intent = new Intent (this, FavoriteActivity.class);
+    public void favoriteStations(View view){
+        Intent intent = new Intent (this, FavoriteStationsActivity.class);
+        startActivity(intent);
+    }
+
+    public void favoriteLines(View view){
+        Intent intent = new Intent (this, FavoriteLinesActivity.class);
         startActivity(intent);
     }
 

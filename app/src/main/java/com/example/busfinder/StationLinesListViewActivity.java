@@ -44,13 +44,15 @@ public class StationLinesListViewActivity extends AppCompatActivity implements R
         boolean flag = false;
         for (int i=0; i<FireBase.favoriteStations.size(); i++) {
             if (FireBase.favoriteStations.get(i).getId().equals(station.getId())) {
-                FireBase.favoriteStations.remove(i);
+                /*
+                FireBase.deleteFavoriteLine(username, station.getId());
+                */
                 flag = true;
                 break;
             }
         }
         if (!flag)
-            FireBase.addFavoriteStation(username, station.getId());
+            FireBase.addFavoriteLines(username, station.getId());
 
     }
 

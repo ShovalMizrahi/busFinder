@@ -10,7 +10,7 @@
         android:id="@+id/favoriteLine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="AddToFavorite"
+        android:onClick="addToFavorite"
         tools:text="favorite" />
 
     <androidx.recyclerview.widget.RecyclerView
