@@ -21,11 +21,14 @@ import java.util.Map;
 
 public class FireBase {
 
+    private static final String FAVORITE_LINE_COLLECTION = "favoriteLines";
+    private static final String FAVORITE_STATION_COLLECTION = "favoriteStations";
+
+
     private static ArrayList<User> users = new ArrayList<User>();
     // private static  ArrayListStation favoriteSta
     public static ArrayListStation favoriteStations = new ArrayListStation();
     public static ArrayListLine favoriteLines = new ArrayListLine();
-
 
 
     public static void registerUser(String username, String password, String mail, Date date, String phone) {
@@ -46,9 +49,6 @@ public class FireBase {
     }
 
 
-
-
-
     public static void addFavoriteLines(String username, String stationId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         // Create a new user with a first and last name
@@ -59,7 +59,6 @@ public class FireBase {
 
         User.retreiveInfo();
     }
-
 
 
     public static void retrieveFavoriteLines(String username) {
@@ -100,9 +99,6 @@ public class FireBase {
     }
 
 
-
-
-
     public static void addFavoriteStation(String username, String stationId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         // Create a new user with a first and last name
@@ -116,10 +112,9 @@ public class FireBase {
     }
 
 
-
     public static void retrieveFavoriteStations(String username) {
 
-       favoriteStations.clear();
+        favoriteStations.clear();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         Boolean result[] = {true};
@@ -131,7 +126,6 @@ public class FireBase {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-
 
 
                                 String stationId = (String) document.getData().get("stationId");
@@ -205,9 +199,7 @@ public class FireBase {
     }
 
 
-
-    public static void deleteFavoriteStation(String username, String stationId)
-    {
+    public static void deleteFavoriteStation(String username, String stationId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         db.collection("users").document(username).collection("favoriteStations").document(stationId)
@@ -223,8 +215,27 @@ public class FireBase {
                     public void onFailure(@NonNull Exception e) {
                     }
                 });
-
-
     }
+
+
+
+    public static void deleteFavoriteLine(String username, String lineId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("users").document(username).collection(FAVORITE_LINE_COLLECTION).document(lineId)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        User.retreiveInfo();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+    }
+
 
 }

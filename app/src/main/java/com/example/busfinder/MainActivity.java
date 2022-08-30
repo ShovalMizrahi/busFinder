@@ -270,12 +270,11 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     }
 
     public void menu(View view) {
-        String username = User.getCurrentUsername();
-        FireBase.deleteFavoriteStation(username,"30136");
 
-
-           if(FireBase.favoriteLines.size()!=0)
-         Toast.makeText(this, "the p is "+FireBase.favoriteStations.size(), Toast.LENGTH_SHORT).show();
+        if (t.isAlive()) {
+            Toast.makeText(this, "waiting for stations to load", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);

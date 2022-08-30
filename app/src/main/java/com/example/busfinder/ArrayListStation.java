@@ -53,4 +53,14 @@ public class ArrayListStation extends ArrayList<Station> {
         return null;
     }
 
+    public static boolean isStationConsistList(Station station, ArrayListStation stations) {
+
+        for (int i = 0; i < stations.size(); i++) {
+            if (station.getId().equals(stations.get(i).getId()))
+                return true;
+
+        }
+
+        return false;
+    }
 }

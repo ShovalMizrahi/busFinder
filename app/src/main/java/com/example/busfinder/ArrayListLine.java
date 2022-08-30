@@ -32,4 +32,19 @@ public class ArrayListLine extends ArrayList<Line> {
         }
 
     }
+
+
+
+    public static boolean isBusContainedInLines(Bus bus, ArrayListLine lines) {
+
+        for (int i = 0; i < lines.size(); i++) {
+            if (bus.getLine().equals(lines.get(i).getId()))
+                return true;
+
+        }
+
+        return false;
+    }
+
+
 }

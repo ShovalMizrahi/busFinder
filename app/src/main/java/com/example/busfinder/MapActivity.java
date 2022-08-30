@@ -44,7 +44,8 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
 
     Thread t;
-    boolean exit = false;
+    Thread t1;
+    static boolean exit = false;
 
     private final int TIMEREFRESHINGBUSES = 1500;
 
@@ -149,7 +150,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
         for (int i = 0; i < RestApi.stations.size(); i++) {
 
-
+            Station station = RestApi.stations.get(i);
             map.invalidate();
 
             GeoPoint point = new GeoPoint(Double.parseDouble(RestApi.stations.get(i).getLat()), Double.parseDouble(RestApi.stations.get(i).getLongt()));
@@ -157,8 +158,13 @@ public class MapActivity extends AppCompatActivity implements Runnable {
             Marker startMarker = new Marker(map);
             startMarker.setPosition(point);
 
+            int iconSource;
+             if (ArrayListStation.isStationConsistList(station,FireBase.favoriteStations))
+              iconSource = R.mipmap.busstopstar;
+              else
+              iconSource = R.mipmap.busstop;
 
-            Drawable drawable = getResources().getDrawable(R.mipmap.busstop);
+            Drawable drawable = getResources().getDrawable(iconSource);
             drawable = resize(drawable);
 
             startMarker.setIcon(drawable);
@@ -212,7 +218,8 @@ public class MapActivity extends AppCompatActivity implements Runnable {
     }
 
     private void startThreads() {
-        new Thread(new Th1()).start();
+        t1 =  new Thread(new Th1());
+        t1.start();
 
     }
 
@@ -221,7 +228,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
         @Override
         public void run() {
 
-            while (true) {
+            while (true && exit==false) {
 
                 try {
                     Thread.sleep(2000);
@@ -464,7 +471,19 @@ public class MapActivity extends AppCompatActivity implements Runnable {
                             }
                         });
 
-                        Drawable drawable = getResources().getDrawable(R.mipmap.bus);
+
+
+                        int iconSource;
+                        if (ArrayListLine.isBusContainedInLines(bus,FireBase.favoriteLines))
+                            iconSource = R.mipmap.busstar;
+                        else
+                            iconSource = R.mipmap.bus;
+
+
+
+
+
+                        Drawable drawable = getResources().getDrawable(iconSource);
                         drawable = resize(drawable);
                         startMarker.setIcon(drawable);
 
@@ -575,8 +594,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
             // if (bus.getStations() != null)
             //     btnMoreInfo.setText(line.getNumber() + " " +this.bus.getStations().get(0).getDistanceFromBus() +" " +this.bus.getStations().get(1).getDistanceFromBus()  );
             //    btnMoreInfo.setText(this.bus.getStations().get(0).getDistanceFromBus() +" " +this.bus.getStations().get(1).getDistanceFromBus()  );
-            double distance = bus.getStations().get(0).getDistanceFromBus();
-            btnMoreInfo.setText(line.getNumber() + " " + distance);
+            btnMoreInfo.setText(line.getNumber());
 
             Station nextStation = RestApi.nextStation.get(bus.getId());
             if (nextStation != null)
@@ -759,6 +777,10 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
     @Override
     public void onBackPressed() {
+
+       // t.stop();
+       // t1.destroy();
+
         exit = true;
         finish();
     }
