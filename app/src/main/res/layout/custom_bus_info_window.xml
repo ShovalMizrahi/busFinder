@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TextView"
+        android:textAlignment="center"
         android:textColor="#E60E0E" />
 
     <TextView
@@ -17,5 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TextView"
-        android:textColor="#E60E0E" />
+        android:textAlignment="center"
+        android:textColor="#E60E0E"
+        android:textDirection="ltr" />
 </LinearLayout>

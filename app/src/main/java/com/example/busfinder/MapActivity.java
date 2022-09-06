@@ -159,10 +159,10 @@ public class MapActivity extends AppCompatActivity implements Runnable {
             startMarker.setPosition(point);
 
             int iconSource;
-             if (ArrayListStation.isStationConsistList(station,FireBase.favoriteStations))
-              iconSource = R.mipmap.busstopstar;
-              else
-              iconSource = R.mipmap.busstop;
+            if (ArrayListStation.isStationConsistList(station, FireBase.favoriteStations))
+                iconSource = R.mipmap.busstopstar;
+            else
+                iconSource = R.mipmap.busstop;
 
             Drawable drawable = getResources().getDrawable(iconSource);
             drawable = resize(drawable);
@@ -218,7 +218,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
     }
 
     private void startThreads() {
-        t1 =  new Thread(new Th1());
+        t1 = new Thread(new Th1());
         t1.start();
 
     }
@@ -228,7 +228,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
         @Override
         public void run() {
 
-            while (true && exit==false) {
+            while (true && exit == false) {
 
                 try {
                     Thread.sleep(2000);
@@ -472,15 +472,11 @@ public class MapActivity extends AppCompatActivity implements Runnable {
                         });
 
 
-
                         int iconSource;
-                        if (ArrayListLine.isBusContainedInLines(bus,FireBase.favoriteLines))
+                        if (ArrayListLine.isBusContainedInLines(bus, FireBase.favoriteLines))
                             iconSource = R.mipmap.busstar;
                         else
                             iconSource = R.mipmap.bus;
-
-
-
 
 
                         Drawable drawable = getResources().getDrawable(iconSource);
@@ -596,9 +592,13 @@ public class MapActivity extends AppCompatActivity implements Runnable {
             //    btnMoreInfo.setText(this.bus.getStations().get(0).getDistanceFromBus() +" " +this.bus.getStations().get(1).getDistanceFromBus()  );
             btnMoreInfo.setText(line.getNumber());
 
+            busInfoNextStop.setText("");
+            busInfoNextStop.setVisibility(View.GONE);
             Station nextStation = RestApi.nextStation.get(bus.getId());
-            if (nextStation != null)
-                busInfoNextStop.setText(nextStation.getName());
+            if (nextStation != null) {
+                busInfoNextStop.setText("next:" + nextStation.getName());
+                busInfoNextStop.setVisibility(View.VISIBLE);
+            }
 
 
             //bus.getStations().get(1).getDistanceFromBus()
@@ -667,9 +667,9 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
                     if (bus.getLine().equals(line.getId())) {
 
-                        if (RestApi.minStation.get(bus.getId()) != null && RestApi.minStation.get(bus.getId()) < line.getOrder()) {
+                        if (RestApi.minStation.get(bus.getId()) != null && RestApi.minStation.get(bus.getId()) < line.getOrder() && line.getArrivalTime()!=null) {
 
-                            tVComingBuses.setText(tVComingBuses.getText() + "\n" + "line " + line.getNumber() + " coming in " + line.getArrivalTime());
+                            tVComingBuses.append("\n" + "line " + line.getNumber() + " coming in " + line.getArrivalTime());
 
                         }
                     }
@@ -778,8 +778,8 @@ public class MapActivity extends AppCompatActivity implements Runnable {
     @Override
     public void onBackPressed() {
 
-       // t.stop();
-       // t1.destroy();
+        // t.stop();
+        // t1.destroy();
 
         exit = true;
         finish();
