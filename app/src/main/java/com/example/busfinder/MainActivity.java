@@ -242,10 +242,37 @@ public class MainActivity extends AppCompatActivity implements Runnable {
             }
         }
 
+
+        success = false;
+
+        while (!success) {
+
+            try {
+                restApi.doInBackground("function=showCities");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            if (RestApi.stations.size() > 0)
+                success = true;
+
+            else {
+
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+
+
         countProgress++;
         RestApi.stations.bindLinesToStations();
         countProgress++;
         ArrayListLine.bindLineToCompany();
+        ArrayListStation.bindStationToCity();
 
 
         countProgress++;
@@ -254,6 +281,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
     public void map(View view) {
 
+        Toast.makeText(this," "+ RestApi.stations.get(0).getCity(), Toast.LENGTH_SHORT).show();
 
         if (!t.isAlive()) {
             Intent intent = new Intent(this, MapActivity.class);
@@ -279,6 +307,9 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
 
+    }
+
+    public void linesearch(View view) {
     }
 
 

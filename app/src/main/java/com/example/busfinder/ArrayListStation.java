@@ -63,4 +63,22 @@ public class ArrayListStation extends ArrayList<Station> {
 
         return false;
     }
+
+    public static void bindStationToCity()
+    {
+
+
+        for(int i=0; i<RestApi.stations.size();i++)
+        {
+            Station station = RestApi.stations.get(i);
+            station.setCity(  ArrayListCity.findCityById(station.getCityId()) );
+
+
+        }
+
+
+
+
+
+    }
 }

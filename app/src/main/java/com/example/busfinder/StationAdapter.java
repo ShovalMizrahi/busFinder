@@ -10,8 +10,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -60,6 +63,10 @@ import java.util.ArrayList;
                 convertView = inflater.inflate(R.layout.activity_station_list_view, null);
                 holder.llContainer = (LinearLayout)convertView.findViewById(R.id.llContainer);
                 holder.station_name = (TextView) convertView.findViewById(R.id.station_name);
+
+
+
+
                 holder.station_id = (TextView) convertView.findViewById(R.id.station_id);
                 convertView.setTag(holder);
             } else {
@@ -67,6 +74,8 @@ import java.util.ArrayList;
             }
             holder.station_name.setText(mDisplayedValues.get(position).getName());
             holder.station_id.setText(mDisplayedValues.get(position).getId());
+
+
 
             holder.llContainer.setOnClickListener(new View.OnClickListener() {
 
@@ -132,5 +141,10 @@ import java.util.ArrayList;
             };
             return filter;
         }
+
+
+
+
+
     }
 

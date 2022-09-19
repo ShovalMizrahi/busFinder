@@ -34,24 +34,22 @@ public class RestApi extends AsyncTask<String, String, String> {
     private static final String URL = "https://transportation-server.almogshaby.repl.co/";
 
     private static HttpURLConnection con;
-    public static ArrayListStation stations= new ArrayListStation();
+    public static ArrayListStation stations = new ArrayListStation();
     public static ArrayListLine lines = new ArrayListLine();
     public static ArrayListBus buses = new ArrayListBus();
     public static ArrayListBus lastBuses = new ArrayListBus();
 
     public static ArrayListTrack tracks = new ArrayListTrack();
-    public  static Route routes = new Route();
-    public  static ArrayListCompany companies = new ArrayListCompany();
+    public static Route routes = new Route();
+    public static ArrayListCompany companies = new ArrayListCompany();
+    public static ArrayListCity cities = new ArrayListCity();
+
 
     public static HashMap<String, Station> nextStation = new HashMap<String, Station>();
     public static HashMap<String, Integer> minStation = new HashMap<String, Integer>(); //the order number of the last station
 
 
     public static HashMap<String, Company> lineToCompany = new HashMap<String, Company>(); //Each line id has company
-
-
-
-
 
 
     public RestApi() {
@@ -132,6 +130,10 @@ public class RestApi extends AsyncTask<String, String, String> {
 
                 if (params[0].equals("function=showCompanies"))
                     companies = Json.convertJsonToObject(ArrayListCompany.class, adjusted);
+
+
+                if (params[0].equals("function=showCities"))
+                    cities = Json.convertJsonToObject(ArrayListCity.class, adjusted);
 
                 System.out.println(adjusted);
 

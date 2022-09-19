@@ -6,6 +6,8 @@ public class Station {
     private String id;
     private String name;
     private String city;
+    private String cityId;
+
     private String longt;
     private String lat;
 
@@ -37,14 +39,16 @@ public class Station {
         this.lines = lines;
     }
 
-    public Station(String id, String name, String city, String longt, String lat) {
+
+
+    public Station(String id, String name, String longt, String lat,String cityId) {
         this.id = id;
         this.name = name;
         this.city = city;
         this.longt = longt;
         this.lat = lat;
+        this.cityId = cityId;
     }
-
 
     public Station(String id, String name, String longt, String lat) {
         this.id = id;
@@ -81,6 +85,14 @@ public class Station {
 
     public void setLongtitude(String longtitude) {
 
+    }
+
+    public String getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(String cityId) {
+        this.cityId = cityId;
     }
 
     public String getLongt() {

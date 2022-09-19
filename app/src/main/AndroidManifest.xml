@@ -17,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BusFinder">
         <activity
+            android:name=".SearchLineDialog"
+            android:exported="false" />
+        <activity
             android:name=".FavoriteLinesActivity"
             android:exported="false" />
         <activity
@@ -32,7 +35,7 @@
             android:name=".NavigateActivity"
             android:exported="false" />
         <activity
-            android:name=".FavoriteActivity"
+            android:name=".FavoriteStationsActivity"
             android:exported="false" />
         <activity
             android:name=".StationSearch"

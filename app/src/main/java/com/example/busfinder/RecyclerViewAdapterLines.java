@@ -53,7 +53,6 @@ public class RecyclerViewAdapterLines extends RecyclerView.Adapter<RecyclerViewA
             super(itemView);
             llContainer = itemView.findViewById(R.id.llContainer);
             text_line_number = itemView.findViewById(R.id.line);
-            text_company_name = itemView.findViewById(R.id.company);
             itemView.setOnClickListener(this);
         }
 

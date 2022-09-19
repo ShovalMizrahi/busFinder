@@ -10,8 +10,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -48,6 +52,7 @@ public class LineAdapter extends BaseAdapter implements Filterable {
         class ViewHolder {
             LinearLayout llContainer;
             TextView line,company;
+
         }
 
         @Override
@@ -61,13 +66,18 @@ public class LineAdapter extends BaseAdapter implements Filterable {
                 convertView = inflater.inflate(R.layout.activity_list_view, null);
                 holder.llContainer = (LinearLayout)convertView.findViewById(R.id.llContainer);
                 holder.line = (TextView) convertView.findViewById(R.id.line);
-                holder.company = (TextView) convertView.findViewById(R.id.company);
+                holder.company = (TextView) convertView.findViewById(R.id.tVCompanySearchLine);
+
+
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
             holder.line.setText(mDisplayedValues.get(position).getNumber());
             holder.company.setText(mDisplayedValues.get(position).getCompanyID());
+
+
+
 
             holder.llContainer.setOnClickListener(new View.OnClickListener() {
 
@@ -132,4 +142,8 @@ public class LineAdapter extends BaseAdapter implements Filterable {
             };
             return filter;
         }
+
+
+
+
 }
