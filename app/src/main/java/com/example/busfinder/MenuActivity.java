@@ -311,11 +311,36 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     public void findRoute(View view){
+        ArrayList<Station> nearDes = new ArrayList<>();
+        ArrayList<Station> nearStart = new ArrayList<>();
         double lngStart = startPlace.getLatLng().longitude;
         double latStart = startPlace.getLatLng().latitude;
         double lngEnd = endPlace.getLatLng().longitude;
         double latEnd = endPlace.getLatLng().latitude;
+        double dis_from_des, dis_from_start;
+        ArrayList<Line> routes = new ArrayList<>();
+        for (int i=0;i<RestApi.stations.size();i++){
+            dis_from_des = Station.getDistance(Double.parseDouble(RestApi.stations.get(i).getLat()), Double.parseDouble(RestApi.stations.get(i).getLongt()), latEnd, lngEnd);
+            dis_from_start = Station.getDistance(Double.parseDouble(RestApi.stations.get(i).getLat()), Double.parseDouble(RestApi.stations.get(i).getLongt()), latStart, lngStart);
+            if(dis_from_des < 200)
+                nearDes.add(RestApi.stations.get(i));
+            if (dis_from_start < 200)
+                nearStart.add(RestApi.stations.get(i));
+
+        }
+
+        for (int i=0;i<nearDes.size();i++){
+            for (int j=0;j<nearStart.size();j++){
+                for (int k=0;k<RestApi.lines.size();k++){
+                    if (RestApi.lines.get(k).existStation(nearDes.get(i)) && RestApi.lines.get(k).existStation(nearStart.get(j))){
+                        routes.add(RestApi.lines.get(k));
+                    }
+                }
+            }
+        }
+
 
     }
+
 
 }

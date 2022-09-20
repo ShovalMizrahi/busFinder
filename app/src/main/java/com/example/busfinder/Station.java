@@ -154,6 +154,7 @@ public class Station {
     }
 
 
+    // Distance from user's position
     public Double getDistance() {
         // distance between latitudes and longitudes
         double dLat = Math.toRadians(MenuActivity.getLatitude() - Double.parseDouble(getLat()));

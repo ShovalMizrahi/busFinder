@@ -99,4 +99,12 @@ public class Line {
     public ArrayListStation getLineStations(){
         return line_stations;
     }
+
+    public boolean existStation(Station s){
+        for (int i=0;i<line_stations.size();i++){
+            if(Integer.parseInt(s.getId()) == Integer.parseInt(line_stations.get(i).getId()))
+                return true;
+        }
+        return false;
+    }
 }
