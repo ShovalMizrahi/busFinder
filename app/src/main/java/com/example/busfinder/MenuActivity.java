@@ -11,6 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -48,6 +53,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 public class MenuActivity extends AppCompatActivity {
@@ -59,6 +65,13 @@ public class MenuActivity extends AppCompatActivity {
     ArrayList<Double> dis_stations = new ArrayList<Double>();
     private static ArrayListStation sortedStations = new ArrayListStation();
     private final int PERMISSION_ID = 44;
+    private static int AUTOCOMPLETE_REQUEST_CODE = 1;
+    private static final String TAG = "place";
+    private static String apiKey = "AIzaSyD8LIod8GgrDssZ3WA-SLAsrs3iM-BihvI";
+    public Place startPlace = null, endPlace = null;
+    private int id;
+
+
 
 
     @Override
@@ -79,6 +92,9 @@ public class MenuActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navController);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        Places.initialize(getApplicationContext(), apiKey);
+        PlacesClient placesclient = Places.createClient(this);
 
         // method to get the location
         getLastLocation();
@@ -257,4 +273,49 @@ public class MenuActivity extends AppCompatActivity {
     public static ArrayListStation getSortedStations(){
         return sortedStations;
     }
+
+
+
+    public void startAutoCompleteActivity(View view) {
+        Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, Arrays.asList(Place.Field.ID, Place.Field.NAME))
+                .build(this);
+        id = view.getId();
+        startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
+    }
+
+
+    @Override
+    public void onActivityResult (int requestCode, int resultCode, Intent data){
+        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+            Place place = Autocomplete.getPlaceFromIntent(data);
+            Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
+            if (id == R.id.button6)
+                startPlace = place;
+            if (id == R.id.button8)
+                endPlace = place;
+            putPlace(place, id);
+            return;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void putPlace(Place place, int id){
+        if (id == R.id.button6) {
+            TextView start = findViewById(R.id.start_station);
+            start.setText(place.getName());
+        }
+        else {
+            TextView end = findViewById(R.id.end_station);
+            end.setText(place.getName());
+        }
+    }
+
+    public void findRoute(View view){
+        double lngStart = startPlace.getLatLng().longitude;
+        double latStart = startPlace.getLatLng().latitude;
+        double lngEnd = endPlace.getLatLng().longitude;
+        double latEnd = endPlace.getLatLng().latitude;
+
+    }
+
 }

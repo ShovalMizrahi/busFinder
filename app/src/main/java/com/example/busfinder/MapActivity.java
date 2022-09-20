@@ -160,7 +160,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
             int iconSource;
             if (ArrayListStation.isStationConsistList(station, FireBase.favoriteStations))
-                iconSource = R.mipmap.busstopstar;
+               iconSource = R.mipmap.busstopstar;
             else
                 iconSource = R.mipmap.busstop;
 
