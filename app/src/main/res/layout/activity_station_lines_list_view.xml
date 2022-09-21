@@ -6,13 +6,36 @@
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/favoriteStation"
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iVfavoriteStation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:onClick="addToFavorite"
+            tools:srcCompat="@drawable/ic_baseline_favorite_24" />
+
+        <TextView
+            android:id="@+id/tVStationInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:lines="2"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="AddToFavorite"
-        android:text="favorite"
-        tools:text="favorite" />
+        android:text="Lines passing through this station"
+        android:textAlignment="center"
+        android:textSize="20sp" />
 
     <ListView
         android:id="@+id/lVLinesOfStations"

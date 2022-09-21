@@ -27,7 +27,6 @@ public class TrackListViewActivity extends AppCompatActivity  {
     ImageView iVfavoriteLine;
     private Line line;
     private ArrayListStation line_stations;
-    SharedPreferences sp1;
     String username;
     Company company;
 

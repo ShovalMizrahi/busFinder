@@ -81,6 +81,7 @@ import java.util.ArrayList;
 
                 public void onClick(View v) {
 
+                    activity.finish();
                     Intent intent = new Intent( activity , StationLinesListViewActivity.class);
                     Bundle b = new Bundle();
                     b.putString("station",mDisplayedValues.get(position).getId());

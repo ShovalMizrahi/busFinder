@@ -24,11 +24,13 @@ public class LineAdapter extends BaseAdapter implements Filterable {
     private ArrayList<Line> mOriginalValues; // Original Values
     private ArrayList<Line> mDisplayedValues;    // Values to be displayed
     LayoutInflater inflater;
+    Activity activity;
 
-    public LineAdapter(Context context, ArrayList<Line> mLineArrayList) {
+    public LineAdapter(Activity activity, ArrayList<Line> mLineArrayList) {
         this.mOriginalValues = mLineArrayList;
         this.mDisplayedValues = mLineArrayList;
-        inflater = LayoutInflater.from(context);
+        inflater = LayoutInflater.from(activity);
+        this.activity=activity;
     }
 
     @Override
@@ -139,6 +141,8 @@ public class LineAdapter extends BaseAdapter implements Filterable {
         holder.llContainer.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
+
+                activity.finish();
                 Intent intent = new Intent(inflater.getContext(), TrackListViewActivity.class);
                 Bundle b = new Bundle();
                 b.putString("line",mDisplayedValues.get(position).getId());
@@ -171,12 +175,7 @@ public class LineAdapter extends BaseAdapter implements Filterable {
                     mOriginalValues = new ArrayList<Line>(mDisplayedValues); // saves the original data in mOriginalValues
                 }
 
-                /********
-                 *
-                 *  If constraint(CharSequence that is received) is null returns the mOriginalValues(Original) values
-                 *  else does the Filtering and returns FilteredArrList(Filtered)
-                 *
-                 ********/
+
                 if (constraint == null || constraint.length() == 0) {
 
                     // set the Original result to return
