@@ -80,11 +80,13 @@ import java.util.ArrayList;
             holder.llContainer.setOnClickListener(new View.OnClickListener() {
 
                 public void onClick(View v) {
+
                     Intent intent = new Intent( activity , StationLinesListViewActivity.class);
                     Bundle b = new Bundle();
                     b.putString("station",mDisplayedValues.get(position).getId());
                     intent.putExtras(b);
                     activity.startActivity(intent);
+
                 }
             });
 

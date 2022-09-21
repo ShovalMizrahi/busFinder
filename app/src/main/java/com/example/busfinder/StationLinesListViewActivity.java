@@ -8,12 +8,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.Toast;
 
-public class StationLinesListViewActivity extends AppCompatActivity implements RecyclerViewAdapterLines.ItemClickListener {
+public class StationLinesListViewActivity extends AppCompatActivity {
 
     private Station station;
-    RecyclerViewAdapterLines adapter;
+    LineAdapter adapter;
     SharedPreferences sp1;
     String username;
 
@@ -32,13 +33,13 @@ public class StationLinesListViewActivity extends AppCompatActivity implements R
         }
 
 
-        RecyclerView recyclerView = findViewById(R.id.stationLinesList);
-        adapter = new RecyclerViewAdapterLines(this,station.getLines());
-        adapter.setClickListener(this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
+        Toast.makeText(this, station.getLines().size()+"", Toast.LENGTH_SHORT).show();
 
-        Toast.makeText(this, "check", Toast.LENGTH_SHORT).show();
+        ListView listView = findViewById(R.id.lVLinesOfStations);
+        adapter = new LineAdapter(this,station.getLines());
+        listView.setAdapter(adapter);
+
+
 
     }
 
@@ -57,8 +58,5 @@ public class StationLinesListViewActivity extends AppCompatActivity implements R
     }
 
 
-    @Override
-    public void onItemClick(View view, int position) {
 
-    }
 }

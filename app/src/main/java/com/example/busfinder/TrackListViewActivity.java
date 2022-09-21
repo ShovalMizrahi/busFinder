@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
-public class TrackListViewActivity extends AppCompatActivity implements MyRecyclerViewAdapter.ItemClickListener {
+public class TrackListViewActivity extends AppCompatActivity  {
 
   //  MyRecyclerViewAdapter adapter;
     ImageView iVfavoriteLine;
@@ -86,27 +86,9 @@ public class TrackListViewActivity extends AppCompatActivity implements MyRecycl
 
 
 
-        /*
-        boolean flag = false;
-        for (int i=0; i<FireBase.favoriteLines.size(); i++) {
-            if (FireBase.favoriteStations.get(i).getId().equals(line.getId())) {
-   ;
-                flag = true;
-                break;
-            }
-        }
-        if (!flag)
-            FireBase.addFavoriteStation(username, line.getId());
 
-
-         */
     }
 
-
-    @Override
-    public void onItemClick(View view, int position) {
-        Toast.makeText(this, "You clicked " + adapter.getItem(position) + " on row number " + position, Toast.LENGTH_SHORT).show();
-    }
 
 
     void findLine() {
