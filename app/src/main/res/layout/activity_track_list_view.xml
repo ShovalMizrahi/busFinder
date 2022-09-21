@@ -1,22 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/addFavorite"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:layoutDirection="ltr"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/favoriteLine"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="addToFavorite"
-        tools:text="favorite" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iVfavoriteLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:onClick="addToFavorite"
+            tools:srcCompat="@drawable/ic_baseline_favorite_24" />
+
+        <TextView
+            android:id="@+id/tVInfoLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:lines="2"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/iVCompanyAddFavorite"
+        android:layout_width="match_parent"
+        android:layout_height="100sp"
+        android:maxWidth="100sp"
+        android:maxHeight="100sp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <ListView
+        android:id="@+id/lVTrackList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lineStationsList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layoutDirection="ltr"
         android:scrollbars="vertical" />
 
 </LinearLayout>

@@ -38,6 +38,8 @@ public class StationLinesListViewActivity extends AppCompatActivity implements R
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
+        Toast.makeText(this, "check", Toast.LENGTH_SHORT).show();
+
     }
 
     public void AddToFavorite(View view){

@@ -141,7 +141,7 @@ public class LineAdapter extends BaseAdapter implements Filterable {
             public void onClick(View v) {
                 Intent intent = new Intent(inflater.getContext(), TrackListViewActivity.class);
                 Bundle b = new Bundle();
-                b.putString("line",mDisplayedValues.get(position).getNumber());
+                b.putString("line",mDisplayedValues.get(position).getId());
                 intent.putExtras(b);
                 inflater.getContext().startActivity(intent);
             }
