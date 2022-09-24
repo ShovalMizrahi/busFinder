@@ -3,9 +3,11 @@ package com.example.busfinder;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -284,11 +286,31 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         Toast.makeText(this," "+ RestApi.stations.get(0).getCity(), Toast.LENGTH_SHORT).show();
 
         if (!t.isAlive()) {
-            Intent intent = new Intent(this, MapActivity.class);
-            startActivity(intent);
+            moveToMapActivity();
+
         } else {
             Toast.makeText(this, "waiting for stations to load", Toast.LENGTH_SHORT).show();
         }
+
+
+    }
+
+
+    void moveToMapActivity()
+    {
+
+        Context context =this;
+
+        new CountDownTimer(2 * 1000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+            }
+
+            public void onFinish() {
+                Intent intent = new Intent(context, MapActivity.class);
+                startActivity(intent);
+            }
+        }.start();
 
 
     }

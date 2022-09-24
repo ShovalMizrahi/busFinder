@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -69,6 +71,17 @@ public class StationLinesListViewActivity extends AppCompatActivity {
         }
 
 
+    }
+
+
+    public void moveToMap (View view)
+    {
+        this.finish();
+        Intent intent = new Intent(this, MapActivity.class);
+        intent.putExtra("stationId",station.getId());
+        startActivity(intent);
+
+        Toast.makeText(this, "this is map", Toast.LENGTH_SHORT).show();
     }
 
 

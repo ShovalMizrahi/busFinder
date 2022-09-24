@@ -80,6 +80,9 @@ public class MapActivity extends AppCompatActivity implements Runnable {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
+
+        exit=false;
+
         context = this;
         tVNumberStationMap = findViewById(R.id.tVNumberStationMap);
         tVNameStationMap = findViewById(R.id.tVNameStationMap);
@@ -160,7 +163,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
             int iconSource;
             if (ArrayListStation.isStationConsistList(station, FireBase.favoriteStations))
-               iconSource = R.mipmap.busstopstar;
+                iconSource = R.mipmap.busstopstar;
             else
                 iconSource = R.mipmap.busstop;
 
@@ -193,6 +196,20 @@ public class MapActivity extends AppCompatActivity implements Runnable {
         }
 
 
+
+       Station specificStation = findSpecificStation();
+
+
+        if (specificStation != null) {
+            GeoPoint point = new GeoPoint(Double.parseDouble(specificStation.getLat()), Double.parseDouble(specificStation.getLongt()));
+            map.getController().setCenter(point);
+
+
+        }
+
+
+
+
         t = new Thread(this);
         t.start();
 
@@ -215,6 +232,25 @@ public class MapActivity extends AppCompatActivity implements Runnable {
         startThreads();
 
 
+
+
+    }
+
+    private Station findSpecificStation() {
+
+        Bundle b = getIntent().getExtras();
+        if (b == null)
+            return null;
+
+        String stationId = b.getString("stationId");
+
+        if (stationId != null)
+            for (int i = 0; i < RestApi.stations.size(); i++) {
+                if (RestApi.stations.get(i).getId().equals(stationId))
+                    return RestApi.stations.get(i);
+            }
+
+        return null;
     }
 
     private void startThreads() {
@@ -667,7 +703,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
                     if (bus.getLine().equals(line.getId())) {
 
-                        if (RestApi.minStation.get(bus.getId()) != null && RestApi.minStation.get(bus.getId()) < line.getOrder() && line.getArrivalTime()!=null) {
+                        if (RestApi.minStation.get(bus.getId()) != null && RestApi.minStation.get(bus.getId()) < line.getOrder() && line.getArrivalTime() != null) {
 
                             tVComingBuses.append("\n" + "line " + line.getNumber() + " coming in " + line.getArrivalTime());
 
