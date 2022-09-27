@@ -23,6 +23,7 @@
         <entry key="..\:/Users/maral/AndroidStudioProjects/busFinder/app/src/main/res/layout/activity_log_in.xml" value="0.1933876811594203" />
         <entry key="..\:/Users/maral/AndroidStudioProjects/busFinder/app/src/main/res/layout/activity_main.xml" value="0.536" />
         <entry key="..\:/Users/maral/AndroidStudioProjects/busFinder/app/src/main/res/layout/activity_map.xml" value="0.5251641137855579" />
+        <entry key="..\:/Users/maral/AndroidStudioProjects/busFinder/app/src/main/res/layout/activity_navigate.xml" value="0.1046875" />
         <entry key="..\:/Users/maral/AndroidStudioProjects/busFinder/app/src/main/res/layout/activity_search_line_dialog.xml" value="0.2318840579710145" />
         <entry key="..\:/Users/maral/AndroidStudioProjects/busFinder/app/src/main/res/layout/activity_station_lines_list_view.xml" value="0.4" />
         <entry key="..\:/Users/maral/AndroidStudioProjects/busFinder/app/src/main/res/layout/activity_station_list_view.xml" value="0.152" />
@@ -33,6 +34,7 @@
         <entry key="..\:/Users/maral/AndroidStudioProjects/busFinder/app/src/main/res/layout/custom_info_window.xml" value="0.4" />
         <entry key="..\:/Users/maral/AndroidStudioProjects/busFinder/app/src/main/res/layout/fragment_dashboard.xml" value="0.1933876811594203" />
         <entry key="..\:/Users/maral/AndroidStudioProjects/busFinder/app/src/main/res/layout/fragment_home.xml" value="0.1933876811594203" />
+        <entry key="..\:/Users/maral/AndroidStudioProjects/busFinder/app/src/main/res/layout/fragment_notifications.xml" value="0.4" />
         <entry key="..\:/Users/shova/AndroidStudioProjects/busfinder/app/src/main/res/layout/activity_menu.xml" value="0.19479166666666667" />
         <entry key="..\:/Users/shova/AndroidStudioProjects/busfinder/app/src/main/res/layout/fragment_home.xml" value="0.25" />
       </map>

@@ -101,6 +101,7 @@ public class Line {
     }
 
     public boolean existStation(Station s){
+        line_stations =  RestApi.routes.get(getId());
         for (int i=0;i<line_stations.size();i++){
             if(Integer.parseInt(s.getId()) == Integer.parseInt(line_stations.get(i).getId()))
                 return true;

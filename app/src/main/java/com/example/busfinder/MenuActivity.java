@@ -316,21 +316,28 @@ public class MenuActivity extends AppCompatActivity {
     public void findRoute(View view){
         ArrayList<Station> nearDes = new ArrayList<>();
         ArrayList<Station> nearStart = new ArrayList<>();
-        double lngStart = startPlace.getLatLng().longitude;
+      /*  double lngStart = startPlace.getLatLng().longitude;
         double latStart = startPlace.getLatLng().latitude;
         double lngEnd = endPlace.getLatLng().longitude;
-        double latEnd = endPlace.getLatLng().latitude;
+        double latEnd = endPlace.getLatLng().latitude;*/
+        double lngStart =34.85822579628842;
+        double latStart =  32.32807135087045;
+        double lngEnd =34.85593034676317;
+        double latEnd = 32.32107577454817;
         double dis_from_des, dis_from_start;
         ArrayList<NavHelper> routes = new ArrayList<>();
         for (int i=0;i<RestApi.stations.size();i++){
             dis_from_des = Station.getDistance(Double.parseDouble(RestApi.stations.get(i).getLat()), Double.parseDouble(RestApi.stations.get(i).getLongt()), latEnd, lngEnd);
             dis_from_start = Station.getDistance(Double.parseDouble(RestApi.stations.get(i).getLat()), Double.parseDouble(RestApi.stations.get(i).getLongt()), latStart, lngStart);
-            if(dis_from_des < 200)
+            if(dis_from_des < 0.2)
                 nearDes.add(RestApi.stations.get(i));
-            if (dis_from_start < 200)
+            if (dis_from_start < 0.2)
                 nearStart.add(RestApi.stations.get(i));
 
+
+
         }
+
 
         for (int i=0;i<nearDes.size();i++){
             for (int j=0;j<nearStart.size();j++){
