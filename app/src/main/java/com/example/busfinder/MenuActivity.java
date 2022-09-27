@@ -70,6 +70,7 @@ public class MenuActivity extends AppCompatActivity {
     private static String apiKey = "AIzaSyD8LIod8GgrDssZ3WA-SLAsrs3iM-BihvI";
     public Place startPlace = null, endPlace = null;
     private int id;
+    TextView route_text;
 
 
 
@@ -95,6 +96,8 @@ public class MenuActivity extends AppCompatActivity {
 
         Places.initialize(getApplicationContext(), apiKey);
         PlacesClient placesclient = Places.createClient(this);
+
+        route_text = findViewById(R.id.routeText);
 
         // method to get the location
         getLastLocation();
@@ -318,7 +321,7 @@ public class MenuActivity extends AppCompatActivity {
         double lngEnd = endPlace.getLatLng().longitude;
         double latEnd = endPlace.getLatLng().latitude;
         double dis_from_des, dis_from_start;
-        ArrayList<Line> routes = new ArrayList<>();
+        ArrayList<NavHelper> routes = new ArrayList<>();
         for (int i=0;i<RestApi.stations.size();i++){
             dis_from_des = Station.getDistance(Double.parseDouble(RestApi.stations.get(i).getLat()), Double.parseDouble(RestApi.stations.get(i).getLongt()), latEnd, lngEnd);
             dis_from_start = Station.getDistance(Double.parseDouble(RestApi.stations.get(i).getLat()), Double.parseDouble(RestApi.stations.get(i).getLongt()), latStart, lngStart);
@@ -333,10 +336,16 @@ public class MenuActivity extends AppCompatActivity {
             for (int j=0;j<nearStart.size();j++){
                 for (int k=0;k<RestApi.lines.size();k++){
                     if (RestApi.lines.get(k).existStation(nearDes.get(i)) && RestApi.lines.get(k).existStation(nearStart.get(j))){
-                        routes.add(RestApi.lines.get(k));
+                        routes.add(new NavHelper(RestApi.lines.get(k), nearStart.get(i), nearDes.get(j)));
                     }
                 }
             }
+        }
+
+        if(!routes.isEmpty()){
+            double dis1 = Station.getDistance(Double.parseDouble(routes.get(0).getStart_station().getLat()), Double.parseDouble(routes.get(0).getStart_station().getLongt()), latStart, lngStart);
+            double dis2 = Station.getDistance(Double.parseDouble(routes.get(0).getEnd_station().getLat()), Double.parseDouble(routes.get(0).getEnd_station().getLongt()), latEnd, lngEnd);
+            route_text.setText("From " + routes.get(0).getStart_station().getName());
         }
 
 
