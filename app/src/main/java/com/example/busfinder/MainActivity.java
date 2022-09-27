@@ -119,171 +119,64 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
     @Override
     public void run() {
-        RestApi restApi = new RestApi();
 
-        Boolean success = false;
-
-        while (!success) {
-
-            try {
-                restApi.doInBackground("function=showStations");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            if (RestApi.stations.size() > 0)
-                success = true;
-
-            else {
-
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
+        getInfoRestApi("showStations");
         countProgress++;
 
-        success = false;
-
-        while (!success) {
-
-            try {
-                restApi.doInBackground("function=showLines");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            if (RestApi.stations.size() > 0)
-                success = true;
-
-            else {
-
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-
+        getInfoRestApi("showLines");
         countProgress++;
 
-        success = false;
-
-        while (!success) {
-
-            try {
-                restApi.doInBackground("function=showTracks");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            if (RestApi.stations.size() > 0)
-                success = true;
-
-            else {
-
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
+        getInfoRestApi("showTracks");
         countProgress++;
-        success = false;
 
-        while (!success) {
-
-            try {
-                restApi.doInBackground("function=showRoutes");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            if (RestApi.stations.size() > 0)
-                success = true;
-
-            else {
-
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-
+        getInfoRestApi("showRoutes");
         countProgress++;
-        success = false;
 
-        while (!success) {
-
-            try {
-                restApi.doInBackground("function=showCompanies");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            if (RestApi.stations.size() > 0)
-                success = true;
-
-            else {
-
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-
-        success = false;
-
-        while (!success) {
-
-            try {
-                restApi.doInBackground("function=showCities");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            if (RestApi.stations.size() > 0)
-                success = true;
-
-            else {
-
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-
-
+        getInfoRestApi("showCompanies");
+        getInfoRestApi("showCities");
         countProgress++;
+
         RestApi.stations.bindLinesToStations();
         countProgress++;
+
         ArrayListLine.bindLineToCompany();
         ArrayListStation.bindStationToCity();
-
-
         countProgress++;
 
     }
 
+
+    public void getInfoRestApi(String functionName) {
+        RestApi restApi = new RestApi();
+
+        Boolean success = false;
+        while (!success) {
+
+            try {
+                restApi.doInBackground("function=" + functionName);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            if (RestApi.stations.size() > 0)
+                success = true;
+
+            else {
+
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
+
+
     public void map(View view) {
 
-        Toast.makeText(this," "+ RestApi.stations.get(0).getCity(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, " " + RestApi.stations.get(0).getCity(), Toast.LENGTH_SHORT).show();
 
         if (!t.isAlive()) {
             moveToMapActivity();
@@ -296,10 +189,9 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     }
 
 
-    void moveToMapActivity()
-    {
+    void moveToMapActivity() {
 
-        Context context =this;
+        Context context = this;
 
         new CountDownTimer(2 * 1000, 1000) {
 

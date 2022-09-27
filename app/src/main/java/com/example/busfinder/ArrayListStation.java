@@ -1,8 +1,12 @@
 package com.example.busfinder;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ArrayListStation extends ArrayList<Station> {
+
+    private HashMap<String , ArrayListStation> busToLines = new HashMap<String, ArrayListStation>(); //any bus has list of lines
+
 
     public ArrayListStation() {
 
@@ -18,6 +22,14 @@ public class ArrayListStation extends ArrayList<Station> {
 
     }
 
+
+    public HashMap<String, ArrayListStation> getBusToLines() {
+        return busToLines;
+    }
+
+    public void setBusToLines(HashMap<String, ArrayListStation> busToLines) {
+        this.busToLines = busToLines;
+    }
 
     public void bindLinesToStations() {
         for (int i = 0; i < RestApi.stations.size(); i++) {
@@ -64,20 +76,15 @@ public class ArrayListStation extends ArrayList<Station> {
         return false;
     }
 
-    public static void bindStationToCity()
-    {
+    public static void bindStationToCity() {
 
 
-        for(int i=0; i<RestApi.stations.size();i++)
-        {
+        for (int i = 0; i < RestApi.stations.size(); i++) {
             Station station = RestApi.stations.get(i);
-            station.setCity(  ArrayListCity.findCityById(station.getCityId()) );
+            station.setCity(ArrayListCity.findCityById(station.getCityId()));
 
 
         }
-
-
-
 
 
     }

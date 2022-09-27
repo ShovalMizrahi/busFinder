@@ -113,6 +113,20 @@ public class Bus {
 
     }
 
+    public static Bus findBusById(String busId)
+    {
+
+        for(int i=0; i<RestApi.buses.size();i++)
+        {
+            Bus bus = RestApi.buses.get(i);
+            if(bus.getId().equals(busId))
+                return bus;
+
+        }
+
+        return null;
+    }
+
     public ArrayListStation getStations() {
         return stations;
     }

@@ -2,6 +2,8 @@ package com.example.busfinder;
 
 import com.example.busfinder.MenuActivity;
 
+import java.util.HashMap;
+
 public class Station {
     private String id;
     private String name;
@@ -15,7 +17,10 @@ public class Station {
     private double distanceFromBus;
 
 
+    private int mintues;
+
     private ArrayListLine lines; //the lines that going into the staions
+
     private double distance;
     private final int earth_radius = 6371000;
 
@@ -133,6 +138,13 @@ public class Station {
         this.distanceFromBus = distanceFromBus;
     }
 
+    public int getMintues() {
+        return mintues;
+    }
+
+    public void setMintues(int mintues) {
+        this.mintues = mintues;
+    }
 
     public static double getDistance(double latS, double longS, double latD, double longD) {
         if ((longS == latD) && (longS == longD)) {

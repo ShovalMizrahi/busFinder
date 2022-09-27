@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class MapActivity extends AppCompatActivity implements Runnable {
 
@@ -81,7 +82,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
         setContentView(R.layout.activity_map);
 
 
-        exit=false;
+        exit = false;
 
         context = this;
         tVNumberStationMap = findViewById(R.id.tVNumberStationMap);
@@ -196,18 +197,13 @@ public class MapActivity extends AppCompatActivity implements Runnable {
         }
 
 
-
-       Station specificStation = findSpecificStation();
+        Station specificStation = findSpecificStation();
 
 
         if (specificStation != null) {
             GeoPoint point = new GeoPoint(Double.parseDouble(specificStation.getLat()), Double.parseDouble(specificStation.getLongt()));
             map.getController().setCenter(point);
-
-
         }
-
-
 
 
         t = new Thread(this);
@@ -230,9 +226,6 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
 
         startThreads();
-
-
-
 
     }
 
@@ -277,33 +270,86 @@ public class MapActivity extends AppCompatActivity implements Runnable {
                 //   System.out.println("checking this " + calculateTime.doInBackground());
 
 
-                for (int x = 0; x < RestApi.stations.size(); x++) {
+                createLinesToBus();
 
-                    Station station = RestApi.stations.get(x);
+                // Iterating HashMap through for loop
+                for (Map.Entry<String, ArrayListStation> set :
+                        RestApi.stations.getBusToLines().entrySet()) {
 
-                    for (int i = 0; i < station.getLines().size(); i++) {
 
-                        Line line = station.getLines().get(i);
-                        for (int j = 0; j < RestApi.buses.size(); j++) {
-                            Bus bus = RestApi.buses.get(j);
+                    Bus bus = Bus.findBusById(set.getKey());
 
-                            if (bus.getLine().equals(line.getId())) {
+                    if (bus == null)
+                        continue;
+                    ;
 
-                                if (RestApi.minStation.get(bus.getId()) != null && RestApi.minStation.get(bus.getId()) < line.getOrder()) {
+                    ArrayListStation stations = set.getValue();
+                    for (int i = 0; i < stations.size(); i++) {
 
-                                    String arrivalTime = calculateTime.doInBackground(bus.getLatitude(), bus.getLongtitude(), station.getLat(), station.getLongt());
-                                    System.out.print("today " + arrivalTime);
+                        Station station = stations.get(i);
 
-                                    line.setArrivalTime(arrivalTime);
-                                }
+                        if (RestApi.minStation.get(bus.getId()) != null && RestApi.minStation.get(bus.getId()) < i) {
+                            int min = RestApi.minStation.get(bus.getId());
+
+                            int minutes;
+
+                            String arrivalTime;
+                            if (min + 1 == i) {
+                                arrivalTime = calculateTime.doInBackground(bus.getLatitude(), bus.getLongtitude(), station.getLat(), station.getLongt());
+                                minutes = Integer.parseInt(arrivalTime.split(" ")[0]);
+
+                            } else {
+                                if (i - 1 < 0)
+                                    return;
+
+                                Station previousStatopn = stations.get(i - 1);
+                                arrivalTime = calculateTime.doInBackground(previousStatopn.getLat(), previousStatopn.getLongt(), station.getLat(), station.getLongt());
+
+                                minutes = Integer.parseInt(arrivalTime.split(" ")[0]);
+
+                                minutes += stations.get(i - 1).getMintues();
+
                             }
 
-                        }
-                    }
 
+
+
+                            station.setMintues(minutes);
+
+                            System.out.println("today is today " + station.getMintues());
+
+
+                        }
+
+                    }
                 }
+
             }
         }
+    }
+
+    private void createLinesToBus() {
+        for (int i = 0; i < RestApi.buses.size(); i++) {
+            Bus bus = RestApi.buses.get(i);
+            if (bus == null)
+                return;
+            if (RestApi.stations.getBusToLines().get(bus.getId()) == null) {
+
+                duplicateLinesForBus(bus);
+            }
+
+
+        }
+    }
+
+    private void duplicateLinesForBus(Bus bus) {
+        ArrayListStation stations = new ArrayListStation(RestApi.routes.get(bus.getLine()));
+
+        RestApi.stations.getBusToLines().put(bus.getId(), stations);
+
+        System.out.println("the size is " + RestApi.stations.getBusToLines().get(bus.getId()).size());
+
+
     }
 
 
@@ -695,23 +741,11 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
             tVComingBuses.setText("");
 
-            for (int i = 0; i < station.getLines().size(); i++) {
 
-                Line line = station.getLines().get(i);
-                for (int j = 0; j < RestApi.buses.size(); j++) {
-                    Bus bus = RestApi.buses.get(j);
+            String timeArrival = findTimeArrivalByStationId(station.getId());
 
-                    if (bus.getLine().equals(line.getId())) {
 
-                        if (RestApi.minStation.get(bus.getId()) != null && RestApi.minStation.get(bus.getId()) < line.getOrder() && line.getArrivalTime() != null) {
-
-                            tVComingBuses.append("\n" + "line " + line.getNumber() + " coming in " + line.getArrivalTime());
-
-                        }
-                    }
-
-                }
-            }
+            tVComingBuses.setText(timeArrival);
 
             tVNumberStaion.setText("code station:" + station.getId());
             tVNameStaion.setText("name station:" + station.getName());
@@ -724,6 +758,40 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
         }
 
+    }
+
+    private String findTimeArrivalByStationId(String stationId) {
+
+        String result="";
+
+        // Iterating HashMap through for loop
+        for (Map.Entry<String, ArrayListStation> set :
+                RestApi.stations.getBusToLines().entrySet()) {
+
+
+            Bus bus = Bus.findBusById(set.getKey());
+
+            if (bus == null)
+                continue;
+
+
+            ArrayListStation stations = set.getValue();
+            for (int i = 0; i < stations.size(); i++) {
+
+                Station station = stations.get(i);
+
+                ArrayListLine lines = new ArrayListLine();
+
+                if (station.getId().equals(stationId) && RestApi.minStation.get(bus.getId()) != null && RestApi.minStation.get(bus.getId()) < i) {
+
+                    result+= "\n" + "line " +   lines.findLineById(bus.getLine()).getNumber() + "(" + bus.getId() + ")" +" coming in " +station.getMintues();
+
+                }
+            }
+
+
+        }
+        return result;
     }
 
     /*
