@@ -267,7 +267,6 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
                 CalculateTime calculateTime = new CalculateTime();
 
-                //   System.out.println("checking this " + calculateTime.doInBackground());
 
 
                 createLinesToBus();
@@ -316,7 +315,6 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
                             station.setMintues(minutes);
 
-                            System.out.println("today is today " + station.getMintues());
 
 
                         }
@@ -347,7 +345,6 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
         RestApi.stations.getBusToLines().put(bus.getId(), stations);
 
-        System.out.println("the size is " + RestApi.stations.getBusToLines().get(bus.getId()).size());
 
 
     }

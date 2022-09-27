@@ -45,79 +45,32 @@ public class CalculateTime extends AsyncTask<String, String, String> {
     @Override
     protected String doInBackground(String... params) {
 
-/*
-        String textResult = "";
-        String result="";
-
-        String latS = "32.314441322524736";
-        String longS = "34.84737147435249";
-
-        String latD = "32.07314315835091";
-        String longD = "34.91012304088507";
-
-        try {
-            textResult = SocketConnection
-                    .getURLSource("https://www.google.com/maps/dir/" + latS + ",+" + longS + "/" + latD + ",+" + longD + "/");
-
-            for (int j = 0; j < 2; j++) {
-                // String temp = a;
-
-                char slesh = (char) 92;
-                char quotes = '"';
-                String bb = "min" + slesh + quotes;
-
-                int end = textResult.indexOf(bb) + bb.length();
-                int i = end - 2;
-                while (textResult.charAt(i) != quotes) {
-                    i--;
-                }
-                int start = i;
-
-                result= textResult.substring(start + 1, end - 2);
-
-                textResult = textResult.substring(end, textResult.length());
-
-            }
-
-        }
-
-        catch (Exception e) {
-            System.out.println(e);
-
-
-        }
-        return result;
-
-*/
-
-
         String textResult = "";
         String result = "";
 
-        /*
-        String latS =  "32.314441322524736";
-        String longS = "34.84737147435249";
-
-        String latD ="32.07314315835091";
-        String longD ="34.91012304088507";
-*/
-
 
         String latS = params[0];
-        String longS =  params[1];
+        String longS = params[1];
 
-        String latD =  params[2];
-        String longD =  params[3];
+        String latD = params[2];
+        String longD = params[3];
 
+
+        String url =
+                "https://www.google.com/maps/dir/" + latS + ",+" + longS + "/" + latD + ",+" + longD + "/@32.3244815,34.854499,17z/data=!3m1!4b1!4m10!4m9!1m3!2m2!1d34.8568182!2d32.3247562!1m3!2m2!1d34.8565802!2d32.3243541!3e0?hl=en\n";
+
+
+        System.out.println("the url is " + url);
+
+        //"https://www.google.com/maps/dir/" + latS + ",+" + longS + "/" + latD + ",+" + longD + "/?hl=en"
 
         try {
             textResult = SocketConnection
-                    .getURLSource("https://www.google.com/maps/dir/" + latS + ",+" + longS + "/" + latD + ",+" + longD + "/?hl=en");
+                    .getURLSource(url);
 
 
-            for (int j = 0; j < 1; j++)
-            {
-                // String temp = a;
+            for (int j = 0; j < 1; j++) {
+
 
                 char slesh = (char) 92;
                 char quotes = '"';
@@ -132,8 +85,9 @@ public class CalculateTime extends AsyncTask<String, String, String> {
 
                 result = textResult.substring(start + 1, end - 2);
 
-                if(result.indexOf(" ")==-1 ||      isNumeric(result.split(" ")[0])==false )
+                if (result.indexOf(" ") == -1 || isNumeric(result.split(" ")[0]) == false)
                     j--;
+
 
                 textResult = textResult.substring(end, textResult.length());
 
@@ -144,18 +98,17 @@ public class CalculateTime extends AsyncTask<String, String, String> {
 
 
         }
-        System.out.println("the answer is " + result);
+
 
         return result;
     }
-
 
 
     public static boolean isNumeric(String str) {
         try {
             Double.parseDouble(str);
             return true;
-        } catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             return false;
         }
     }

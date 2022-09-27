@@ -176,7 +176,6 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
     public void map(View view) {
 
-        Toast.makeText(this, " " + RestApi.stations.get(0).getCity(), Toast.LENGTH_SHORT).show();
 
         if (!t.isAlive()) {
             moveToMapActivity();
