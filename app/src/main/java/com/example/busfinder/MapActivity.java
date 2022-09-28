@@ -80,7 +80,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-
+        getSupportActionBar().hide();
 
         exit = false;
 

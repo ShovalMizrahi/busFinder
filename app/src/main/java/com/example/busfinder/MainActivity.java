@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().hide();
 
         countProgress = 0;
         new Thread(new ProgressingThread()).start();

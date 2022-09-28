@@ -39,6 +39,7 @@ public class LineSearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_line_search);
+        getSupportActionBar().hide();
 
         initialize();
 

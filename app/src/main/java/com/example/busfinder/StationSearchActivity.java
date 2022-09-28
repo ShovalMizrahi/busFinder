@@ -35,6 +35,7 @@ public class StationSearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_station_search);
+        getSupportActionBar().hide();
 
         initialize();
 

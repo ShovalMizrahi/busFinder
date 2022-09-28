@@ -23,7 +23,6 @@ import com.bumptech.glide.Glide;
 
 public class TrackListViewActivity extends AppCompatActivity  {
 
-  //  MyRecyclerViewAdapter adapter;
     ImageView iVfavoriteLine;
     private Line line;
     private ArrayListStation line_stations;
@@ -37,6 +36,8 @@ public class TrackListViewActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_track_list_view);
+        getSupportActionBar().hide();
+
         findLine();
         initTextView();
 

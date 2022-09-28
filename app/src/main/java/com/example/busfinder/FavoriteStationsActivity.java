@@ -17,6 +17,7 @@ public class FavoriteStationsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite);
+        getSupportActionBar().hide();
 
         username = User.getCurrentUsername();
 

@@ -11,6 +11,7 @@ public class NavigateActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigate);
+        getSupportActionBar().hide();
     }
 
     public void back(View view){

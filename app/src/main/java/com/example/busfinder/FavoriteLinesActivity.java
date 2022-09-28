@@ -17,6 +17,7 @@ public class FavoriteLinesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite_lines);
+        getSupportActionBar().hide();
 
         username = User.getCurrentUsername();
 
