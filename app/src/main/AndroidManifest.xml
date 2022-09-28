@@ -35,9 +35,6 @@
             android:name=".FavoriteStationsActivity"
             android:exported="false" />
         <activity
-            android:name=".StationSearch"
-            android:exported="false" />
-        <activity
             android:name=".LineSearchActivity"
             android:exported="false" />
         <activity

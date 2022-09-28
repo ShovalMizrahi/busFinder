@@ -9,11 +9,11 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.busfinder.databinding.FragmentNotificationsBinding;
+import com.example.busfinder.databinding.FragmentNavigationsBinding;
 
 public class NavigationsFragment extends Fragment {
 
-    private FragmentNotificationsBinding binding;
+    private FragmentNavigationsBinding binding;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -21,7 +21,7 @@ public class NavigationsFragment extends Fragment {
         NavigationsViewModel notificationsViewModel =
                 new ViewModelProvider(this).get(NavigationsViewModel.class);
 
-        binding = FragmentNotificationsBinding.inflate(inflater, container, false);
+        binding = FragmentNavigationsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         return root;

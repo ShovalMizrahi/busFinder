@@ -9,6 +9,14 @@
     android:orientation="vertical"
     tools:context=".ui.navigation.NavigationsFragment">
 
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="navigation"
+        android:textAlignment="center"
+        android:textSize="48sp" />
+
     <EditText
         android:id="@+id/start_station"
         android:layout_width="wrap_content"

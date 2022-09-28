@@ -698,8 +698,6 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
     @Override
     public void onBackPressed() {
-
-
         exit = true;
         finish();
     }

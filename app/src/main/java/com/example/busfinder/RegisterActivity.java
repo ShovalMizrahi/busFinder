@@ -33,6 +33,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         getSupportActionBar().hide();
+
         FireBase.retrieveUsers();
 
         date = findViewById(R.id.etUserDateRegister);
@@ -42,7 +43,6 @@ public class RegisterActivity extends AppCompatActivity {
         etUserNameRegister = findViewById(R.id.etUserNameRegister);
 
 
-        //      FireBase.registerUser("almog","123456","maralmog8@gmail.com",new Date(96,9,23),"0548868225");
     }
 
     public void datePicker(View view) {
@@ -96,7 +96,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
         if (!patternMatches(etUserPasswordRegister.getText().toString(), "^.{5}(.+)$")) {
-            Toast.makeText(this, "at leas 6 chars", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "password has to be at least 6 chars", Toast.LENGTH_SHORT).show();
             return;
         }
 
