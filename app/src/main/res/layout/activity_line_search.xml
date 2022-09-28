@@ -18,7 +18,9 @@
         android:id="@+id/etSearch"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="serach line" />
+        android:hint="serach line"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black" />
 
     <ListView
         android:id="@+id/ivLines"
