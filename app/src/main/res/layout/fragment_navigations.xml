@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:text="Navigation"
         android:textAlignment="center"
+        android:textColor="@color/black"
         android:textSize="48sp" />
 
     <EditText
@@ -25,7 +26,9 @@
         android:ems="10"
         android:hint="start station"
         android:inputType="textPersonName"
-        android:minHeight="48dp" />
+        android:minHeight="48dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black" />
 
     <EditText
         android:id="@+id/end_station"
@@ -34,7 +37,9 @@
         android:ems="10"
         android:hint="end station"
         android:inputType="textPersonName"
-        android:minHeight="48dp" />
+        android:minHeight="48dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black" />
 
     <Button
         android:id="@+id/button9"

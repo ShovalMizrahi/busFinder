@@ -24,6 +24,7 @@
             android:layout_weight="1"
             android:text="TextView"
             android:textAlignment="center"
+            android:textColor="@color/black"
             android:textSize="24sp" />
 
         <TextView
@@ -47,7 +48,8 @@
             android:layout_height="20dp"
             android:layout_weight="1"
             android:text="bbbb"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="@color/black" />
     </LinearLayout>
 
     <LinearLayout
@@ -62,6 +64,7 @@
             android:layout_height="wrap_content"
             android:text="TextView"
             android:textAlignment="center"
+            android:textColor="@color/black"
             android:textSize="24sp" />
 
         <TextView
@@ -69,21 +72,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/tVSourceStationNumberSearchLine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/tVSourceStationCitySearchLine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="@color/black" />
     </LinearLayout>
 
     <LinearLayout
@@ -98,6 +104,7 @@
             android:layout_height="wrap_content"
             android:text="TextView"
             android:textAlignment="center"
+            android:textColor="@color/black"
             android:textSize="24sp" />
 
         <TextView
@@ -105,21 +112,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/tVDestStationNumberSearchLine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/tVDestStationCitySearchLine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="@color/black" />
     </LinearLayout>
 
 </LinearLayout>

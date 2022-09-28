@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:text="Line list"
         android:textAlignment="center"
+        android:textColor="@color/black"
         android:textSize="48sp" />
 
     <EditText

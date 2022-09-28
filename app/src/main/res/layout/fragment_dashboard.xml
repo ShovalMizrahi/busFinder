@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:text="List of stations and lines"
         android:textAlignment="center"
+        android:textColor="@color/black"
         android:textSize="48sp" />
 
     <Button
@@ -23,7 +24,9 @@
 
         android:layout_marginBottom="20dp"
         android:hint="@string/line_search"
-        android:onClick="lineSearch" />
+        android:onClick="lineSearch"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black" />
 
     <Button
         android:id="@+id/button3"
@@ -31,7 +34,9 @@
         android:layout_height="100dp"
         android:layout_marginBottom="20dp"
         android:hint="@string/station_search"
-        android:onClick="stationSearch" />
+        android:onClick="stationSearch"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black" />
 
     <Button
         android:id="@+id/button5"
@@ -39,13 +44,17 @@
         android:layout_height="100dp"
         android:layout_marginBottom="20dp"
         android:hint="@string/favorite"
-        android:onClick="favoriteLines" />
+        android:onClick="favoriteLines"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black" />
 
     <Button
         android:id="@+id/button7"
         android:layout_width="200dp"
         android:layout_height="100dp"
         android:hint="favorite stations"
-        android:onClick="favoriteStations" />
+        android:onClick="favoriteStations"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black" />
 
 </LinearLayout>

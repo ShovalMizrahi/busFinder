@@ -15,7 +15,8 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:singleLine="true"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:textColor="@color/black" />
 
     <TextView
         android:id="@+id/station_name"
@@ -23,6 +24,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:singleLine="true"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:textColor="@color/black" />
 
 </LinearLayout>
