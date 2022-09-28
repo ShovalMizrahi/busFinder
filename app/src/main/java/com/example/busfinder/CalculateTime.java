@@ -25,7 +25,6 @@ public class CalculateTime extends AsyncTask<String, String, String> {
 
 
     public CalculateTime() {
-        //set context variables if required
     }
 
     @Override
@@ -52,7 +51,6 @@ public class CalculateTime extends AsyncTask<String, String, String> {
                 "https://www.google.com/maps/dir/" + latS + ",+" + longS + "/" + latD + ",+" + longD + "/@32.3244815,34.854499,17z/data=!3m1!4b1!4m10!4m9!1m3!2m2!1d34.8568182!2d32.3247562!1m3!2m2!1d34.8565802!2d32.3243541!3e0?hl=en\n";
 
 
-        System.out.println("the url is " + url);
 
         //"https://www.google.com/maps/dir/" + latS + ",+" + longS + "/" + latD + ",+" + longD + "/?hl=en"
 

@@ -89,7 +89,6 @@ public class RestApi extends AsyncTask<String, String, String> {
             con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 
             try (DataOutputStream wr = new DataOutputStream(con.getOutputStream())) {
-                //System.out.println(wr.getClass());
 
                 wr.write(postData);
             }
@@ -134,8 +133,6 @@ public class RestApi extends AsyncTask<String, String, String> {
 
                 if (params[0].equals("function=showCities"))
                     cities = Json.convertJsonToObject(ArrayListCity.class, adjusted);
-
-                System.out.println(adjusted);
 
             }
 

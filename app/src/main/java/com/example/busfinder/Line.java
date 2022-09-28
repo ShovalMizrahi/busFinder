@@ -69,16 +69,7 @@ public class Line {
 
         }
     }
-    /*
-    public static ArrayListStation getLine_stations() {
-        return line_stations;
-    }
 
-    public static void setLine_stations(ArrayListStation line_stations) {
-        Line.line_stations = line_stations;
-    }
-
-     */
 
     public int getOrder() {
         return order;

@@ -41,8 +41,6 @@ public class HomeFragment extends Fragment {
         CustomAdapter adapter = new CustomAdapter(getActivity(),MenuActivity.getSortedStations());
         nearbyStations.setAdapter(adapter);
 
-        System.out.println("the answer is "+ MenuActivity.getSortedStations().size());
-
 
 
         return root;

@@ -3,6 +3,8 @@ package com.example.busfinder;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
@@ -55,6 +58,7 @@ import com.google.android.gms.tasks.Task;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -65,22 +69,19 @@ public class MenuActivity extends AppCompatActivity {
     ArrayList<Double> dis_stations = new ArrayList<Double>();
     private static ArrayListStation sortedStations = new ArrayListStation();
     private final int PERMISSION_ID = 44;
-    private static int AUTOCOMPLETE_REQUEST_CODE = 1;
-    private static final String TAG = "place";
-    private static String apiKey = "AIzaSyD8LIod8GgrDssZ3WA-SLAsrs3iM-BihvI";
-    public Place startPlace = null, endPlace = null;
-    private int id;
     TextView route_text;
-
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+
         binding = ActivityMenuBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        getSupportActionBar().hide();
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -94,10 +95,7 @@ public class MenuActivity extends AppCompatActivity {
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        Places.initialize(getApplicationContext(), apiKey);
-        PlacesClient placesclient = Places.createClient(this);
 
-        route_text = findViewById(R.id.routeText);
 
         // method to get the location
         getLastLocation();
@@ -105,38 +103,31 @@ public class MenuActivity extends AppCompatActivity {
         getStationDistances();
 
 
-
     }
 
 
-    //dashboard fragment methods
-    public void lineSearch(View view){
-        Intent intent = new Intent (this, LineSearchActivity.class);
+    public void lineSearch(View view) {
+        Intent intent = new Intent(this, LineSearchActivity.class);
         startActivity(intent);
     }
 
-    public void stationSearch(View view){
-        Intent intent = new Intent (this, StationSearchActivity.class);
+    public void stationSearch(View view) {
+        Intent intent = new Intent(this, StationSearchActivity.class);
         startActivity(intent);
     }
 
-    public void favoriteStations(View view){
-        Intent intent = new Intent (this, FavoriteStationsActivity.class);
+    public void favoriteStations(View view) {
+        Intent intent = new Intent(this, FavoriteStationsActivity.class);
         startActivity(intent);
     }
 
-    public void favoriteLines(View view){
-        Intent intent = new Intent (this, FavoriteLinesActivity.class);
-        startActivity(intent);
-    }
-
-    public void navigate(View view){
-        Intent intent = new Intent (this, NavigateActivity.class);
+    public void favoriteLines(View view) {
+        Intent intent = new Intent(this, FavoriteLinesActivity.class);
         startActivity(intent);
     }
 
 
-    //getting user location
+
     @SuppressLint("MissingPermission")
     private void getLastLocation() {
         // check if permissions are given
@@ -254,22 +245,20 @@ public class MenuActivity extends AppCompatActivity {
         return longtitude;
     }
 
-
-    //getting stations distance from user
     public void getStationDistances() {
 
         sortedStations.clear();
 
-        ArrayList<Double> sortedDis= new ArrayList<Double>();
-        for (int i = 0; i< RestApi.stations.size(); i++){
+        ArrayList<Double> sortedDis = new ArrayList<Double>();
+        for (int i = 0; i < RestApi.stations.size(); i++) {
             dis_stations.add(RestApi.stations.get(i).getDistance());
             sortedDis.add(RestApi.stations.get(i).getDistance());
 
         }
         Collections.sort(sortedDis);
-        for (int i = 0; i< sortedDis.size(); i++){
-            for (int j=0; j< dis_stations.size();j++){
-                if(sortedDis.get(i).equals(dis_stations.get(j)))
+        for (int i = 0; i < sortedDis.size(); i++) {
+            for (int j = 0; j < dis_stations.size(); j++) {
+                if (sortedDis.get(i).equals(dis_stations.get(j)))
                     sortedStations.add(RestApi.stations.get(j));
             }
         }
@@ -278,82 +267,128 @@ public class MenuActivity extends AppCompatActivity {
         Log.d("arraytag", String.valueOf(dis_stations));
     }
 
-    public static ArrayListStation getSortedStations(){
+    public static ArrayListStation getSortedStations() {
         return sortedStations;
     }
 
 
 
-    // navigation methods
-    public void startAutoCompleteActivity(View view) {
-        Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, Arrays.asList(Place.Field.ID, Place.Field.NAME))
-                .build(this);
-        id = view.getId();
-        startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
-    }
-
-
-    @Override
-    public void onActivityResult (int requestCode, int resultCode, Intent data){
-        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
-            Place place = Autocomplete.getPlaceFromIntent(data);
-            Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
-            if (id == R.id.button6)
-                startPlace = place;
-            if (id == R.id.button8)
-                endPlace = place;
-            putPlace(place, id);
-            return;
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    public void putPlace(Place place, int id){
-        if (id == R.id.button6) {
-            TextView start = findViewById(R.id.start_station);
-            start.setText(place.getName());
-        }
-        else {
-            TextView end = findViewById(R.id.end_station);
-            end.setText(place.getName());
-        }
-    }
-
-    public void findRoute(View view){
+    public void findRoute(View view) {
         ArrayList<Station> nearDes = new ArrayList<>();
         ArrayList<Station> nearStart = new ArrayList<>();
-        double lngStart = startPlace.getLatLng().longitude;
+      /*  double lngStart = startPlace.getLatLng().longitude;
         double latStart = startPlace.getLatLng().latitude;
         double lngEnd = endPlace.getLatLng().longitude;
-        double latEnd = endPlace.getLatLng().latitude;
+        double latEnd = endPlace.getLatLng().latitude;*/
+
+
+        TextView start = findViewById(R.id.start_station);
+        TextView end = findViewById(R.id.end_station);
+
+        LatLng startPoint = getLatLngFromAddress(start.getText().toString());
+        if (startPoint == null) {
+            Toast.makeText(this, "can't find start location", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
+        LatLng endPoint = getLatLngFromAddress(end.getText().toString());
+        if (endPoint == null) {
+            Toast.makeText(this, "can't find end location", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        double lngStart = startPoint.longitude;
+        double latStart = startPoint.latitude;
+
+
+        double lngEnd = endPoint.longitude;
+        double latEnd = endPoint.latitude;
+
         double dis_from_des, dis_from_start;
         ArrayList<NavHelper> routes = new ArrayList<>();
-        for (int i=0;i<RestApi.stations.size();i++){
+        for (int i = 0; i < RestApi.stations.size(); i++) {
             dis_from_des = Station.getDistance(Double.parseDouble(RestApi.stations.get(i).getLat()), Double.parseDouble(RestApi.stations.get(i).getLongt()), latEnd, lngEnd);
             dis_from_start = Station.getDistance(Double.parseDouble(RestApi.stations.get(i).getLat()), Double.parseDouble(RestApi.stations.get(i).getLongt()), latStart, lngStart);
-            if(dis_from_des < 200)
+            if (dis_from_des < 0.4)
                 nearDes.add(RestApi.stations.get(i));
-            if (dis_from_start < 200)
+            if (dis_from_start < 0.4) {
                 nearStart.add(RestApi.stations.get(i));
+            }
 
         }
 
-        for (int i=0;i<nearDes.size();i++){
-            for (int j=0;j<nearStart.size();j++){
-                for (int k=0;k<RestApi.lines.size();k++){
-                    if (RestApi.lines.get(k).existStation(nearDes.get(i)) && RestApi.lines.get(k).existStation(nearStart.get(j))){
-                        routes.add(new NavHelper(RestApi.lines.get(k), nearStart.get(i), nearDes.get(j)));
+
+        for (int i = 0; i < nearDes.size(); i++) {
+            for (int j = 0; j < nearStart.size(); j++) {
+                for (int k = 0; k < RestApi.lines.size(); k++) {
+                    if (RestApi.lines.get(k).existStation(nearDes.get(i)) && RestApi.lines.get(k).existStation(nearStart.get(j))) {
+                        routes.add(new NavHelper(RestApi.lines.get(k), nearStart.get(j), nearDes.get(i)));
                     }
                 }
             }
         }
+        route_text = findViewById(R.id.routeText);
+        route_text.setText("");
 
-        if(!routes.isEmpty()){
-            double dis1 = Station.getDistance(Double.parseDouble(routes.get(0).getStart_station().getLat()), Double.parseDouble(routes.get(0).getStart_station().getLongt()), latStart, lngStart);
-            double dis2 = Station.getDistance(Double.parseDouble(routes.get(0).getEnd_station().getLat()), Double.parseDouble(routes.get(0).getEnd_station().getLongt()), latEnd, lngEnd);
-            route_text.setText("From " + routes.get(0).getStart_station().getName());
+
+
+        if (routes.size() == 0) {
+            route_text.setLines(1);
+            route_text.setText("No suitable route was found for the requested destination ");
+        } else {
+
+            route_text.setLines(2);
+
+            route_text.setText(routes.size() + " routes were found:\n");
+
         }
 
+
+        for (int i = 0; i < routes.size(); i++) {
+
+            if (i != 0) {
+                route_text.setLines(route_text.getMaxLines() + 1);
+                route_text.append("\n");
+
+            }
+
+
+            NavHelper route = routes.get(i);
+
+            route_text.setLines(route_text.getMaxLines() + 5);
+
+
+            route_text.append("\n" + (i + 1) + ")boarding station:\n    " + route.getStart_station().getName());
+            route_text.append("\nfinal station:\n   " + route.getEnd_station().getName());
+            route_text.append("\nline number: " + route.getLine().getNumber());
+        }
+
+
+
+
+
+    }
+
+
+    private LatLng getLatLngFromAddress(String address) {
+
+        Geocoder geocoder = new Geocoder(this);
+        List<Address> addressList;
+
+        try {
+            addressList = geocoder.getFromLocationName(address, 1);
+            if (addressList != null) {
+                Address singleaddress = addressList.get(0);
+                LatLng latLng = new LatLng(singleaddress.getLatitude(), singleaddress.getLongitude());
+                return latLng;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
 
     }
 

@@ -1,8 +1,6 @@
 package com.example.busfinder;
 
-import com.example.busfinder.MenuActivity;
 
-import java.util.HashMap;
 
 public class Station {
     private String id;
@@ -156,9 +154,6 @@ public class Station {
             dist = dist * 1.609344;
 
 
-            //  System.out.println("\n\n\n"+dist +"\n\n\n");
-
-            // return Math.random();
             return (dist);
         }
     }

@@ -32,9 +32,6 @@
             android:name=".MapActivity"
             android:exported="false" />
         <activity
-            android:name=".NavigateActivity"
-            android:exported="false" />
-        <activity
             android:name=".FavoriteStationsActivity"
             android:exported="false" />
         <activity
