@@ -73,8 +73,6 @@ public class MenuActivity extends AppCompatActivity {
     TextView route_text;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,32 +103,31 @@ public class MenuActivity extends AppCompatActivity {
         getStationDistances();
 
 
-
     }
 
 
-    public void lineSearch(View view){
-        Intent intent = new Intent (this, LineSearchActivity.class);
+    public void lineSearch(View view) {
+        Intent intent = new Intent(this, LineSearchActivity.class);
         startActivity(intent);
     }
 
-    public void stationSearch(View view){
-        Intent intent = new Intent (this, StationSearchActivity.class);
+    public void stationSearch(View view) {
+        Intent intent = new Intent(this, StationSearchActivity.class);
         startActivity(intent);
     }
 
-    public void favoriteStations(View view){
-        Intent intent = new Intent (this, FavoriteStationsActivity.class);
+    public void favoriteStations(View view) {
+        Intent intent = new Intent(this, FavoriteStationsActivity.class);
         startActivity(intent);
     }
 
-    public void favoriteLines(View view){
-        Intent intent = new Intent (this, FavoriteLinesActivity.class);
+    public void favoriteLines(View view) {
+        Intent intent = new Intent(this, FavoriteLinesActivity.class);
         startActivity(intent);
     }
 
-    public void navigate(View view){
-        Intent intent = new Intent (this, NavigateActivity.class);
+    public void navigate(View view) {
+        Intent intent = new Intent(this, NavigateActivity.class);
         startActivity(intent);
     }
 
@@ -255,16 +252,16 @@ public class MenuActivity extends AppCompatActivity {
 
         sortedStations.clear();
 
-        ArrayList<Double> sortedDis= new ArrayList<Double>();
-        for (int i = 0; i< RestApi.stations.size(); i++){
+        ArrayList<Double> sortedDis = new ArrayList<Double>();
+        for (int i = 0; i < RestApi.stations.size(); i++) {
             dis_stations.add(RestApi.stations.get(i).getDistance());
             sortedDis.add(RestApi.stations.get(i).getDistance());
 
         }
         Collections.sort(sortedDis);
-        for (int i = 0; i< sortedDis.size(); i++){
-            for (int j=0; j< dis_stations.size();j++){
-                if(sortedDis.get(i).equals(dis_stations.get(j)))
+        for (int i = 0; i < sortedDis.size(); i++) {
+            for (int j = 0; j < dis_stations.size(); j++) {
+                if (sortedDis.get(i).equals(dis_stations.get(j)))
                     sortedStations.add(RestApi.stations.get(j));
             }
         }
@@ -273,10 +270,9 @@ public class MenuActivity extends AppCompatActivity {
         Log.d("arraytag", String.valueOf(dis_stations));
     }
 
-    public static ArrayListStation getSortedStations(){
+    public static ArrayListStation getSortedStations() {
         return sortedStations;
     }
-
 
 
     public void startAutoCompleteActivity(View view) {
@@ -288,7 +284,7 @@ public class MenuActivity extends AppCompatActivity {
 
 
     @Override
-    public void onActivityResult (int requestCode, int resultCode, Intent data){
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
             Place place = Autocomplete.getPlaceFromIntent(data);
             Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
@@ -302,57 +298,67 @@ public class MenuActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void putPlace(Place place, int id){
+    public void putPlace(Place place, int id) {
         if (id == R.id.button6) {
             TextView start = findViewById(R.id.start_station);
             start.setText(place.getName());
-        }
-        else {
+        } else {
             TextView end = findViewById(R.id.end_station);
             end.setText(place.getName());
         }
     }
 
-    public void findRoute(View view){
+    public void findRoute(View view) {
         ArrayList<Station> nearDes = new ArrayList<>();
         ArrayList<Station> nearStart = new ArrayList<>();
       /*  double lngStart = startPlace.getLatLng().longitude;
         double latStart = startPlace.getLatLng().latitude;
         double lngEnd = endPlace.getLatLng().longitude;
         double latEnd = endPlace.getLatLng().latitude;*/
-        double lngStart =34.85822579628842;
-        double latStart =  32.32807135087045;
-        double lngEnd =34.85593034676317;
-        double latEnd = 32.32107577454817;
+        double lngStart = 34.85754406515959;
+        double latStart = 32.326779879210356;
+        double lngEnd = 34.854583427762904;
+        double latEnd = 32.30931164829643;
         double dis_from_des, dis_from_start;
         ArrayList<NavHelper> routes = new ArrayList<>();
-        for (int i=0;i<RestApi.stations.size();i++){
+        for (int i = 0; i < RestApi.stations.size(); i++) {
             dis_from_des = Station.getDistance(Double.parseDouble(RestApi.stations.get(i).getLat()), Double.parseDouble(RestApi.stations.get(i).getLongt()), latEnd, lngEnd);
             dis_from_start = Station.getDistance(Double.parseDouble(RestApi.stations.get(i).getLat()), Double.parseDouble(RestApi.stations.get(i).getLongt()), latStart, lngStart);
-            if(dis_from_des < 0.2)
+            if (dis_from_des < 0.4)
                 nearDes.add(RestApi.stations.get(i));
-            if (dis_from_start < 0.2)
+            if (dis_from_start < 0.4) {
                 nearStart.add(RestApi.stations.get(i));
-
-
+            }
 
         }
 
 
-        for (int i=0;i<nearDes.size();i++){
-            for (int j=0;j<nearStart.size();j++){
-                for (int k=0;k<RestApi.lines.size();k++){
-                    if (RestApi.lines.get(k).existStation(nearDes.get(i)) && RestApi.lines.get(k).existStation(nearStart.get(j))){
-                        routes.add(new NavHelper(RestApi.lines.get(k), nearStart.get(i), nearDes.get(j)));
+        for (int i = 0; i < nearDes.size(); i++) {
+            for (int j = 0; j < nearStart.size(); j++) {
+                for (int k = 0; k < RestApi.lines.size(); k++) {
+                    if (RestApi.lines.get(k).existStation(nearDes.get(i)) && RestApi.lines.get(k).existStation(nearStart.get(j))) {
+                        routes.add(new NavHelper(RestApi.lines.get(k), nearStart.get(j), nearDes.get(i)));
                     }
                 }
             }
         }
 
-        if(!routes.isEmpty()){
+
+        System.out.println("the size of it " + routes.size());
+
+
+        if (!routes.isEmpty()) {
             double dis1 = Station.getDistance(Double.parseDouble(routes.get(0).getStart_station().getLat()), Double.parseDouble(routes.get(0).getStart_station().getLongt()), latStart, lngStart);
             double dis2 = Station.getDistance(Double.parseDouble(routes.get(0).getEnd_station().getLat()), Double.parseDouble(routes.get(0).getEnd_station().getLongt()), latEnd, lngEnd);
-            route_text.setText("From " + routes.get(0).getStart_station().getName());
+            route_text = findViewById(R.id.routeText);
+            route_text.setLines(5);
+
+            NavHelper route = routes.get(0);
+
+             route_text.setText("starting station:\n    " + route.getStart_station().getName());
+             route_text.append("\n end station:\n   "+route.getEnd_station().getName());
+             route_text.append("\nline number: "+route.getLine().getNumber());
+
         }
 
 

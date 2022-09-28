@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layoutDirection="ltr"
     android:orientation="vertical"
     tools:context=".ui.notifications.NotificationsFragment">
 
@@ -11,81 +12,50 @@
         android:id="@+id/start_station"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="112dp"
-        android:layout_marginBottom="27dp"
+
         android:ems="10"
         android:hint="start station"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        android:onClick="startAutoCompleteActivity"
-        app:layout_constraintBottom_toTopOf="@+id/end_station"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/end_station"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="111dp"
-        android:ems="10"
-        android:hint="end station"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.016"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/start_station" />
-
-    <Button
-        android:id="@+id/button6"
-        android:layout_width="150dp"
-        android:layout_height="53dp"
-        android:layout_marginStart="1dp"
-        android:onClick="startAutoCompleteActivity"
-        android:text="search start"
-        app:layout_constraintBaseline_toBaselineOf="@+id/start_station"
-        app:layout_constraintStart_toEndOf="@+id/start_station" />
+        android:onClick="startAutoCompleteActivity" />
 
     <Button
         android:id="@+id/button8"
         android:layout_width="136dp"
         android:layout_height="70dp"
-        android:layout_marginTop="104dp"
         android:layout_marginEnd="21dp"
-        android:layout_marginBottom="66dp"
         android:onClick="startAutoCompleteActivity"
-        android:text="search destination"
-        app:layout_constraintBottom_toTopOf="@+id/button9"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="search destination" />
+
+    <EditText
+        android:id="@+id/end_station"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="end station"
+        android:inputType="textPersonName"
+        android:minHeight="48dp" />
+
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="150dp"
+        android:layout_height="53dp"
+
+        android:onClick="startAutoCompleteActivity"
+        android:text="search start" />
 
     <Button
         android:id="@+id/button9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="457dp"
         android:onClick="findRoute"
-        android:text="search route"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button8" />
+        android:text="search route" />
 
     <TextView
         android:id="@+id/routeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="66dp"
-        android:layout_marginTop="55dp"
-        android:text="TextView"
         android:maxLines="10"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button9" />
+        android:text="TextView" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

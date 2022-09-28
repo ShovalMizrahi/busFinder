@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public class ArrayListStation extends ArrayList<Station> {
 
-    private HashMap<String , ArrayListStation> busToLines = new HashMap<String, ArrayListStation>(); //any bus has list of lines
+    private HashMap<String, ArrayListStation> busToLines = new HashMap<String, ArrayListStation>(); //any bus has list of lines
 
 
     public ArrayListStation() {
