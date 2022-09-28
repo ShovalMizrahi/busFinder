@@ -69,11 +69,6 @@ public class MenuActivity extends AppCompatActivity {
     ArrayList<Double> dis_stations = new ArrayList<Double>();
     private static ArrayListStation sortedStations = new ArrayListStation();
     private final int PERMISSION_ID = 44;
-    private static int AUTOCOMPLETE_REQUEST_CODE = 1;
-    private static final String TAG = "place";
-    private static String apiKey = "AIzaSyD8LIod8GgrDssZ3WA-SLAsrs3iM-BihvI";
-    public Place startPlace = null, endPlace = null;
-    private int id;
     TextView route_text;
 
 
@@ -100,10 +95,7 @@ public class MenuActivity extends AppCompatActivity {
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        Places.initialize(getApplicationContext(), apiKey);
-        PlacesClient placesclient = Places.createClient(this);
 
-        route_text = findViewById(R.id.routeText);
 
         // method to get the location
         getLastLocation();
@@ -282,13 +274,6 @@ public class MenuActivity extends AppCompatActivity {
         return sortedStations;
     }
 
-
-    public void startAutoCompleteActivity(View view) {
-        Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, Arrays.asList(Place.Field.ID, Place.Field.NAME))
-                .build(this);
-        id = view.getId();
-        startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
-    }
 
 
     public void findRoute(View view) {

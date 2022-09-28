@@ -105,7 +105,7 @@ public class FireBase {
         Map<String, Object> station = new HashMap<>();
         station.put("stationId", stationId);
 
-        db.collection("users").document(username).collection("favoriteStations").document(stationId).set(station);
+        db.collection("users").document(username).collection(FAVORITE_STATION_COLLECTION).document(stationId).set(station);
 
 
         User.retreiveInfo();
@@ -119,7 +119,7 @@ public class FireBase {
 
         Boolean result[] = {true};
 
-        db.collection("users").document(username).collection("favoriteStations")
+        db.collection("users").document(username).collection(FAVORITE_STATION_COLLECTION)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -136,7 +136,6 @@ public class FireBase {
 
                                     if (station != null) {
                                         favoriteStations.add(new Station(station));
-
 
                                     }
 
@@ -202,7 +201,7 @@ public class FireBase {
     public static void deleteFavoriteStation(String username, String stationId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("users").document(username).collection("favoriteStations").document(stationId)
+        db.collection("users").document(username).collection(FAVORITE_STATION_COLLECTION).document(stationId)
                 .delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -216,7 +215,6 @@ public class FireBase {
                     }
                 });
     }
-
 
 
     public static void deleteFavoriteLine(String username, String lineId) {

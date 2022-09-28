@@ -1,23 +1,16 @@
 package com.example.busfinder;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
+
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -50,14 +43,6 @@ public class TrackListViewActivity extends AppCompatActivity  {
         Log.i("linemess", String.valueOf(RestApi.routes.get(line.getId())));
 
 
-        /*
-        RecyclerView recyclerView = findViewById(R.id.lineStationsList);
-        line_stations = RestApi.routes.get(line.getId());
-        adapter = new MyRecyclerViewAdapter(this, line_stations);
-        adapter.setClickListener(this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
-*/
 
 
         line_stations = RestApi.routes.get(line.getId());
@@ -153,8 +138,7 @@ public class TrackListViewActivity extends AppCompatActivity  {
 
     public void showPictureByLink(ImageView imageCompany, Context context, String url) {
         Glide.with(context).load(url).into(imageCompany);
-        // imageCompany.setMaxHeight(58);
-        //imageCompany.setMaxWidth(66);
+
     }
 
 }

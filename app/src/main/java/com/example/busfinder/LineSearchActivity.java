@@ -27,7 +27,6 @@ import java.util.ArrayList;
 
 public class LineSearchActivity extends AppCompatActivity {
 
-    private LinearLayout llContainer;
     private EditText etSearch;
     private ListView ivLines;
 

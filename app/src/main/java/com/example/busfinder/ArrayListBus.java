@@ -44,8 +44,7 @@ public class ArrayListBus extends ArrayList<Bus> {
         }
 
 
-        //creating list of all stations that the coming close to
-        ArrayListStation stations = new ArrayListStation();
+
 
         for (int i = 0; i < RestApi.buses.get(c).getStations().size(); i++) {
             Bus bus = RestApi.buses.get(c);

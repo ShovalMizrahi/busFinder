@@ -23,14 +23,6 @@ import java.nio.charset.StandardCharsets;
 
 public class CalculateTime extends AsyncTask<String, String, String> {
 
-    private static final String URL = "https://transportation-server.almogshaby.repl.co/";
-
-    private static HttpURLConnection con;
-    public static ArrayListStation stations = new ArrayListStation();
-    public static ArrayListLine lines = new ArrayListLine();
-    public static ArrayListBus buses = new ArrayListBus();
-    public static ArrayListTrack tracks = new ArrayListTrack();
-
 
     public CalculateTime() {
         //set context variables if required

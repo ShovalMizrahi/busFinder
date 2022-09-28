@@ -4,12 +4,6 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <EditText
-        android:id="@+id/etSearch"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:hint="serach line" />
-
     <ListView
         android:id="@+id/favoriteLinesList"
         android:layout_width="fill_parent"

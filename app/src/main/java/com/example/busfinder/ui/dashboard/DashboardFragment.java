@@ -21,8 +21,7 @@ import com.example.busfinder.R;
 public class DashboardFragment extends Fragment {
 
     private FragmentDashboardBinding binding;
-    Button btLineSearch;
-    private View view;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

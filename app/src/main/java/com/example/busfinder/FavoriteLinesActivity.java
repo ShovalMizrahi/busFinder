@@ -9,7 +9,8 @@ import android.widget.ListView;
 
 public class FavoriteLinesActivity extends AppCompatActivity {
 
-    SharedPreferences sp1;
+
+
     String username;
     LineAdapter adapter;
 

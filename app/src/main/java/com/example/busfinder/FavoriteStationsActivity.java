@@ -9,7 +9,6 @@ import android.widget.ListView;
 
 public class FavoriteStationsActivity extends AppCompatActivity {
 
-    SharedPreferences sp1;
     String username;
     StationAdapter adapter;
 

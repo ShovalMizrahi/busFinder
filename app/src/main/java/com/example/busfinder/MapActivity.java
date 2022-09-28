@@ -50,16 +50,12 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
     private final int TIMEREFRESHINGBUSES = 1500;
 
-    double d = 32.31791352999457;
 
     private MapView map = null;
     private int heightMap;
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
 
     Context context;
-
-
-    CalculateTime calculateTime = new CalculateTime();
 
 
     TextView tVNumberStationMap;
@@ -101,22 +97,6 @@ public class MapActivity extends AppCompatActivity implements Runnable {
         tVDest = findViewById(R.id.tVDest);
 
 
-
-
-
-/*
-        if (Build.VERSION.SDK_INT >= 23) {
-            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-             //   Log.v(TAG, "Permission is granted");
-            } else {
-               // Log.v(TAG, "Permission is revoked");
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-            }
-        }
-
-*/
-
-
         Context ctx = this.getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
 
@@ -137,17 +117,6 @@ public class MapActivity extends AppCompatActivity implements Runnable {
         CompassOverlay compassOverlay = new CompassOverlay(this, map);
         compassOverlay.enableCompass();
         map.getOverlays().add(compassOverlay);
-/*
-        GeoPoint point = new GeoPoint(32.29132455186295, 34.84691106686912);
-
-        Marker startMarker = new Marker(map);
-        startMarker.setPosition(point);
-        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
-        map.getOverlays().add(startMarker);
-
-        map.getController().setCenter(point);
-
- */
 
 
         map.getOverlays().clear(); //for clearing
@@ -173,11 +142,6 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
             startMarker.setIcon(drawable);
 
-            // startMarker.setTitle("asd");
-
-
-            //  startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
-            // startMarker.setAnchor(0.05f, 0.5f);
 
             startMarker.setAnchor(Marker.ANCHOR_BOTTOM, Marker.ANCHOR_BOTTOM);
 
@@ -185,9 +149,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
             StationInfo stationInfo = new StationInfo(R.layout.custom_info_window, map, RestApi.stations.get(i), this);
 
             startMarker.setInfoWindow(stationInfo);
-            //  startMarker.showInfoWindow();
 
-            //     map.getOverlays().clear(); //for clearing
             map.getOverlays().add(startMarker);
 
 
@@ -209,12 +171,6 @@ public class MapActivity extends AppCompatActivity implements Runnable {
         t = new Thread(this);
         t.start();
 
-
-        String add = c(32.31805699856178, 34.85507235003996);
-        //  Toast.makeText(ctx, add + "this is", Toast.LENGTH_SHORT).show();
-
-
-        //  Toast.makeText(ctx,RestApi.buses.get(0).getMinStationIndex()+" ", Toast.LENGTH_SHORT).show();
 
 
 
@@ -268,7 +224,6 @@ public class MapActivity extends AppCompatActivity implements Runnable {
                 CalculateTime calculateTime = new CalculateTime();
 
 
-
                 createLinesToBus();
 
                 // Iterating HashMap through for loop
@@ -311,10 +266,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
                             }
 
 
-
-
                             station.setMintues(minutes);
-
 
 
                         }
@@ -344,7 +296,6 @@ public class MapActivity extends AppCompatActivity implements Runnable {
         ArrayListStation stations = new ArrayListStation(RestApi.routes.get(bus.getLine()));
 
         RestApi.stations.getBusToLines().put(bus.getId(), stations);
-
 
 
     }
@@ -380,33 +331,6 @@ public class MapActivity extends AppCompatActivity implements Runnable {
         }
     }
 
-    /*
-    public void next(View view) {
-
-        map.invalidate();
-
-        GeoPoint point = new GeoPoint(32.31791352999457, 34.856175118587956);
-
-        Marker startMarker = new Marker(map);
-        startMarker.setPosition(point);
-        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
-        map.getOverlays().add(startMarker);
-
-
-        GeoPoint point1 = new GeoPoint(32.32154021041925, 34.85621803393249);
-
-        Marker startMarker1 = new Marker(map);
-        startMarker1.setPosition(point);
-        startMarker1.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
-        map.getOverlays().add(startMarker1);
-
-        map.getController().setCenter(point);
-
-        //  map.invalidate();
-
-
-    }
-*/
     @Override
     public void run() {
 
@@ -442,9 +366,9 @@ public class MapActivity extends AppCompatActivity implements Runnable {
                     success = true;
 
                         /*
-        add the station route for each bus
+              add the station route for each bus
 
-         */
+                      */
 
                     Bus.addStationsToBus();
 
@@ -571,73 +495,15 @@ public class MapActivity extends AppCompatActivity implements Runnable {
                         startMarker.showInfoWindow();
 
 
-                        //     map.getOverlays().clear(); //for clearing
                         map.getOverlays().add(startMarker);
 
-
-                        //     map.getController().setCenter(point);
-
-
                     }
-
 
                 }
             });
         }
 
     }
-/*
-    @Override
-    public void run() {
-
-        Context ctx = this.getApplicationContext();
-        Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
-
-        map = findViewById(R.id.mapview);
-        map.setTileSource(TileSourceFactory.MAPNIK);
-        map.getController().setZoom(18.0);
-
-        requestPermissionsIfNecessary(new String[]{
-                Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.INTERNET
-        });
-        map.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.ALWAYS);
-        map.setMultiTouchControls(true);
-
-
-        CompassOverlay compassOverlay = new CompassOverlay(this, map);
-        compassOverlay.enableCompass();
-        map.getOverlays().add(compassOverlay);
-
-        //while(true)
-        {
-
-            try {
-                Thread.sleep(4000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            map.invalidate();
-
-            GeoPoint point = new GeoPoint(32.31791352999457, 34.856175118587956);
-
-            Marker startMarker = new Marker(map);
-            startMarker.setPosition(point);
-            startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
-            map.getOverlays().add(startMarker);
-
-
-
-
-            map.getController().setCenter(point);
-
-
-        }
-
-
-    }
-
- */
 
 
     private Drawable resize(Drawable image) {
@@ -663,12 +529,9 @@ public class MapActivity extends AppCompatActivity implements Runnable {
         }
 
         public void onOpen(Object arg0) {
-            // LinearLayout layout = (LinearLayout) findViewById(R);
+
             TextView btnMoreInfo = mView.findViewById(R.id.busInfoLine);
             TextView busInfoNextStop = mView.findViewById(R.id.busInfoNextStop);
-            // if (bus.getStations() != null)
-            //     btnMoreInfo.setText(line.getNumber() + " " +this.bus.getStations().get(0).getDistanceFromBus() +" " +this.bus.getStations().get(1).getDistanceFromBus()  );
-            //    btnMoreInfo.setText(this.bus.getStations().get(0).getDistanceFromBus() +" " +this.bus.getStations().get(1).getDistanceFromBus()  );
             btnMoreInfo.setText(line.getNumber());
 
             busInfoNextStop.setText("");
@@ -679,22 +542,6 @@ public class MapActivity extends AppCompatActivity implements Runnable {
                 busInfoNextStop.setVisibility(View.VISIBLE);
             }
 
-
-            //bus.getStations().get(1).getDistanceFromBus()
-
-
-/*
-            layout.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    // Override Marker's onClick behaviour here
-
-                    Toast.makeText(MapActivity.this, "check", Toast.LENGTH_SHORT).show();
-                    btnMoreInfo.setText(Html.fromHtml("<table><tr><td>30</td><td>5 minutes</td></tr></table>"));
-
-                }
-            });
-
-            */
         }
 
 
@@ -759,7 +606,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
     private String findTimeArrivalByStationId(String stationId) {
 
-        String result="";
+        String result = "";
 
         // Iterating HashMap through for loop
         for (Map.Entry<String, ArrayListStation> set :
@@ -781,7 +628,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
                 if (station.getId().equals(stationId) && RestApi.minStation.get(bus.getId()) != null && RestApi.minStation.get(bus.getId()) < i) {
 
-                    result+= "\n" + "line " +   lines.findLineById(bus.getLine()).getNumber() + "(" + bus.getId() + ")" +" coming in " +station.getMintues();
+                    result += "\n" + "line " + lines.findLineById(bus.getLine()).getNumber() + "(" + bus.getId() + ")" + " coming in " + station.getMintues();
 
                 }
             }
@@ -840,9 +687,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
     }
 
     public void removeBuses(MapView map) {
-        //    if(map.getOverlays().size()>0)
 
-        //   while (RestApi.stations.size() != map.getOverlays().size()) {
         while (RestApi.stations.size() < map.getOverlays().size()) {
             map.getOverlays().remove(map.getOverlays().size() - 1);
 
@@ -851,36 +696,9 @@ public class MapActivity extends AppCompatActivity implements Runnable {
     }
 
 
-    public String c(double latitude, double longitude) {
-        Geocoder geocoder;
-        List<Address> addresses;
-        geocoder = new Geocoder(this, Locale.getDefault());
-
-        String result = null;
-        try {
-            addresses = geocoder.getFromLocation(latitude, longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-
-            String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-            result = address;
-            String city = addresses.get(0).getLocality();
-            String state = addresses.get(0).getAdminArea();
-            String country = addresses.get(0).getCountryName();
-            String postalCode = addresses.get(0).getPostalCode();
-            String knownName = addresses.get(0).getFeatureName(); // Only if available else return NULL
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return result;
-
-    }
-
-
     @Override
     public void onBackPressed() {
 
-        // t.stop();
-        // t1.destroy();
 
         exit = true;
         finish();

@@ -21,8 +21,6 @@ public class Station {
 
     private ArrayListLine lines; //the lines that going into the staions
 
-    private double distance;
-    private final int earth_radius = 6371000;
 
     public Station(Station station) {
         this.id = station.id;
