@@ -4,9 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/myBackground"
     android:gravity="center_vertical"
     android:orientation="vertical"
     tools:context=".LogInActivity">
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Log in"
+        android:textAlignment="center"
+        android:textSize="48sp" />
 
     <EditText
         android:id="@+id/etUsernameLogin"
@@ -24,7 +33,6 @@
         android:hint="password"
         android:inputType="textPassword"
         android:textDirection="ltr" />
-
 
 
     <Button

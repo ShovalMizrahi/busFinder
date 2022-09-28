@@ -17,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BusFinder">
         <activity
+            android:name=".AboutActivity"
+            android:exported="false" />
+        <activity
             android:name=".SearchLineDialog"
             android:exported="false" />
         <activity

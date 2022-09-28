@@ -237,6 +237,11 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     public void linesearch(View view) {
     }
 
+    public void about(View view) {
+        Intent intent = new Intent(this, AboutActivity.class);
+        startActivity(intent);
+    }
+
 
     class ProgressingThread implements Runnable {
         @Override
