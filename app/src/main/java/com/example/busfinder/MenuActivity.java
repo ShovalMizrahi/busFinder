@@ -351,13 +351,42 @@ public class MenuActivity extends AppCompatActivity {
             double dis1 = Station.getDistance(Double.parseDouble(routes.get(0).getStart_station().getLat()), Double.parseDouble(routes.get(0).getStart_station().getLongt()), latStart, lngStart);
             double dis2 = Station.getDistance(Double.parseDouble(routes.get(0).getEnd_station().getLat()), Double.parseDouble(routes.get(0).getEnd_station().getLongt()), latEnd, lngEnd);
             route_text = findViewById(R.id.routeText);
-            route_text.setLines(5);
 
-            NavHelper route = routes.get(0);
+            if (routes.size() == 0) {
+                route_text.setLines(1);
 
-             route_text.setText("starting station:\n    " + route.getStart_station().getName());
-             route_text.append("\n end station:\n   "+route.getEnd_station().getName());
-             route_text.append("\nline number: "+route.getLine().getNumber());
+                route_text.setText("No suitable route was found for the requested destination ");
+            }
+            else
+            {
+                route_text.setLines(2);
+
+                route_text.setText(routes.size() +" routes were found:\n");
+
+            }
+
+
+            for(int i=0; i<routes.size();i++)
+            {
+
+                if(i!=0)
+                {
+                    route_text.setLines(route_text.getMaxLines()+1);
+                    route_text.append("\n");
+
+                }
+
+
+                NavHelper route = routes.get(i);
+
+                route_text.setLines(route_text.getMaxLines()+5);
+
+
+                route_text.append("\n"+(i+1)+")boarding station:\n    " + route.getStart_station().getName());
+                route_text.append("\nfinal station:\n   "+route.getEnd_station().getName());
+                route_text.append("\nline number: "+route.getLine().getNumber());
+            }
+
 
         }
 
