@@ -3,6 +3,8 @@ package com.example.busfinder;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
@@ -55,6 +58,7 @@ import com.google.android.gms.tasks.Task;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -283,31 +287,6 @@ public class MenuActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
-            Place place = Autocomplete.getPlaceFromIntent(data);
-            Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
-            if (id == R.id.button6)
-                startPlace = place;
-            if (id == R.id.button8)
-                endPlace = place;
-            putPlace(place, id);
-            return;
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    public void putPlace(Place place, int id) {
-        if (id == R.id.button6) {
-            TextView start = findViewById(R.id.start_station);
-            start.setText(place.getName());
-        } else {
-            TextView end = findViewById(R.id.end_station);
-            end.setText(place.getName());
-        }
-    }
-
     public void findRoute(View view) {
         ArrayList<Station> nearDes = new ArrayList<>();
         ArrayList<Station> nearStart = new ArrayList<>();
@@ -315,10 +294,31 @@ public class MenuActivity extends AppCompatActivity {
         double latStart = startPlace.getLatLng().latitude;
         double lngEnd = endPlace.getLatLng().longitude;
         double latEnd = endPlace.getLatLng().latitude;*/
-        double lngStart = 34.85754406515959;
-        double latStart = 32.326779879210356;
-        double lngEnd = 34.854583427762904;
-        double latEnd = 32.30931164829643;
+
+
+        TextView start = findViewById(R.id.start_station);
+        TextView end = findViewById(R.id.end_station);
+
+        LatLng startPoint = getLatLngFromAddress(start.getText().toString());
+        if (startPoint == null) {
+            Toast.makeText(this, "can't find start location", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
+        LatLng endPoint = getLatLngFromAddress(end.getText().toString());
+        if (endPoint == null) {
+            Toast.makeText(this, "can't find end location", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        double lngStart = startPoint.longitude;
+        double latStart = startPoint.latitude;
+
+
+        double lngEnd = endPoint.longitude;
+        double latEnd = endPoint.latitude;
+
         double dis_from_des, dis_from_start;
         ArrayList<NavHelper> routes = new ArrayList<>();
         for (int i = 0; i < RestApi.stations.size(); i++) {
@@ -342,36 +342,27 @@ public class MenuActivity extends AppCompatActivity {
                 }
             }
         }
+        route_text = findViewById(R.id.routeText);
+        route_text.setText("");
 
 
-        System.out.println("the size of it " + routes.size());
-
-
-        if (!routes.isEmpty()) {
-            double dis1 = Station.getDistance(Double.parseDouble(routes.get(0).getStart_station().getLat()), Double.parseDouble(routes.get(0).getStart_station().getLongt()), latStart, lngStart);
-            double dis2 = Station.getDistance(Double.parseDouble(routes.get(0).getEnd_station().getLat()), Double.parseDouble(routes.get(0).getEnd_station().getLongt()), latEnd, lngEnd);
-            route_text = findViewById(R.id.routeText);
 
             if (routes.size() == 0) {
                 route_text.setLines(1);
-
                 route_text.setText("No suitable route was found for the requested destination ");
-            }
-            else
-            {
+            } else {
+
                 route_text.setLines(2);
 
-                route_text.setText(routes.size() +" routes were found:\n");
+                route_text.setText(routes.size() + " routes were found:\n");
 
             }
 
 
-            for(int i=0; i<routes.size();i++)
-            {
+            for (int i = 0; i < routes.size(); i++) {
 
-                if(i!=0)
-                {
-                    route_text.setLines(route_text.getMaxLines()+1);
+                if (i != 0) {
+                    route_text.setLines(route_text.getMaxLines() + 1);
                     route_text.append("\n");
 
                 }
@@ -379,17 +370,39 @@ public class MenuActivity extends AppCompatActivity {
 
                 NavHelper route = routes.get(i);
 
-                route_text.setLines(route_text.getMaxLines()+5);
+                route_text.setLines(route_text.getMaxLines() + 5);
 
 
-                route_text.append("\n"+(i+1)+")boarding station:\n    " + route.getStart_station().getName());
-                route_text.append("\nfinal station:\n   "+route.getEnd_station().getName());
-                route_text.append("\nline number: "+route.getLine().getNumber());
+                route_text.append("\n" + (i + 1) + ")boarding station:\n    " + route.getStart_station().getName());
+                route_text.append("\nfinal station:\n   " + route.getEnd_station().getName());
+                route_text.append("\nline number: " + route.getLine().getNumber());
             }
 
 
-        }
 
+
+
+    }
+
+
+    private LatLng getLatLngFromAddress(String address) {
+
+        Geocoder geocoder = new Geocoder(this);
+        List<Address> addressList;
+
+        try {
+            addressList = geocoder.getFromLocationName(address, 1);
+            if (addressList != null) {
+                Address singleaddress = addressList.get(0);
+                LatLng latLng = new LatLng(singleaddress.getLatitude(), singleaddress.getLongitude());
+                return latLng;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
 
     }
 
