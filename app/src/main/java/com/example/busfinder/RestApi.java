@@ -1,32 +1,24 @@
 package com.example.busfinder;
 
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
-import java.io.BufferedOutputStream;
+
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
+
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+
 
 
 public class RestApi extends AsyncTask<String, String, String> {
@@ -53,7 +45,6 @@ public class RestApi extends AsyncTask<String, String, String> {
 
 
     public RestApi() {
-        //set context variables if required
     }
 
     @Override

@@ -87,11 +87,22 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     }
 
     public void logout(View view) {
+        Context context = this;
 
-        User.logout(this);
+        new CountDownTimer(2000, 1000) {
 
-        finish();
-        startActivity(getIntent());
+            public void onTick(long millisUntilFinished) {
+            }
+
+            public void onFinish() {
+                User.logout(context);
+                finish();
+                startActivity(getIntent());
+            }
+        }.start();
+
+
+
 
     }
 
