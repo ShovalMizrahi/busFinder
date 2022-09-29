@@ -5,9 +5,7 @@ public class NavHelper {
     private Line firstLine; //first line in two buses
     private Station startStation;
     private Station endStation;
-
-
-    private Station second_station;
+    private Station secondStation;
 
     public NavHelper(Line line, Station start, Station end){
         this.line = line;
@@ -21,7 +19,7 @@ public class NavHelper {
         this.line = line;
         startStation = start;
         endStation = end;
-        this.second_station = second_station;
+        this.secondStation = second_station;
         this.firstLine = firstLine;
     }
 
@@ -38,8 +36,8 @@ public class NavHelper {
         return startStation;
     }
 
-    public Station getSecond_station() {
-        return second_station;
+    public Station getSecondStation() {
+        return secondStation;
     }
 
     public Line getFirstLine() {
