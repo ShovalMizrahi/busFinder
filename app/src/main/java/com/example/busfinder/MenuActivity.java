@@ -71,11 +71,15 @@ public class MenuActivity extends AppCompatActivity {
     private final int PERMISSION_ID = 44;
     TextView route_text;
 
+    ArrayList<NavHelper> routes;
+
+
+    ArrayList<Station> nearDes;
+    ArrayList<Station> nearStart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
 
         binding = ActivityMenuBinding.inflate(getLayoutInflater());
@@ -94,7 +98,6 @@ public class MenuActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navController);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
 
 
         // method to get the location
@@ -125,7 +128,6 @@ public class MenuActivity extends AppCompatActivity {
         Intent intent = new Intent(this, FavoriteLinesActivity.class);
         startActivity(intent);
     }
-
 
 
     @SuppressLint("MissingPermission")
@@ -272,10 +274,9 @@ public class MenuActivity extends AppCompatActivity {
     }
 
 
-
     public void findRoute(View view) {
-        ArrayList<Station> nearDes = new ArrayList<>();
-        ArrayList<Station> nearStart = new ArrayList<>();
+        nearDes = new ArrayList<>();
+        nearStart = new ArrayList<>();
       /*  double lngStart = startPlace.getLatLng().longitude;
         double latStart = startPlace.getLatLng().latitude;
         double lngEnd = endPlace.getLatLng().longitude;
@@ -306,7 +307,7 @@ public class MenuActivity extends AppCompatActivity {
         double latEnd = endPoint.latitude;
 
         double dis_from_des, dis_from_start;
-        ArrayList<NavHelper> routes = new ArrayList<>();
+        routes = new ArrayList<>();
         for (int i = 0; i < RestApi.stations.size(); i++) {
             dis_from_des = Station.getDistance(Double.parseDouble(RestApi.stations.get(i).getLat()), Double.parseDouble(RestApi.stations.get(i).getLongt()), latEnd, lngEnd);
             dis_from_start = Station.getDistance(Double.parseDouble(RestApi.stations.get(i).getLat()), Double.parseDouble(RestApi.stations.get(i).getLongt()), latStart, lngStart);
@@ -318,19 +319,20 @@ public class MenuActivity extends AppCompatActivity {
 
         }
 
+        findOneBus();
 
-        for (int i = 0; i < nearDes.size(); i++) {
-            for (int j = 0; j < nearStart.size(); j++) {
-                for (int k = 0; k < RestApi.lines.size(); k++) {
-                    if (RestApi.lines.get(k).existStation(nearDes.get(i)) && RestApi.lines.get(k).existStation(nearStart.get(j))) {
-                        routes.add(new NavHelper(RestApi.lines.get(k), nearStart.get(j), nearDes.get(i)));
-                    }
-                }
-            }
-        }
+
         route_text = findViewById(R.id.routeText);
         route_text.setText("");
 
+
+        if (routes.size() == 0) {
+            findTwoBus();
+
+        } else {
+            showOneBusWays();
+            return;
+        }
 
 
         if (routes.size() == 0) {
@@ -340,10 +342,16 @@ public class MenuActivity extends AppCompatActivity {
 
             route_text.setLines(2);
 
-            route_text.setText(routes.size() + " routes were found:\n");
+
+            showTwoBusWays();
 
         }
 
+
+    }
+
+    private void showOneBusWays() {
+        route_text.setText(routes.size() + " routes were found:\n");
 
         for (int i = 0; i < routes.size(); i++) {
 
@@ -364,9 +372,67 @@ public class MenuActivity extends AppCompatActivity {
             route_text.append("\nline number: " + route.getLine().getNumber());
         }
 
+    }
 
 
+    private void showTwoBusWays() {
+        route_text.setText(routes.size() + " routes were found:\n");
 
+        for (int i = 0; i < routes.size(); i++) {
+
+            if (i != 0) {
+                route_text.setLines(route_text.getMaxLines() + 1);
+                route_text.append("\n");
+
+            }
+
+
+            NavHelper route = routes.get(i);
+
+            route_text.setLines(route_text.getMaxLines() + 8);
+
+
+            route_text.append("\n" + (i + 1) + ")boarding station:\n    " + route.getStart_station().getName());
+            route_text.append("\nsecond station:\n   " + route.getSecond_station().getName());
+            route_text.append("\nline number: " + route.getFirstLine().getNumber());
+            route_text.append("\nfinal station:\n   " + route.getEnd_station().getName());
+            route_text.append("\nline number: " + route.getLine().getNumber());
+        }
+
+    }
+
+
+    private void findTwoBus() {
+        for (int i = 0; i < nearDes.size(); i++) {
+            for (int j = 0; j < nearStart.size(); j++) {
+                for (int x = 0; x < RestApi.stations.size(); x++) {
+                    for (int k = 0; k < RestApi.lines.size(); k++) {
+                        for (int w = 0; w < RestApi.lines.size(); w++) {
+                            Station secondStation = RestApi.stations.get(x);
+                            if (RestApi.lines.get(k).existStation(nearDes.get(i)) && RestApi.lines.get(k).existStation(secondStation)
+                                    && RestApi.lines.get(w).existStation(nearStart.get(i)) && RestApi.lines.get(w).existStation(secondStation)) {
+                                Toast.makeText(this, "I found " + nearStart.get(j).getName() + " " + nearDes.get(i).getName() + " " + secondStation.getName(), Toast.LENGTH_SHORT).show();
+                                routes.add(new NavHelper(RestApi.lines.get(k), nearStart.get(j), nearDes.get(i), secondStation,RestApi.lines.get(w)));
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+    private void findOneBus() {
+        for (int i = 0; i < nearDes.size(); i++) {
+            for (int j = 0; j < nearStart.size(); j++) {
+                for (int k = 0; k < RestApi.lines.size(); k++) {
+                    if (RestApi.lines.get(k).existStation(nearDes.get(i)) && RestApi.lines.get(k).existStation(nearStart.get(j))) {
+                        routes.add(new NavHelper(RestApi.lines.get(k), nearStart.get(j), nearDes.get(i)));
+                    }
+                }
+            }
+        }
 
     }
 
