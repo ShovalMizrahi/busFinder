@@ -26,14 +26,14 @@ public class RestApi extends AsyncTask<String, String, String> {
     private static final String URL = "https://transportation-server.almogshaby.repl.co/";
 
     private static HttpURLConnection con;
-    public static ArrayListStation stations = new ArrayListStation();
-    public static ArrayListLine lines = new ArrayListLine();
+    public static Stations stations = new Stations();
+    public static Lines lines = new Lines();
     public static Buses buses = new Buses();
     public static Buses lastBuses = new Buses();
 
-    public static ArrayListTrack tracks = new ArrayListTrack();
+    public static Tracks tracks = new Tracks();
     public static Route routes = new Route();
-    public static ArrayListCompany companies = new ArrayListCompany();
+    public static Companies companies = new Companies();
     public static Cities cities = new Cities();
 
 
@@ -103,23 +103,23 @@ public class RestApi extends AsyncTask<String, String, String> {
                 String adjusted = content.toString().replaceAll("(?m)^[ \t]*\r?\n", "");
 
                 if (params[0].equals("function=showStations"))
-                    stations = Json.convertJsonToObject(ArrayListStation.class, adjusted);
+                    stations = Json.convertJsonToObject(Stations.class, adjusted);
 
                 if (params[0].equals("function=showLines"))
-                    lines = Json.convertJsonToObject(ArrayListLine.class, adjusted);
+                    lines = Json.convertJsonToObject(Lines.class, adjusted);
 
                 if (params[0].equals("function=showBuses"))
                     buses = Json.convertJsonToObject(Buses.class, adjusted);
 
                 if (params[0].equals("function=showTracks"))
-                    tracks = Json.convertJsonToObject(ArrayListTrack.class, adjusted);
+                    tracks = Json.convertJsonToObject(Tracks.class, adjusted);
 
 
                 if (params[0].equals("function=showRoutes"))
                     routes = Json.convertJsonToObject(Route.class, adjusted);
 
                 if (params[0].equals("function=showCompanies"))
-                    companies = Json.convertJsonToObject(ArrayListCompany.class, adjusted);
+                    companies = Json.convertJsonToObject(Companies.class, adjusted);
 
 
                 if (params[0].equals("function=showCities"))

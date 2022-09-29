@@ -4,7 +4,7 @@ public class Line {
     private String id;
     private String number;
     private String companyID;
-    private ArrayListStation line_stations;
+    private Stations line_stations;
 
     private int order; //the order in the line list of stations
 
@@ -52,13 +52,13 @@ public class Line {
     public static void addStationsOfLine() {
         for (int i = 0; i < RestApi.lines.size(); i++) {
 
-            RestApi.lines.get(i).line_stations = new ArrayListStation();
+            RestApi.lines.get(i).line_stations = new Stations();
 
 
             for (int j = 0; j < RestApi.tracks.size(); j++) {
 
                 if (RestApi.tracks.get(j).getLineID().equals(RestApi.lines.get(i).getId())) {
-                    ArrayListStation arrayListStation = new ArrayListStation();
+                    Stations arrayListStation = new Stations();
                     Station station = new Station(arrayListStation.findStationById(RestApi.tracks.get(j).getStationID()));
 
                     RestApi.lines.get(i).line_stations.add(station);
@@ -87,7 +87,7 @@ public class Line {
         this.arrivalTime = arrivalTime;
     }
 
-    public ArrayListStation getLineStations(){
+    public Stations getLineStations(){
         return line_stations;
     }
 

@@ -150,7 +150,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
                 createLinesToBus();
 
                 // Iterating HashMap through for loop
-                for (Map.Entry<String, ArrayListStation> set :
+                for (Map.Entry<String, Stations> set :
                         RestApi.stations.getBusToLines().entrySet()) {
 
 
@@ -160,7 +160,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
                         continue;
                     ;
 
-                    ArrayListStation stations = set.getValue();
+                    Stations stations = set.getValue();
                     for (int i = 0; i < stations.size(); i++) {
 
                         Station station = stations.get(i);
@@ -216,7 +216,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
     }
 
     private void duplicateLinesForBus(Bus bus) {
-        ArrayListStation stations = new ArrayListStation(RestApi.routes.get(bus.getLine()));
+        Stations stations = new Stations(RestApi.routes.get(bus.getLine()));
 
         RestApi.stations.getBusToLines().put(bus.getId(), stations);
 
@@ -291,7 +291,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
                     for (int i = 0; i < RestApi.buses.size(); i++) {
                         Bus bus = RestApi.buses.get(i);
-                        ArrayListLine arrayListLine = new ArrayListLine();
+                        Lines arrayListLine = new Lines();
                         Line line = arrayListLine.findLineById(RestApi.buses.get(i).getLine());
 
 
@@ -342,7 +342,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
 
                         int iconSource;
-                        if (ArrayListLine.isBusContainedInLines(bus, FireBase.favoriteLines))
+                        if (Lines.isBusContainedInLines(bus, FireBase.favoriteLines))
                             iconSource = R.mipmap.busstar;
                         else
                             iconSource = R.mipmap.bus;
@@ -526,7 +526,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
         String result = "";
 
         // Iterating HashMap through for loop
-        for (Map.Entry<String, ArrayListStation> set :
+        for (Map.Entry<String, Stations> set :
                 RestApi.stations.getBusToLines().entrySet()) {
 
 
@@ -536,12 +536,12 @@ public class MapActivity extends AppCompatActivity implements Runnable {
                 continue;
 
 
-            ArrayListStation stations = set.getValue();
+            Stations stations = set.getValue();
             for (int i = 0; i < stations.size(); i++) {
 
                 Station station = stations.get(i);
 
-                ArrayListLine lines = new ArrayListLine();
+                Lines lines = new Lines();
 
                 if (station.getId().equals(stationId) && RestApi.minStation.get(bus.getId()) != null && RestApi.minStation.get(bus.getId()) < i) {
 
@@ -688,7 +688,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
             startMarker.setPosition(point);
 
             int iconSource;
-            if (ArrayListStation.isStationConsistList(station, FireBase.favoriteStations))
+            if (Stations.isStationConsistList(station, FireBase.favoriteStations))
                 iconSource = R.mipmap.busstopstar;
             else
                 iconSource = R.mipmap.busstop;

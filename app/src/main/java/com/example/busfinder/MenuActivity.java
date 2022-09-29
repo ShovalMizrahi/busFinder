@@ -50,7 +50,7 @@ public class MenuActivity extends AppCompatActivity {
     FusedLocationProviderClient mFusedLocationClient;
     private static double latitude, longtitude;
     ArrayList<Double> dis_stations = new ArrayList<Double>();
-    private static ArrayListStation sortedStations = new ArrayListStation();
+    private static Stations sortedStations = new Stations();
     private final int PERMISSION_ID = 44;
     TextView route_text;
 
@@ -252,7 +252,7 @@ public class MenuActivity extends AppCompatActivity {
         Log.d("arraytag", String.valueOf(dis_stations));
     }
 
-    public static ArrayListStation getSortedStations() {
+    public static Stations getSortedStations() {
         return sortedStations;
     }
 

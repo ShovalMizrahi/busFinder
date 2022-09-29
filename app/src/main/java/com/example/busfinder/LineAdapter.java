@@ -117,7 +117,7 @@ public class LineAdapter extends BaseAdapter implements Filterable {
         }
         // if(line.getLineStations() !=null )
 
-        ArrayListStation stations =   RestApi.routes.get(line.getId());
+        Stations stations =   RestApi.routes.get(line.getId());
         if(stations!=null && stations.size()>0) {
             holder.tVSourceStationSearchLine.setText(stations.get(0).getName());
             holder.tVSourceStationNumberSearchLine.setText(stations.get(0).getId());

@@ -18,7 +18,7 @@ public class TrackListViewActivity extends AppCompatActivity  {
 
     ImageView iVfavoriteLine;
     private Line line;
-    private ArrayListStation line_stations;
+    private Stations line_stations;
     String username;
     Company company;
 
@@ -81,7 +81,7 @@ public class TrackListViewActivity extends AppCompatActivity  {
         Bundle b = getIntent().getExtras();
         String lineId = b.getString("line");
 
-        ArrayListLine lines = new ArrayListLine();
+        Lines lines = new Lines();
         for (int i = 0; i < RestApi.lines.size(); i++) {
             line = lines.findLineById(lineId);
         }

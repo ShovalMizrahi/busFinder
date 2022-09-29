@@ -15,10 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.busfinder.ArrayListStation;
+import com.example.busfinder.Stations;
 import com.example.busfinder.MenuActivity;
 import com.example.busfinder.R;
-import com.example.busfinder.StationSearchActivity;
 import com.example.busfinder.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {
@@ -47,10 +46,10 @@ public class HomeFragment extends Fragment {
     }
 
     class CustomAdapter extends BaseAdapter {
-        ArrayListStation stations;
+        Stations stations;
         LayoutInflater inflater;
 
-        public CustomAdapter(Context context,ArrayListStation stations) {
+        public CustomAdapter(Context context, Stations stations) {
             super();
             this.stations = stations;
             inflater = LayoutInflater.from(context);

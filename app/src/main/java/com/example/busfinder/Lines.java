@@ -2,7 +2,7 @@ package com.example.busfinder;
 
 import java.util.ArrayList;
 
-public class ArrayListLine extends ArrayList<Line> {
+public class Lines extends ArrayList<Line> {
 
     public Line findLineById(String id) {
         for (int i = 0; i < RestApi.lines.size(); i++) {
@@ -35,7 +35,7 @@ public class ArrayListLine extends ArrayList<Line> {
 
 
 
-    public static boolean isBusContainedInLines(Bus bus, ArrayListLine lines) {
+    public static boolean isBusContainedInLines(Bus bus, Lines lines) {
 
         for (int i = 0; i < lines.size(); i++) {
             if (bus.getLine().equals(lines.get(i).getId()))

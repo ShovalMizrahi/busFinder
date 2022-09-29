@@ -2,7 +2,7 @@ package com.example.busfinder;
 
 import java.util.ArrayList;
 
-public class ArrayListCompany extends ArrayList<Company> {
+public class Companies extends ArrayList<Company> {
 
 
 

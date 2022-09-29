@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -151,8 +150,8 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         RestApi.stations.bindLinesToStations();
         countProgress++;
 
-        ArrayListLine.bindLineToCompany();
-        ArrayListStation.bindStationToCity();
+        Lines.bindLineToCompany();
+        Stations.bindStationToCity();
         countProgress++;
 
     }

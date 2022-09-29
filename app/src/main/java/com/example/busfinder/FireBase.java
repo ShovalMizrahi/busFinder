@@ -8,7 +8,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -27,8 +26,8 @@ public class FireBase {
 
     private static ArrayList<User> users = new ArrayList<User>();
     // private static  ArrayListStation favoriteSta
-    public static ArrayListStation favoriteStations = new ArrayListStation();
-    public static ArrayListLine favoriteLines = new ArrayListLine();
+    public static Stations favoriteStations = new Stations();
+    public static Lines favoriteLines = new Lines();
 
 
     public static void registerUser(String username, String password, String mail, Date date, String phone) {

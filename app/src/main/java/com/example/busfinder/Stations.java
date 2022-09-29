@@ -3,17 +3,17 @@ package com.example.busfinder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ArrayListStation extends ArrayList<Station> {
+public class Stations extends ArrayList<Station> {
 
-    private HashMap<String, ArrayListStation> busToLines = new HashMap<String, ArrayListStation>(); //any bus has list of lines
+    private HashMap<String, Stations> busToLines = new HashMap<String, Stations>(); //any bus has list of lines
 
 
-    public ArrayListStation() {
+    public Stations() {
 
     }
 
 
-    public ArrayListStation(ArrayListStation arrayListBus) {
+    public Stations(Stations arrayListBus) {
         for (int i = 0; i < arrayListBus.size(); i++) {
 
             this.add(new Station(arrayListBus.get(i)));
@@ -23,17 +23,17 @@ public class ArrayListStation extends ArrayList<Station> {
     }
 
 
-    public HashMap<String, ArrayListStation> getBusToLines() {
+    public HashMap<String, Stations> getBusToLines() {
         return busToLines;
     }
 
-    public void setBusToLines(HashMap<String, ArrayListStation> busToLines) {
+    public void setBusToLines(HashMap<String, Stations> busToLines) {
         this.busToLines = busToLines;
     }
 
     public void bindLinesToStations() {
         for (int i = 0; i < RestApi.stations.size(); i++) {
-            RestApi.stations.get(i).setLines(new ArrayListLine());
+            RestApi.stations.get(i).setLines(new Lines());
             for (int j = 0; j < RestApi.tracks.size(); j++) {
 
                 if (RestApi.tracks.get(j).getStationID().equals(RestApi.stations.get(i).getId())) {
@@ -65,7 +65,7 @@ public class ArrayListStation extends ArrayList<Station> {
         return null;
     }
 
-    public static boolean isStationConsistList(Station station, ArrayListStation stations) {
+    public static boolean isStationConsistList(Station station, Stations stations) {
 
         for (int i = 0; i < stations.size(); i++) {
             if (station.getId().equals(stations.get(i).getId()))

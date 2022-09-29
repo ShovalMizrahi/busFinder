@@ -17,7 +17,7 @@ public class Station {
 
     private int mintues;
 
-    private ArrayListLine lines; //the lines that going into the staions
+    private Lines lines; //the lines that going into the staions
 
 
     public Station(Station station) {
@@ -32,7 +32,7 @@ public class Station {
 
     }
 
-    public Station(String name, String city, String longt, String lat, ArrayListLine lines) {
+    public Station(String name, String city, String longt, String lat, Lines lines) {
         this.name = name;
         this.city = city;
         this.longt = longt;
@@ -112,12 +112,12 @@ public class Station {
         this.lat = lat;
     }
 
-    public ArrayListLine getLines() {
+    public Lines getLines() {
 
         return lines;
     }
 
-    public void setLines(ArrayListLine lines) {
+    public void setLines(Lines lines) {
         this.lines = lines;
     }
 

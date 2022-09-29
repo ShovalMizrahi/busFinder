@@ -1,14 +1,12 @@
 package com.example.busfinder;
 
-import java.util.ArrayList;
-
 public class Bus {
     private String id;
     private String lineID;
     private String longt;
     private String lat;
 
-    private ArrayListStation stations;
+    private Stations stations;
 
     //the next station can be mnore the minStationIndex
     private int minStationIndex;
@@ -21,7 +19,7 @@ public class Bus {
         this.longt = bus.longt;
         this.lat = bus.lat;
 
-        stations = new ArrayListStation();
+        stations = new Stations();
 
         for (int i = 0; i < bus.getStations().size(); i++) {
 
@@ -80,7 +78,7 @@ public class Bus {
 
           //  RestApi.buses.get(i).stations = new ArrayListStation();
 
-            RestApi.buses.get(i).stations  = new ArrayListStation(RestApi.routes.get(RestApi.buses.get(i).getLine()));
+            RestApi.buses.get(i).stations  = new Stations(RestApi.routes.get(RestApi.buses.get(i).getLine()));
 
 
             for(int j=0; j< RestApi.buses.get(i).stations.size(); j++  )
@@ -115,11 +113,11 @@ public class Bus {
         return null;
     }
 
-    public ArrayListStation getStations() {
+    public Stations getStations() {
         return stations;
     }
 
-    public void setStations(ArrayListStation stations) {
+    public void setStations(Stations stations) {
         this.stations = stations;
     }
 
