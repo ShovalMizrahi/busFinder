@@ -258,11 +258,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
     public void run() {
 
 
-        Boolean success = false;
-
-
-        RestApi restApi = new RestApi();
-        while (true && exit == false) {
+        while (exit == false) {
 
             //making the copy before the info is changing!
             RestApi.lastBuses = new ArrayListBus(RestApi.buses);
@@ -275,43 +271,11 @@ public class MapActivity extends AppCompatActivity implements Runnable {
             }
 
             RestApi.buses.clear();
-            while (!success) {
 
-
-                try {
-                    restApi.doInBackground("function=showBuses");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-
-                if (RestApi.buses.size() > 0) {
-                    success = true;
-
-                        /*
-              add the station route for each bus
-
-                      */
-
-                    Bus.addStationsToBus();
-
-
-                } else {
-
-                    try {
-                        Thread.sleep(TIMEREFRESHINGBUSES);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-            }
-            success = false;
-
+            retrieveBusInfo();
 
             /*
-
-            finding changing in the bus location
+            finding changes in the bus location
              */
 
             for (int i = 0; i < RestApi.buses.size(); i++) {
@@ -325,7 +289,6 @@ public class MapActivity extends AppCompatActivity implements Runnable {
                         Station nextStation = ArrayListBus.findNextStation(i, j);
                         if (nextStation != null)
                             RestApi.nextStation.put(RestApi.buses.get(i).getId(), nextStation);
-                        //RestApi.nextStation.put(RestApi.buses.get(i).getId(), new Station (ArrayListBus.findNextStation(i,j) ));
                     }
 
                 }
@@ -426,6 +389,39 @@ public class MapActivity extends AppCompatActivity implements Runnable {
     }
 
 
+
+     void retrieveBusInfo()
+    {
+        RestApi restApi = new RestApi();
+
+        while (true) {
+
+
+            try {
+                restApi.doInBackground("function=showBuses");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+            if (RestApi.buses.size() > 0) {
+
+             // add the station route for each bus
+                Bus.addStationsToBus();
+                return;
+
+
+            } else {
+
+                try {
+                    Thread.sleep(TIMEREFRESHINGBUSES);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+    }
     private Drawable resize(Drawable image) {
         Bitmap b = ((BitmapDrawable) image).getBitmap();
         Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 71, 100, false);
