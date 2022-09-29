@@ -261,7 +261,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
         while (exit == false) {
 
             //making the copy before the info is changing!
-            RestApi.lastBuses = new ArrayListBus(RestApi.buses);
+            RestApi.lastBuses = new Buses(RestApi.buses);
 
 
             try {
@@ -274,26 +274,9 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
             retrieveBusInfo();
 
-            /*
-            finding changes in the bus location
-             */
+            //regocnize movment of bus and decide the next station
+            findingNextStation();
 
-            for (int i = 0; i < RestApi.buses.size(); i++) {
-                Bus bus = RestApi.buses.get(i);
-                for (int j = 0; j < RestApi.lastBuses.size(); j++) {
-                    Bus lastBus = RestApi.lastBuses.get(j);
-
-                    if (bus.getId().equals(lastBus.getId())
-                            && (!bus.getLatitude().equals(lastBus.getLatitude())
-                            || !bus.getLongtitude().equals(lastBus.getLongtitude()))) {
-                        Station nextStation = ArrayListBus.findNextStation(i, j);
-                        if (nextStation != null)
-                            RestApi.nextStation.put(RestApi.buses.get(i).getId(), nextStation);
-                    }
-
-                }
-
-            }
 
 
             runOnUiThread(new Runnable() {
@@ -388,9 +371,27 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
     }
 
+    private void findingNextStation() {
+        for (int i = 0; i < RestApi.buses.size(); i++) {
+            Bus bus = RestApi.buses.get(i);
+            for (int j = 0; j < RestApi.lastBuses.size(); j++) {
+                Bus lastBus = RestApi.lastBuses.get(j);
+
+                if (bus.getId().equals(lastBus.getId())
+                        && (!bus.getLatitude().equals(lastBus.getLatitude())
+                        || !bus.getLongtitude().equals(lastBus.getLongtitude()))) {
+                    Station nextStation = Buses.findNextStation(i, j);
+                    if (nextStation != null)
+                        RestApi.nextStation.put(RestApi.buses.get(i).getId(), nextStation);
+                }
+
+            }
+
+        }
+    }
 
 
-     void retrieveBusInfo()
+    void retrieveBusInfo()
     {
         RestApi restApi = new RestApi();
 

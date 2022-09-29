@@ -2,23 +2,6 @@ package com.example.busfinder;
 
 
 import android.os.AsyncTask;
-import android.os.StrictMode;
-
-import com.example.busfinder.ArrayListBus;
-import com.example.busfinder.ArrayListLine;
-import com.example.busfinder.ArrayListStation;
-import com.example.busfinder.ArrayListTrack;
-import com.example.busfinder.Json;
-
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 
 
 public class CalculateTime extends AsyncTask<String, String, String> {

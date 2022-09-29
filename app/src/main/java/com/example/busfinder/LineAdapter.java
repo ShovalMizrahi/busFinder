@@ -13,7 +13,6 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -122,13 +121,13 @@ public class LineAdapter extends BaseAdapter implements Filterable {
         if(stations!=null && stations.size()>0) {
             holder.tVSourceStationSearchLine.setText(stations.get(0).getName());
             holder.tVSourceStationNumberSearchLine.setText(stations.get(0).getId());
-            String sourceCity =  ArrayListCity.findCityById(stations.get(0).getCityId());
+            String sourceCity =  Cities.findCityById(stations.get(0).getCityId());
             holder.tVSourceStationCitySearchLine.setText(sourceCity);
 
 
             holder.tVDestStationSearchLine.setText(stations.get(stations.size()-1).getName());
             holder.tVDestStationNumberSearchLine.setText(stations.get(stations.size()-1).getId());
-            String destCity =  ArrayListCity.findCityById(stations.get(stations.size()-1).getCityId());
+            String destCity =  Cities.findCityById(stations.get(stations.size()-1).getCityId());
             holder.tVDestStationCitySearchLine.setText(destCity);
 
         }

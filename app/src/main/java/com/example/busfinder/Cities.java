@@ -2,7 +2,7 @@ package com.example.busfinder;
 
 import java.util.ArrayList;
 
-public class ArrayListCity extends ArrayList<City> {
+public class Cities extends ArrayList<City> {
 
     public static String findCityById(String id) {
         for (int i = 0; i < RestApi.cities.size(); i++) {

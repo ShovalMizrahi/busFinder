@@ -28,13 +28,13 @@ public class RestApi extends AsyncTask<String, String, String> {
     private static HttpURLConnection con;
     public static ArrayListStation stations = new ArrayListStation();
     public static ArrayListLine lines = new ArrayListLine();
-    public static ArrayListBus buses = new ArrayListBus();
-    public static ArrayListBus lastBuses = new ArrayListBus();
+    public static Buses buses = new Buses();
+    public static Buses lastBuses = new Buses();
 
     public static ArrayListTrack tracks = new ArrayListTrack();
     public static Route routes = new Route();
     public static ArrayListCompany companies = new ArrayListCompany();
-    public static ArrayListCity cities = new ArrayListCity();
+    public static Cities cities = new Cities();
 
 
     public static HashMap<String, Station> nextStation = new HashMap<String, Station>();
@@ -109,7 +109,7 @@ public class RestApi extends AsyncTask<String, String, String> {
                     lines = Json.convertJsonToObject(ArrayListLine.class, adjusted);
 
                 if (params[0].equals("function=showBuses"))
-                    buses = Json.convertJsonToObject(ArrayListBus.class, adjusted);
+                    buses = Json.convertJsonToObject(Buses.class, adjusted);
 
                 if (params[0].equals("function=showTracks"))
                     tracks = Json.convertJsonToObject(ArrayListTrack.class, adjusted);
@@ -123,7 +123,7 @@ public class RestApi extends AsyncTask<String, String, String> {
 
 
                 if (params[0].equals("function=showCities"))
-                    cities = Json.convertJsonToObject(ArrayListCity.class, adjusted);
+                    cities = Json.convertJsonToObject(Cities.class, adjusted);
 
             }
 
