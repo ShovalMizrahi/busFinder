@@ -10,19 +10,13 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -35,17 +29,14 @@ import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.infowindow.InfoWindow;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 public class MapActivity extends AppCompatActivity implements Runnable {
 
 
-    Thread t;
-    Thread t1;
+    Thread busLocationRefreshThread;
+    Thread calculateArrivalTimeThread;
     static boolean exit = false;
 
     private final int TIMEREFRESHINGBUSES = 1500;
@@ -79,88 +70,34 @@ public class MapActivity extends AppCompatActivity implements Runnable {
         getSupportActionBar().hide();
 
         exit = false;
-
         context = this;
-        tVNumberStationMap = findViewById(R.id.tVNumberStationMap);
-        tVNameStationMap = findViewById(R.id.tVNameStationMap);
-        tVHeaderlistLineMap = findViewById(R.id.tVHeaderlistLineMap);
-        tvListLinesMap = findViewById(R.id.tvListLinesMap);
-        tVComingBuses = findViewById(R.id.tVComingBuses);
 
-        imageCompany = findViewById(R.id.imageCompany);
-        imageCompany.setVisibility(View.GONE);
+        initTextViews();
+        initImageViews();
+        initMap();
 
-        tVCompany = findViewById(R.id.tVCompany);
-        tVNumberLine = findViewById(R.id.tVNumberLine);
-        tVBusId = findViewById(R.id.tVBusId);
-        tVSource = findViewById(R.id.tVSource);
-        tVDest = findViewById(R.id.tVDest);
+        focusStation() ; //if user chose station from list
 
+        busLocationRefreshThread = new Thread(this);
+        busLocationRefreshThread.start();
 
-        Context ctx = this.getApplicationContext();
-        Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
+        gettingScreenHeight();
 
-        map = findViewById(R.id.mapview);
-        map.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+        startThreads();
 
+    }
 
-        map.setTileSource(TileSourceFactory.MAPNIK);
-        map.getController().setZoom(18.0);
+    private void gettingScreenHeight() {
+        /*getting the height of the screen */
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        heightMap = displayMetrics.heightPixels;
+    }
 
-        requestPermissionsIfNecessary(new String[]{
-                Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.INTERNET
-        });
-        map.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.ALWAYS);
-        map.setMultiTouchControls(true);
-
-
-        CompassOverlay compassOverlay = new CompassOverlay(this, map);
-        compassOverlay.enableCompass();
-        map.getOverlays().add(compassOverlay);
-
-
-        map.getOverlays().clear(); //for clearing
-
-        for (int i = 0; i < RestApi.stations.size(); i++) {
-
-            Station station = RestApi.stations.get(i);
-            map.invalidate();
-
-            GeoPoint point = new GeoPoint(Double.parseDouble(RestApi.stations.get(i).getLat()), Double.parseDouble(RestApi.stations.get(i).getLongt()));
-
-            Marker startMarker = new Marker(map);
-            startMarker.setPosition(point);
-
-            int iconSource;
-            if (ArrayListStation.isStationConsistList(station, FireBase.favoriteStations))
-                iconSource = R.mipmap.busstopstar;
-            else
-                iconSource = R.mipmap.busstop;
-
-            Drawable drawable = getResources().getDrawable(iconSource);
-            drawable = resize(drawable);
-
-            startMarker.setIcon(drawable);
-
-
-            startMarker.setAnchor(Marker.ANCHOR_BOTTOM, Marker.ANCHOR_BOTTOM);
-
-
-            StationInfo stationInfo = new StationInfo(R.layout.custom_info_window, map, RestApi.stations.get(i), this);
-
-            startMarker.setInfoWindow(stationInfo);
-
-            map.getOverlays().add(startMarker);
-
-
-            map.getController().setCenter(point);
-
-
-        }
+    private void focusStation() {
 
 
         Station specificStation = findSpecificStation();
-
 
         if (specificStation != null) {
             GeoPoint point = new GeoPoint(Double.parseDouble(specificStation.getLat()), Double.parseDouble(specificStation.getLongt()));
@@ -168,22 +105,8 @@ public class MapActivity extends AppCompatActivity implements Runnable {
         }
 
 
-        t = new Thread(this);
-        t.start();
-
-
-
-
-
-        /*getting the height of the screen */
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        heightMap = displayMetrics.heightPixels;
-
-
-        startThreads();
-
     }
+
 
     private Station findSpecificStation() {
 
@@ -203,13 +126,13 @@ public class MapActivity extends AppCompatActivity implements Runnable {
     }
 
     private void startThreads() {
-        t1 = new Thread(new Th1());
-        t1.start();
+        calculateArrivalTimeThread = new Thread(new CalculateArrivlTime());
+        calculateArrivalTimeThread.start();
 
     }
 
 
-    class Th1 implements Runnable {
+    class CalculateArrivlTime implements Runnable {
         @Override
         public void run() {
 
@@ -414,7 +337,6 @@ public class MapActivity extends AppCompatActivity implements Runnable {
                 @Override
                 public void run() {
 
-                    //  StationInfo.closeAllInfoWindowsOn(map);
 
 
                     BusInfo.closeAllInfoWindowsOn(map);
@@ -426,11 +348,9 @@ public class MapActivity extends AppCompatActivity implements Runnable {
                         ArrayListLine arrayListLine = new ArrayListLine();
                         Line line = arrayListLine.findLineById(RestApi.buses.get(i).getLine());
 
-                        //     Toast.makeText(MapActivity.this, RestApi.buses.get(i).getLine()+"cccc", Toast.LENGTH_SHORT).show();
 
                         map.invalidate();
 
-                        //   Toast.makeText(MapActivity.this, RestApi.buses.get(0).getLatitude() + "", Toast.LENGTH_SHORT).show();
 
                         GeoPoint point = new GeoPoint(Double.parseDouble(RestApi.buses.get(i).getLatitude()), Double.parseDouble(RestApi.buses.get(i).getLongtitude()));
 
@@ -700,6 +620,102 @@ public class MapActivity extends AppCompatActivity implements Runnable {
     public void onBackPressed() {
         exit = true;
         finish();
+    }
+
+
+
+
+    void initTextViews()
+    {
+        tVNumberStationMap = findViewById(R.id.tVNumberStationMap);
+        tVNameStationMap = findViewById(R.id.tVNameStationMap);
+        tVHeaderlistLineMap = findViewById(R.id.tVHeaderlistLineMap);
+        tvListLinesMap = findViewById(R.id.tVListLinesMap);
+        tVComingBuses = findViewById(R.id.tVComingBuses);
+
+
+        tVCompany = findViewById(R.id.tVCompany);
+        tVNumberLine = findViewById(R.id.tVNumberLine);
+        tVBusId = findViewById(R.id.tVBusId);
+        tVSource = findViewById(R.id.tVSource);
+        tVDest = findViewById(R.id.tVDest);
+
+    }
+
+    private void initImageViews() {
+
+        imageCompany = findViewById(R.id.imageCompany);
+        imageCompany.setVisibility(View.GONE);
+    }
+
+
+    void initMap()
+    {
+
+        Context ctx = this.getApplicationContext();
+        Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
+
+        map = findViewById(R.id.mapview);
+        map.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+
+
+        map.setTileSource(TileSourceFactory.MAPNIK);
+        map.getController().setZoom(18.0);
+
+        requestPermissionsIfNecessary(new String[]{
+                Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.INTERNET
+        });
+        map.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.ALWAYS);
+        map.setMultiTouchControls(true);
+
+        CompassOverlay compassOverlay = new CompassOverlay(this, map);
+        compassOverlay.enableCompass();
+        map.getOverlays().add(compassOverlay);
+
+        map.getOverlays().clear(); //for clearing
+
+       placeStationsInMap();
+
+    }
+
+    private void placeStationsInMap() {
+
+        for (int i = 0; i < RestApi.stations.size(); i++) {
+
+            Station station = RestApi.stations.get(i);
+            map.invalidate();
+
+            GeoPoint point = new GeoPoint(Double.parseDouble(RestApi.stations.get(i).getLat()), Double.parseDouble(RestApi.stations.get(i).getLongt()));
+
+            Marker startMarker = new Marker(map);
+            startMarker.setPosition(point);
+
+            int iconSource;
+            if (ArrayListStation.isStationConsistList(station, FireBase.favoriteStations))
+                iconSource = R.mipmap.busstopstar;
+            else
+                iconSource = R.mipmap.busstop;
+
+            Drawable drawable = getResources().getDrawable(iconSource);
+            drawable = resize(drawable);
+
+            startMarker.setIcon(drawable);
+
+
+            startMarker.setAnchor(Marker.ANCHOR_BOTTOM, Marker.ANCHOR_BOTTOM);
+
+
+            StationInfo stationInfo = new StationInfo(R.layout.custom_info_window, map, RestApi.stations.get(i), this);
+
+            startMarker.setInfoWindow(stationInfo);
+
+            map.getOverlays().add(startMarker);
+
+
+            map.getController().setCenter(point);
+
+        }
+
     }
 
 
