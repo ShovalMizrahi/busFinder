@@ -371,7 +371,7 @@ public class MenuActivity extends AppCompatActivity {
 
 
             route_text.append("\n" + (i + 1) + ")boarding station:\n    " + route.getStartStation().getName());
-            route_text.append("\nsecond station:\n   " + route.getSecond_station().getName());
+            route_text.append("\nsecond station:\n   " + route.getSecondStation().getName());
             route_text.append("\nline number: " + route.getFirstLine().getNumber());
             route_text.append("\nfinal station:\n   " + route.getEndStation().getName());
             route_text.append("\nline number: " + route.getLine().getNumber());
@@ -389,7 +389,6 @@ public class MenuActivity extends AppCompatActivity {
                             Station secondStation = RestApi.stations.get(x);
                             if (RestApi.lines.get(k).existStation(nearDes.get(i)) && RestApi.lines.get(k).existStation(secondStation)
                                     && RestApi.lines.get(w).existStation(nearStart.get(i)) && RestApi.lines.get(w).existStation(secondStation)) {
-                                Toast.makeText(this, "I found " + nearStart.get(j).getName() + " " + nearDes.get(i).getName() + " " + secondStation.getName(), Toast.LENGTH_SHORT).show();
                                 routes.add(new NavHelper(RestApi.lines.get(k), nearStart.get(j), nearDes.get(i), secondStation,RestApi.lines.get(w)));
 
                             }

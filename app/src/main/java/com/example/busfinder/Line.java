@@ -49,26 +49,6 @@ public class Line {
         this.companyID = companyID;
     }
 
-    public static void addStationsOfLine() {
-        for (int i = 0; i < RestApi.lines.size(); i++) {
-
-            RestApi.lines.get(i).line_stations = new Stations();
-
-
-            for (int j = 0; j < RestApi.tracks.size(); j++) {
-
-                if (RestApi.tracks.get(j).getLineID().equals(RestApi.lines.get(i).getId())) {
-                    Stations arrayListStation = new Stations();
-                    Station station = new Station(arrayListStation.findStationById(RestApi.tracks.get(j).getStationID()));
-
-                    RestApi.lines.get(i).line_stations.add(station);
-
-                }
-
-            }
-
-        }
-    }
 
 
     public int getOrder() {
