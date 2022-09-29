@@ -545,7 +545,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
                 if (station.getId().equals(stationId) && RestApi.minStation.get(bus.getId()) != null && RestApi.minStation.get(bus.getId()) < i) {
 
-                    result += "\n" + "line " + lines.findLineById(bus.getLine()).getNumber() + "(" + bus.getId() + ")" + " coming in " + station.getMintues();
+                    result += "\n" + "line " + lines.findLineById(bus.getLine()).getNumber() + "(" + bus.getId() + ")" + " coming in " + station.getMintues()+" minutes";
 
                 }
             }

@@ -58,10 +58,7 @@ public class MenuActivity extends AppCompatActivity {
 
 
     Stations nearDes, nearStart;
-/*
-    ArrayList<Station> nearDes;
-    ArrayList<Station> nearStart;
-*/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
