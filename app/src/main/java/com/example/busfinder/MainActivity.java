@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements Runnable {
-    Thread t;
+    Thread retrieveInfoThread;
 
     static int amountProgresses = 7;
     static int countProgress = 0;
@@ -32,12 +32,9 @@ public class MainActivity extends AppCompatActivity implements Runnable {
         new Thread(new ProgressingThread()).start();
 
 
-        btLogoutMain = findViewById(R.id.btLogoutMain);
-        btLoginMain = findViewById(R.id.btLoginMain);
-        btRegisterMain = findViewById(R.id.btRegisterMain);
-        btMenu = findViewById(R.id.btMenu);
-        btMapMain = findViewById(R.id.btMapMain);
+        initButtons();
 
+        btMapMain.setClickable(true);
         if (User.checkIfLoggedin(this)) {
             logInButtons();
 
@@ -49,8 +46,18 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
 
         MainActivity mainActivity = new MainActivity();
-        t = new Thread(mainActivity);
-        t.start();
+        retrieveInfoThread = new Thread(mainActivity);
+        retrieveInfoThread.start();
+
+
+    }
+
+    private void initButtons() {
+        btLogoutMain = findViewById(R.id.btLogoutMain);
+        btLoginMain = findViewById(R.id.btLoginMain);
+        btRegisterMain = findViewById(R.id.btRegisterMain);
+        btMenu = findViewById(R.id.btMenu);
+        btMapMain = findViewById(R.id.btMapMain);
 
 
     }
@@ -97,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
                 User.logout(context);
                 finish();
                 startActivity(getIntent());
+
             }
         }.start();
 
@@ -188,7 +196,8 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     public void map(View view) {
 
 
-        if (!t.isAlive()) {
+        if (!retrieveInfoThread.isAlive()) {
+            btMapMain.setClickable(false);
             moveToMapActivity();
 
         } else {
@@ -211,6 +220,8 @@ public class MainActivity extends AppCompatActivity implements Runnable {
             public void onFinish() {
                 Intent intent = new Intent(context, MapActivity.class);
                 startActivity(intent);
+                btMapMain.setClickable(true);
+
             }
         }.start();
 
@@ -223,7 +234,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
     public void menu(View view) {
 
-        if (t.isAlive()) {
+        if (retrieveInfoThread.isAlive()) {
             Toast.makeText(this, "waiting for stations to load", Toast.LENGTH_SHORT).show();
             return;
         }

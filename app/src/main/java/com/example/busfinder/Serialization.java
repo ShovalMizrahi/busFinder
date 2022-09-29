@@ -4,7 +4,6 @@ package com.example.busfinder;
 import com.google.gson.Gson;
 
 /*
-
 add
 implementation 'com.google.code.gson:gson:2.9.0'
 
@@ -12,7 +11,7 @@ to dependencies in gradle Moudle
 
 and then: Sync now!
  */
-public class Json {
+public class Serialization {
 
     public static <T>  String convertObjectToJson( T object) {
 

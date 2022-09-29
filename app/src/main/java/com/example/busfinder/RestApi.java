@@ -103,27 +103,28 @@ public class RestApi extends AsyncTask<String, String, String> {
                 String adjusted = content.toString().replaceAll("(?m)^[ \t]*\r?\n", "");
 
                 if (params[0].equals("function=showStations"))
-                    stations = Json.convertJsonToObject(Stations.class, adjusted);
+                    stations = Serialization.convertJsonToObject(Stations.class, adjusted);
 
                 if (params[0].equals("function=showLines"))
-                    lines = Json.convertJsonToObject(Lines.class, adjusted);
+                    lines = Serialization.convertJsonToObject(Lines.class, adjusted);
 
                 if (params[0].equals("function=showBuses"))
-                    buses = Json.convertJsonToObject(Buses.class, adjusted);
+                    buses = Serialization.convertJsonToObject(Buses.class, adjusted);
 
                 if (params[0].equals("function=showTracks"))
-                    tracks = Json.convertJsonToObject(Tracks.class, adjusted);
+                    tracks = Serialization.convertJsonToObject(Tracks.class, adjusted);
 
 
                 if (params[0].equals("function=showRoutes"))
-                    routes = Json.convertJsonToObject(Route.class, adjusted);
+                    routes = Serialization.convertJsonToObject(Route.class, adjusted);
 
                 if (params[0].equals("function=showCompanies"))
-                    companies = Json.convertJsonToObject(Companies.class, adjusted);
+                    companies = Serialization.convertJsonToObject(Companies.class, adjusted);
 
 
                 if (params[0].equals("function=showCities"))
-                    cities = Json.convertJsonToObject(Cities.class, adjusted);
+                    cities = Serialization.convertJsonToObject(Cities.class, adjusted);
+
 
             }
 
