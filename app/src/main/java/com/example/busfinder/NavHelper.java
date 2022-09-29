@@ -3,24 +3,24 @@ package com.example.busfinder;
 public class NavHelper {
     private Line line; //line of one bus, or second line in two buses
     private Line firstLine; //first line in two buses
-    private Station start_station;
-    private Station end_station;
+    private Station startStation;
+    private Station endStation;
 
 
     private Station second_station;
 
     public NavHelper(Line line, Station start, Station end){
         this.line = line;
-        start_station = start;
-        end_station = end;
+        startStation = start;
+        endStation = end;
     }
 
 
 
     public NavHelper(Line line, Station start, Station end,Station second_station,Line firstLine){
         this.line = line;
-        start_station = start;
-        end_station = end;
+        startStation = start;
+        endStation = end;
         this.second_station = second_station;
         this.firstLine = firstLine;
     }
@@ -30,12 +30,12 @@ public class NavHelper {
         return line;
     }
 
-    public Station getEnd_station() {
-        return end_station;
+    public Station getEndStation() {
+        return endStation;
     }
 
-    public Station getStart_station() {
-        return start_station;
+    public Station getStartStation() {
+        return startStation;
     }
 
     public Station getSecond_station() {

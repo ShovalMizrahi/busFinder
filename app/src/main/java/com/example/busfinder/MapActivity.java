@@ -341,7 +341,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
         RestApi restApi = new RestApi();
         while (true && exit == false) {
 
-            //making the copy before the info is chaning!
+            //making the copy before the info is changing!
             RestApi.lastBuses = new ArrayListBus(RestApi.buses);
 
 
