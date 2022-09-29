@@ -58,10 +58,7 @@ public class MenuActivity extends AppCompatActivity {
 
 
     Stations nearDes, nearStart;
-/*
-    ArrayList<Station> nearDes;
-    ArrayList<Station> nearStart;
-*/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +85,7 @@ public class MenuActivity extends AppCompatActivity {
         // method to get the location
         getLastLocation();
 
+        //getting station distances from user
         getStationDistances();
 
 
@@ -182,10 +180,7 @@ public class MenuActivity extends AppCompatActivity {
     private boolean checkPermissions() {
         return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
 
-        // If we want background location
-        // on Android 10.0 and higher,
-        // use:
-        // ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED
+
     }
 
     // method to request for permissions
@@ -232,6 +227,7 @@ public class MenuActivity extends AppCompatActivity {
         return longtitude;
     }
 
+    //finding station distances from user
     public void getStationDistances() {
 
         sortedStations.clear();
@@ -254,11 +250,13 @@ public class MenuActivity extends AppCompatActivity {
         Log.d("arraytag", String.valueOf(dis_stations));
     }
 
+    // returns the stations in order of proxmity
     public static Stations getSortedStations() {
         return sortedStations;
     }
 
 
+    // finding a route between two locations the user put as start and end
     public void findRoute(View view) {
         nearDes = new Stations();
         nearStart = new Stations();
