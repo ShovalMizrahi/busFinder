@@ -57,9 +57,11 @@ public class MenuActivity extends AppCompatActivity {
     ArrayList<NavHelper> routes;
 
 
+    Stations nearDes, nearStart;
+/*
     ArrayList<Station> nearDes;
     ArrayList<Station> nearStart;
-
+*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -258,13 +260,8 @@ public class MenuActivity extends AppCompatActivity {
 
 
     public void findRoute(View view) {
-        nearDes = new ArrayList<>();
-        nearStart = new ArrayList<>();
-      /*  double lngStart = startPlace.getLatLng().longitude;
-        double latStart = startPlace.getLatLng().latitude;
-        double lngEnd = endPlace.getLatLng().longitude;
-        double latEnd = endPlace.getLatLng().latitude;*/
-
+        nearDes = new Stations();
+        nearStart = new Stations();
 
         TextView start = findViewById(R.id.start_station);
         TextView end = findViewById(R.id.end_station);
