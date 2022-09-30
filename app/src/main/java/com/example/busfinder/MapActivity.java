@@ -69,6 +69,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
         setContentView(R.layout.activity_map);
         getSupportActionBar().hide();
 
+        //inform all the threads to finish if exit is true
         exit = false;
         context = this;
 
@@ -78,6 +79,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
         focusStation() ; //if user chose station from list
 
+        //thread that check the new locatoin of the bus
         busLocationRefreshThread = new Thread(this);
         busLocationRefreshThread.start();
 
@@ -87,6 +89,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
     }
 
+
     private void gettingScreenHeight() {
         /*getting the height of the screen */
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -94,6 +97,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
         heightMap = displayMetrics.heightPixels;
     }
 
+    // if the user chose specific station from list of stations - it focus on it
     private void focusStation() {
 
 
@@ -107,7 +111,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
     }
 
-
+    //if user chose specific station from station list - it finding which station hw chose
     private Station findSpecificStation() {
 
         Bundle b = getIntent().getExtras();
@@ -131,7 +135,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
     }
 
-
+    //in this class we calculate the arrival time of bus to all his stations in his way
     class CalculateArrivlTime implements Runnable {
         @Override
         public void run() {
@@ -147,11 +151,11 @@ public class MapActivity extends AppCompatActivity implements Runnable {
                 CalculateTime calculateTime = new CalculateTime();
 
 
-                createLinesToBus();
+                createStationsToBus();
 
                 // Iterating HashMap through for loop
                 for (Map.Entry<String, Stations> set :
-                        RestApi.stations.getBusToLines().entrySet()) {
+                        RestApi.stations.getBusToStations().entrySet()) {
 
 
                     Bus bus = Bus.findBusById(set.getKey());
@@ -201,12 +205,13 @@ public class MapActivity extends AppCompatActivity implements Runnable {
         }
     }
 
-    private void createLinesToBus() {
+    // busToStation is hashmap: key is id of bus and the valkue is list of his stations
+    private void createStationsToBus() {
         for (int i = 0; i < RestApi.buses.size(); i++) {
             Bus bus = RestApi.buses.get(i);
             if (bus == null)
                 return;
-            if (RestApi.stations.getBusToLines().get(bus.getId()) == null) {
+            if (RestApi.stations.getBusToStations().get(bus.getId()) == null) {
 
                 duplicateLinesForBus(bus);
             }
@@ -218,7 +223,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
     private void duplicateLinesForBus(Bus bus) {
         Stations stations = new Stations(RestApi.routes.get(bus.getLine()));
 
-        RestApi.stations.getBusToLines().put(bus.getId(), stations);
+        RestApi.stations.getBusToStations().put(bus.getId(), stations);
 
 
     }
@@ -527,7 +532,7 @@ public class MapActivity extends AppCompatActivity implements Runnable {
 
         // Iterating HashMap through for loop
         for (Map.Entry<String, Stations> set :
-                RestApi.stations.getBusToLines().entrySet()) {
+                RestApi.stations.getBusToStations().entrySet()) {
 
 
             Bus bus = Bus.findBusById(set.getKey());

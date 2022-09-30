@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public class Stations extends ArrayList<Station> {
 
-    private HashMap<String, Stations> busToLines = new HashMap<String, Stations>(); //any bus has list of lines
+    private HashMap<String, Stations> busToStations = new HashMap<String, Stations>(); //any bus has list of stations
 
 
     public Stations() {
@@ -23,14 +23,16 @@ public class Stations extends ArrayList<Station> {
     }
 
 
-    public HashMap<String, Stations> getBusToLines() {
-        return busToLines;
+    public HashMap<String, Stations> getBusToStations() {
+        return busToStations;
     }
 
-    public void setBusToLines(HashMap<String, Stations> busToLines) {
-        this.busToLines = busToLines;
+    public void setBusToStations(HashMap<String, Stations> busToStations) {
+        this.busToStations = busToStations;
     }
 
+
+    // and station saves list of line that pass through it
     public void bindLinesToStations() {
         for (int i = 0; i < RestApi.stations.size(); i++) {
             RestApi.stations.get(i).setLines(new Lines());
@@ -53,6 +55,7 @@ public class Stations extends ArrayList<Station> {
     }
 
 
+    //giving an Station by getting id
     public Station findStationById(String id) {
 
         for (int i = 0; i < RestApi.stations.size(); i++) {

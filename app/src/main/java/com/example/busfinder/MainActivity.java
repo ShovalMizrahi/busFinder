@@ -34,24 +34,31 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
         initButtons();
 
+        //make the MAP button clickable
         btMapMain.setClickable(true);
+
+        //checking if the user if logged in.
         if (User.checkIfLoggedin(this)) {
+            //show the buttons for logged in
             logInButtons();
 
 
         } else {
-
+            //cover and show thw buttons for not logged in;
             notLoggedInButtons();
         }
 
 
         MainActivity mainActivity = new MainActivity();
+
+        //thread that getting all the information from server
         retrieveInfoThread = new Thread(mainActivity);
         retrieveInfoThread.start();
 
 
     }
 
+    //initialize all the buttons in Activity
     private void initButtons() {
         btLogoutMain = findViewById(R.id.btLogoutMain);
         btLoginMain = findViewById(R.id.btLoginMain);
@@ -63,7 +70,6 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     }
 
     public void register(View view) {
-
 
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
@@ -107,8 +113,6 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
             }
         }.start();
-
-
 
 
     }
