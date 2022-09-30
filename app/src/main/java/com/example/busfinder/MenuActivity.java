@@ -330,6 +330,7 @@ public class MenuActivity extends AppCompatActivity {
 
     }
 
+    //show all the ways of one buse
     private void showOneBusWays() {
         route_text.setText(routes.size() + " routes were found:\n");
 
@@ -354,7 +355,7 @@ public class MenuActivity extends AppCompatActivity {
 
     }
 
-
+    //show all the ways of two buses
     private void showTwoBusWays() {
         route_text.setText(routes.size() + " routes were found:\n");
 
@@ -371,7 +372,6 @@ public class MenuActivity extends AppCompatActivity {
 
             route_text.setLines(route_text.getMaxLines() + 8);
 
-
             route_text.append("\n" + (i + 1) + ")boarding station:\n    " + route.getStartStation().getName());
             route_text.append("\nsecond station:\n   " + route.getSecondStation().getName());
             route_text.append("\nline number: " + route.getFirstLine().getNumber());
@@ -381,7 +381,7 @@ public class MenuActivity extends AppCompatActivity {
 
     }
 
-
+    //finding ways of two buses only
     private void findTwoBus() {
         for (int i = 0; i < nearDes.size(); i++) {
             for (int j = 0; j < nearStart.size(); j++) {
@@ -402,6 +402,7 @@ public class MenuActivity extends AppCompatActivity {
 
     }
 
+    //finding ways of one bus only
     private void findOneBus() {
         for (int i = 0; i < nearDes.size(); i++) {
             for (int j = 0; j < nearStart.size(); j++) {
