@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 public class Lines extends ArrayList<Line> {
 
+
+
     public Line findLineById(String id) {
         for (int i = 0; i < RestApi.lines.size(); i++) {
             if (id.equals(RestApi.lines.get(i).getId())) {

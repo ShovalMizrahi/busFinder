@@ -44,7 +44,7 @@ public class LineSearchActivity extends AppCompatActivity {
 
 
 
-
+        // listening to what the user types in the search bar
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {

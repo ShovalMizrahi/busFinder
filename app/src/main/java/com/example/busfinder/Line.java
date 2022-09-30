@@ -71,6 +71,8 @@ public class Line {
         return line_stations;
     }
 
+
+    // checks if a station is in a line's track
     public boolean existStation(Station s){
         line_stations =  RestApi.routes.get(getId());
         for (int i=0;i<line_stations.size();i++){

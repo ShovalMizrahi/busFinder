@@ -56,6 +56,8 @@ public class LineAdapter extends BaseAdapter implements Filterable {
         TextView tVLineHeader,tVSourceHeader, tVDestHeader;
     }
 
+
+    // responsible for displaying the lines information in a list
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
@@ -139,6 +141,8 @@ public class LineAdapter extends BaseAdapter implements Filterable {
 
         holder.llContainer.setOnClickListener(new View.OnClickListener() {
 
+
+            // opening the line's track when clicking on him
             public void onClick(View v) {
 
                 activity.finish();
@@ -153,6 +157,8 @@ public class LineAdapter extends BaseAdapter implements Filterable {
         return convertView;
     }
 
+
+    // filtering the entrances in a list according to what the user typed in the search bar
     @Override
     public Filter getFilter() {
         Filter filter = new Filter() {
@@ -198,6 +204,7 @@ public class LineAdapter extends BaseAdapter implements Filterable {
         return filter;
     }
 
+    // showing the company image
     public void showPictureByLink(ImageView imageCompany, Context context, String url) {
         Glide.with(context).load(url).into(imageCompany);
         imageCompany.setMaxHeight(58);

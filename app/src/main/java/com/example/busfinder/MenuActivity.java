@@ -113,6 +113,7 @@ public class MenuActivity extends AppCompatActivity {
     }
 
 
+    // getting
     @SuppressLint("MissingPermission")
     private void getLastLocation() {
         // check if permissions are given
