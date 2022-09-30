@@ -18,6 +18,7 @@ import java.util.Date;
 public class DatePickerDialog extends Dialog  implements DatePicker.OnDateChangedListener {
 
 
+    //can't register if you less than 9 years old
     public static final int AGE_LIMIT = 9;
     public static final int YEAR_DIFF = 1900;
 

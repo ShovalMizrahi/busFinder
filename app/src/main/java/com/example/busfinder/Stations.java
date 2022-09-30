@@ -79,6 +79,7 @@ public class Stations extends ArrayList<Station> {
         return false;
     }
 
+    //saving for any station the suitable city
     public static void bindStationToCity() {
 
 

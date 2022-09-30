@@ -48,6 +48,7 @@ public class FireBase {
     }
 
 
+    //add favorite line to firebase for specific username
     public static void addFavoriteLines(String username, String stationId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         // Create a new user with a first and last name
@@ -59,7 +60,7 @@ public class FireBase {
         User.retreiveInfo();
     }
 
-
+    //getting all the favorites lines of specific user
     public static void retrieveFavoriteLines(String username) {
 
         favoriteLines.clear();
@@ -97,7 +98,7 @@ public class FireBase {
                 });
     }
 
-
+    //add favorite station to firebase for specific username
     public static void addFavoriteStation(String username, String stationId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         // Create a new user with a first and last name
@@ -110,9 +111,8 @@ public class FireBase {
         User.retreiveInfo();
     }
 
-
+    //getting all the favorites station of specific user
     public static void retrieveFavoriteStations(String username) {
-
         favoriteStations.clear();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -148,6 +148,7 @@ public class FireBase {
                 });
     }
 
+    //getting al the users from firebase
     public static void retrieveUsers() {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -186,6 +187,7 @@ public class FireBase {
     }
 
 
+    //return true if the details is correct. else false
     public static boolean isCorrentLogIn(String username, String password) {
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i).getUsername().equals(username) && users.get(i).getPassword().equals(password))
@@ -196,7 +198,7 @@ public class FireBase {
 
     }
 
-
+    //delete station from favorite stations list of firebase for specific username
     public static void deleteFavoriteStation(String username, String stationId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -215,7 +217,7 @@ public class FireBase {
                 });
     }
 
-
+    //delete station from favorite lines list of firebase for specific username
     public static void deleteFavoriteLine(String username, String lineId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 

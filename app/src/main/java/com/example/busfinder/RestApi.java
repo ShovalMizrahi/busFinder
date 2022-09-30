@@ -53,6 +53,8 @@ public class RestApi extends AsyncTask<String, String, String> {
     }
 
 
+
+    //request from server and getting the response (Json). REST API
     @Override
     protected String doInBackground(String... params) {
 

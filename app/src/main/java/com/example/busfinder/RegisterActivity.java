@@ -37,14 +37,19 @@ public class RegisterActivity extends AppCompatActivity {
         FireBase.retrieveUsers();
 
         date = findViewById(R.id.etUserDateRegister);
+
+        initEditTexts();
+
+    }
+
+    private void initEditTexts() {
         etUserMailRegister = findViewById(R.id.etUserMailRegister);
         etUserPhoneRegister = findViewById(R.id.etUserPhoneRegister);
         etUserPasswordRegister = findViewById(R.id.etUserPasswordRegister);
         etUserNameRegister = findViewById(R.id.etUserNameRegister);
-
-
     }
 
+    //dialog for choosing date
     public void datePicker(View view) {
         DatePickerDialog datePickerDialog = new DatePickerDialog(this);
         datePickerDialog.show();
@@ -69,7 +74,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void register(View view) {
 
-
+        //validate all the details, checking if one or more of the details is missing
         if (!patternMatches(etUserNameRegister.getText().toString(), "^.{3}(.+)")) {
             Toast.makeText(this, "username provided has to consist at least 4 chars!", Toast.LENGTH_SHORT).show();
             return;

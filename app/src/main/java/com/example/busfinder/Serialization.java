@@ -21,6 +21,7 @@ public class Serialization {
     }
 
 
+    //conveting String (Json) to object in java
     public static <T>  T convertJsonToObject( Class<T> clas , String json) {
 
 
