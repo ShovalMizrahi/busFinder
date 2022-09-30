@@ -142,6 +142,8 @@ public class Station {
         this.mintues = mintues;
     }
 
+
+    // get distance between two points
     public static double getDistance(double latS, double longS, double latD, double longD) {
         if ((longS == latD) && (longS == longD)) {
             return 0.0;

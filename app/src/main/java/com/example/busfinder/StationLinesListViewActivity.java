@@ -34,6 +34,7 @@ public class StationLinesListViewActivity extends AppCompatActivity {
 
         initImageViews();
 
+        //showing the lines that pass through this station
         ListView listView = findViewById(R.id.lVLinesOfStations);
         adapter = new LineAdapter(this, station.getLines());
         listView.setAdapter(adapter);
@@ -42,6 +43,7 @@ public class StationLinesListViewActivity extends AppCompatActivity {
 
     }
 
+    // finding the station that the user clicked on in the previous screen
     private void findStation() {
         Bundle b = getIntent().getExtras();
         String station_id = b.getString("station");
@@ -51,12 +53,14 @@ public class StationLinesListViewActivity extends AppCompatActivity {
         }
     }
 
+    // showing the station information
     private void initTextViews() {
         TextView tVStationInfo = findViewById(R.id.tVStationInfo);
         tVStationInfo.setLines(2);
         tVStationInfo.setText(station.getId() + "\n" + station.getName());
     }
 
+    //adding the station to favorites using the heart icon
     public void addToFavorite(View view) {
 
 
@@ -74,6 +78,7 @@ public class StationLinesListViewActivity extends AppCompatActivity {
     }
 
 
+    // changing to the map screen
     public void moveToMap (View view)
     {
         this.finish();
@@ -85,6 +90,7 @@ public class StationLinesListViewActivity extends AppCompatActivity {
     }
 
 
+    // checking if station in favorites
     boolean isFavorite() {
         for (int i = 0; i < FireBase.favoriteStations.size(); i++)
             if (FireBase.favoriteStations.get(i).getId().equals(station.getId()))

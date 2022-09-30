@@ -113,7 +113,7 @@ public class MenuActivity extends AppCompatActivity {
     }
 
 
-    // getting
+    // getting the user's location
     @SuppressLint("MissingPermission")
     private void getLastLocation() {
         // check if permissions are given
@@ -150,6 +150,7 @@ public class MenuActivity extends AppCompatActivity {
         }
     }
 
+    // updationg the user location every few seconds
     @SuppressLint("MissingPermission")
     private void requestNewLocationData() {
 
